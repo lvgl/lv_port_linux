@@ -2,8 +2,12 @@
 #include "lv_drivers/display/fbdev.h"
 #include "lv_examples/lv_apps/demo/demo.h"
 #include <unistd.h>
+#include <pthread.h>
+#include <time.h>
 
 #define DISP_BUF_SIZE (80*LV_HOR_RES_MAX)
+
+static void * tick_thread(void *data);
 
 int main(void)
 {
@@ -30,10 +34,13 @@ int main(void)
     /*Create a Demo*/
     demo_create();
 
+    /* Tick init.
+     * You have to call 'lv_tick_inc()' in every milliseconds */
+    pthread_t inc_x_thread;
+    pthread_create(&inc_x_thread, NULL, tick_thread, NULL);
 
     /*Handle LitlevGL tasks (tickless mode)*/
     while(1) {
-        lv_tick_inc(5);         /*You can add it to a pthread the have better timing */
         lv_task_handler();
         usleep(5000);
     }
@@ -41,3 +48,24 @@ int main(void)
     return 0;
 }
 
+/**
+ * A task to measure the elapsed time for LittlevGL
+ * @param data unused
+ * @return never return
+ */
+static void * tick_thread(void *data)
+{
+    uint32_t time_ms = 0;
+    struct timespec begin;
+    struct timespec end;
+    while(1) {
+        /*Sleep and measure the sleep time*/
+        timespec_get(&begin, TIMER_ABSTIME);
+        usleep(5000);
+        timespec_get(&end, TIMER_ABSTIME);
+        time_ms = (uint64_t)((uint64_t)end.tv_nsec - begin.tv_nsec) / 1000000; //in milliseconds
+        lv_tick_inc(time_ms);
+    }
+
+    return NULL;
+}
