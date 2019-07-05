@@ -3,6 +3,12 @@
 #include "lv_examples/lv_apps/demo/demo.h"
 #include <unistd.h>
 
+#define DISP_BUF_SIZE (80*LV_HOR_RES_MAX)
+
+void dummy_flush(lv_disp_drv_t * drv, const lv_area_t * area, lv_color_t * color_p)
+{
+    lv_disp_flush_ready(drv);
+}
 int main(void)
 {
     /*LittlevGL init*/
@@ -11,10 +17,14 @@ int main(void)
     /*Linux frame buffer device init*/
     fbdev_init();
 
-    /*Add a display the LittlevGL sing the frame buffer driver*/
+    static lv_color_t buf[DISP_BUF_SIZE];
+    static lv_disp_buf_t disp_buf;
+    lv_disp_buf_init(&disp_buf, buf, NULL, DISP_BUF_SIZE);
+//
     lv_disp_drv_t disp_drv;
     lv_disp_drv_init(&disp_drv);
-    disp_drv.disp_flush = fbdev_flush;      /*It flushes the internal graphical buffer to the frame buffer*/
+    disp_drv.buffer = &disp_buf;
+    disp_drv.flush_cb = fbdev_flush;
     lv_disp_drv_register(&disp_drv);
 
 
