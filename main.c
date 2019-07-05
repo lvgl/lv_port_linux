@@ -59,8 +59,5 @@ uint32_t custom_tick_get(void)
     now_ms = (tv_now.tv_sec * 1000000 + tv_now.tv_usec) / 1000;
 
     uint32_t time_ms = now_ms - start_ms;
-    printf("%d\n", time_ms);
     return time_ms;
-
-
 }
