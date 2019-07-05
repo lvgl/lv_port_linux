@@ -1,7 +1,13 @@
 /**
  * @file lv_drv_conf.h
- * 
+ *
  */
+
+/*
+ * COPY THIS FILE AS lv_drv_conf.h
+ */
+
+#if 1 /*Set it to "1" to enable the content*/
 
 #ifndef LV_DRV_CONF_H
 #define LV_DRV_CONF_H
@@ -76,116 +82,229 @@
 /*-------------------
  *  Monitor of PC
  *-------------------*/
-#define USE_MONITOR         0
+#ifndef USE_MONITOR
+#  define USE_MONITOR         0
+#endif
+
 #if USE_MONITOR
-#define MONITOR_HOR_RES     LV_HOR_RES
-#define MONITOR_VER_RES     LV_HOR_VER
+#  define MONITOR_HOR_RES     LV_HOR_RES
+#  define MONITOR_VER_RES     LV_VER_RES
+
+/* Scale window by this factor (useful when simulating small screens) */
+#  define MONITOR_ZOOM        1
+
+/* Used to test true double buffering with only address changing.
+ * Set LV_VDB_SIZE = (LV_HOR_RES * LV_VER_RES) and  LV_VDB_DOUBLE = 1 and LV_COLOR_DEPTH = 32" */
+#  define MONITOR_DOUBLE_BUFFERED 0
+
+/*Eclipse: <SDL2/SDL.h>    Visual Studio: <SDL.h>*/
+#  define MONITOR_SDL_INCLUDE_PATH    <SDL2/SDL.h>
+
+/*Different rendering might be used if running in a Virtual machine*/
+#  define MONITOR_VIRTUAL_MACHINE 0
+
+/*Open two windows to test multi display support*/
+#  define MONITOR_DUAL            0
+#endif
+
+/*-----------------------------------
+ *  Native Windows (including mouse)
+ *----------------------------------*/
+#ifndef USE_WINDOWS
+#  define USE_WINDOWS       0
+#endif
+
+#define USE_WINDOWS         0
+#if USE_WINDOWS
+#  define WINDOW_HOR_RES      480
+#  define WINDOW_VER_RES      320
 #endif
 
 /*----------------
  *    SSD1963
  *--------------*/
-#define USE_SSD1963         0
+#ifndef USE_SSD1963
+#  define USE_SSD1963         0
+#endif
+
 #if USE_SSD1963
-#define SSD1963_HOR_RES     LV_HOR_RES
-#define SSD1963_VER_RES     LV_VER_RES
-#define SSD1963_HDP         479
-#define SSD1963_HT          531
-#define SSD1963_HPS         43
-#define SSD1963_LPS         8
-#define SSD1963_HPW         10
-#define SSD1963_VDP         271
-#define SSD1963_VT          288
-#define SSD1963_VPS         12
-#define SSD1963_FPS         4
-#define SSD1963_VPW         10
-#define SSD1963_HS_NEG      0   /*Negative hsync*/
-#define SSD1963_VS_NEG      0   /*Negative vsync*/
-#define SSD1963_ORI         0   /*0, 90, 180, 270*/
-#define SSD1963_COLOR_DEPTH 16
+#  define SSD1963_HOR_RES     LV_HOR_RES
+#  define SSD1963_VER_RES     LV_VER_RES
+#  define SSD1963_HT          531
+#  define SSD1963_HPS         43
+#  define SSD1963_LPS         8
+#  define SSD1963_HPW         10
+#  define SSD1963_VT          288
+#  define SSD1963_VPS         12
+#  define SSD1963_FPS         4
+#  define SSD1963_VPW         10
+#  define SSD1963_HS_NEG      0   /*Negative hsync*/
+#  define SSD1963_VS_NEG      0   /*Negative vsync*/
+#  define SSD1963_ORI         0   /*0, 90, 180, 270*/
+#  define SSD1963_COLOR_DEPTH 16
 #endif
 
 /*----------------
  *    R61581
  *--------------*/
-#define USE_R61581          0
-#if USE_R61581 != 0
-#define R61581_HOR_RES      LV_HOR_RES
-#define R61581_VER_RES      LV_VER_RES
-#define R61581_HDP          479
-#define R61581_HT           531
-#define R61581_HPS          43
-#define R61581_LPS          8
-#define R61581_HPW          10
-#define R61581_VDP          271
-#define R61581_VT           319
-#define R61581_VPS          12
-#define R61581_FPS          4
-#define R61581_VPW          10
-#define R61581_HS_NEG       0       /*Negative hsync*/
-#define R61581_VS_NEG       0       /*Negative vsync*/
-#define R61581_ORI          180     /*0, 90, 180, 270*/
-#define R61581_LV_COLOR_DEPTH 16
+#ifndef USE_R61581
+#  define USE_R61581          0
+#endif
+
+#if USE_R61581
+#  define R61581_HOR_RES      LV_HOR_RES
+#  define R61581_VER_RES      LV_VER_RES
+#  define R61581_HSPL         0       /*HSYNC signal polarity*/
+#  define R61581_HSL          10      /*HSYNC length (Not Implemented)*/
+#  define R61581_HFP          10      /*Horitontal Front poarch (Not Implemented)*/
+#  define R61581_HBP          10      /*Horitontal Back poarch (Not Implemented */
+#  define R61581_VSPL         0       /*VSYNC signal polarity*/
+#  define R61581_VSL          10      /*VSYNC length (Not Implemented)*/
+#  define R61581_VFP          8       /*Vertical Front poarch*/
+#  define R61581_VBP          8       /*Vertical Back poarch */
+#  define R61581_DPL          0       /*DCLK signal polarity*/
+#  define R61581_EPL          1       /*ENABLE signal polarity*/
+#  define R61581_ORI          0       /*0, 180*/
+#  define R61581_LV_COLOR_DEPTH 16    /*Fix 16 bit*/
 #endif
 
 /*------------------------------
  *  ST7565 (Monochrome, low res.)
  *-----------------------------*/
-#define USE_ST7565          0
-#if USE_ST7565 != 0
+#ifndef USE_ST7565
+#  define USE_ST7565          0
+#endif
+
+#if USE_ST7565
 /*No settings*/
 #endif  /*USE_ST7565*/
 
 /*-----------------------------------------
  *  Linux frame buffer device (/dev/fbx)
  *-----------------------------------------*/
-#define USE_FBDEV           1
-#if USE_FBDEV != 0
-#define FBDEV_PATH          "/dev/fb0"
+#ifndef USE_FBDEV
+#  define USE_FBDEV           1
 #endif
 
-/*====================
- * Input devices
- *===================*/
+#if USE_FBDEV
+#  define FBDEV_PATH          "/dev/fb0"
+#endif
+
+/*********************
+ *  INPUT DEVICES
+ *********************/
 
 /*--------------
  *    XPT2046
  *--------------*/
-#define USE_XPT2046         0
-#if USE_XPT2046 != 0
-#define XPT2046_HOR_RES     480
-#define XPT2046_VER_RES     320
-#define XPT2046_X_MIN       200
-#define XPT2046_Y_MIN       200 
-#define XPT2046_X_MAX       3800
-#define XPT2046_Y_MAX       3800
-#define XPT2046_AVG         4 
-#define XPT2046_INV         0 
+#ifndef USE_XPT2046
+#  define USE_XPT2046         0
+#endif
+
+#if USE_XPT2046
+#  define XPT2046_HOR_RES     480
+#  define XPT2046_VER_RES     320
+#  define XPT2046_X_MIN       200
+#  define XPT2046_Y_MIN       200
+#  define XPT2046_X_MAX       3800
+#  define XPT2046_Y_MAX       3800
+#  define XPT2046_AVG         4
+#  define XPT2046_INV         0
 #endif
 
 /*-----------------
  *    FT5406EE8
  *-----------------*/
-#define USE_FT5406EE8       0
-#if USE_FT5406EE8
-#define FT5406EE8_I2C_ADR   0x38                  /*7 bit address*/
+#ifndef USE_FT5406EE8
+#  define USE_FT5406EE8       0
 #endif
 
-/*-------------------------------
- *    Mouse or touchpad on PC
- *------------------------------*/
-#define USE_MOUSE           0
-#if USE_MOUSE
+#if USE_FT5406EE8
+# define FT5406EE8_I2C_ADR   0x38                  /*7 bit address*/
+#endif
+
+/*---------------
+ *  AD TOUCH
+ *--------------*/
+#ifndef USE_AD_TOUCH
+#  define USE_AD_TOUCH        0
+#endif
+
+#if USE_AD_TOUCH
 /*No settings*/
 #endif
 
 
+/*---------------------------------------
+ * Mouse or touchpad on PC (using SDL)
+ *-------------------------------------*/
+#ifndef USE_MOUSE
+#  define USE_MOUSE           0
+#endif
+
+#if USE_MOUSE
+/*No settings*/
+#endif
+
+/*-------------------------------------------
+ * Mousewheel as encoder on PC (using SDL)
+ *------------------------------------------*/
+#ifndef USE_MOUSEWHEEL
+#  define USE_MOUSEWHEEL      0
+#endif
+
+#if USE_MOUSEWHEEL
+/*No settings*/
+#endif
+
+/*-------------------------------------------------
+ * Touchscreen as libinput interface (for Linux based systems)
+ *------------------------------------------------*/
+#ifndef USE_LIBINPUT
+#  define USE_LIBINPUT           0
+#endif
+
+#if USE_LIBINPUT
+#  define LIBINPUT_NAME   "/dev/input/event0"        /*You can use the "evtest" Linux tool to get the list of devices and test them*/
+#endif  /*USE_LIBINPUT*/
+
+/*-------------------------------------------------
+ * Mouse or touchpad as evdev interface (for Linux based systems)
+ *------------------------------------------------*/
+#ifndef USE_EVDEV
+#  define USE_EVDEV           0
+#endif
+
+#if USE_EVDEV
+#  define EVDEV_NAME   "/dev/input/event0"        /*You can use the "evtest" Linux tool to get the list of devices and test them*/
+#  define EVDEV_SWAP_AXES         0               /*Swap the x and y axes of the touchscreen*/
+
+#  define EVDEV_SCALE             0               /* Scale input, e.g. if touchscreen resolution does not match display resolution */
+#  if EVDEV_SCALE
+#    define EVDEV_SCALE_HOR_RES     (4096)          /* Horizontal resolution of touchscreen */
+#    define EVDEV_SCALE_VER_RES     (4096)          /* Vertical resolution of touchscreen */
+#  endif  /*EVDEV_SCALE*/
+
+#  define EVDEV_CALIBRATE         0               /*Scale and offset the touchscreen coordinates by using maximum and minimum values for each axis*/
+#  if EVDEV_CALIBRATE
+#    define EVDEV_HOR_MIN   3800                    /*If EVDEV_XXX_MIN > EVDEV_XXX_MAX the XXX axis is automatically inverted*/
+#    define EVDEV_HOR_MAX   200
+#    define EVDEV_VER_MIN   200
+#    define EVDEV_VER_MAX   3800
+#  endif  /*EVDEV_SCALE*/
+#endif  /*USE_EVDEV*/
+
 /*-------------------------------
- *   Keyboard of a PC
+ *   Keyboard of a PC (using SDL)
  *------------------------------*/
-#define USE_KEYBOARD        0
+#ifndef USE_KEYBOARD
+#  define USE_KEYBOARD        0
+#endif
+
 #if USE_KEYBOARD
 /*No settings*/
 #endif
 
 #endif  /*LV_DRV_CONF_H*/
+
+#endif /*End of "Content enable"*/
