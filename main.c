@@ -60,6 +60,4 @@ uint32_t custom_tick_get(void)
 
     uint32_t time_ms = now_ms - start_ms;
     return time_ms;
-
-
 }
