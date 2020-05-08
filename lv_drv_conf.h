@@ -179,6 +179,42 @@
 /*No settings*/
 #endif  /*USE_ST7565*/
 
+/*------------------------------------------
+ *  UC1610 (4 gray 160*[104|128])
+ *  (EA DOGXL160 160x104 tested)
+ *-----------------------------------------*/
+#ifndef USE_UC1610
+#  define USE_UC1610          0
+#endif
+
+#if USE_UC1610
+#  define UC1610_HOR_RES         LV_HOR_RES
+#  define UC1610_VER_RES         LV_VER_RES
+#  define UC1610_INIT_CONTRAST   33   /* init contrast, values in [%] */
+#  define UC1610_INIT_HARD_RST   0    /* 1 : hardware reset at init, 0 : software reset */
+#  define UC1610_TOP_VIEW        0    /* 0 : Bottom View, 1 : Top View */
+#endif  /*USE_UC1610*/
+
+/*-------------------------------------------------
+ *  SHARP memory in pixel monochrome display series
+ *      LS012B7DD01 (184x38  pixels.)
+ *      LS013B7DH03 (128x128 pixels.)
+ *      LS013B7DH05 (144x168 pixels.)
+ *      LS027B7DH01 (400x240 pixels.) (tested)
+ *      LS032B7DD02 (336x536 pixels.)
+ *      LS044Q7DH01 (320x240 pixels.)
+ *------------------------------------------------*/
+#ifndef USE_SHARP_MIP
+#  define USE_SHARP_MIP       0
+#endif
+
+#if USE_SHARP_MIP
+#  define SHARP_MIP_HOR_RES             LV_HOR_RES
+#  define SHARP_MIP_VER_RES             LV_VER_RES
+#  define SHARP_MIP_SOFT_COM_INVERSION  0
+#  define SHARP_MIP_REV_BYTE(b)         /*((uint8_t) __REV(__RBIT(b)))*/  /*Architecture / compiler dependent byte bits order reverse*/
+#endif  /*USE_SHARP_MIP*/
+
 /*-----------------------------------------
  *  Linux frame buffer device (/dev/fbx)
  *-----------------------------------------*/
@@ -188,6 +224,17 @@
 
 #if USE_FBDEV
 #  define FBDEV_PATH          "/dev/fb0"
+#endif
+
+/*-----------------------------------------
+ *  FreeBSD frame buffer device (/dev/fbx)
+ *.........................................*/
+#ifndef USE_BSD_FBDEV
+#  define USE_BSD_FBDEV     0
+#endif
+
+#if USE_BSD_FBDEV
+# define FBDEV_PATH     "/dev/fb0"
 #endif
 
 /*********************
@@ -209,7 +256,9 @@
 #  define XPT2046_X_MAX       3800
 #  define XPT2046_Y_MAX       3800
 #  define XPT2046_AVG         4
-#  define XPT2046_INV         0
+#  define XPT2046_X_INV       0
+#  define XPT2046_Y_INV       0
+#  define XPT2046_XY_SWAP     0
 #endif
 
 /*-----------------

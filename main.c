@@ -1,12 +1,12 @@
 #include "lvgl/lvgl.h"
 #include "lv_drivers/display/fbdev.h"
-#include "lv_examples/lv_apps/demo/demo.h"
+#include "lv_examples/lv_examples.h"
 #include <unistd.h>
 #include <pthread.h>
 #include <time.h>
 #include <sys/time.h>
 
-#define DISP_BUF_SIZE (80*LV_HOR_RES_MAX)
+#define DISP_BUF_SIZE (80 * LV_HOR_RES_MAX)
 
 int main(void)
 {
@@ -26,12 +26,12 @@ int main(void)
     /*Initialize and register a display driver*/
     lv_disp_drv_t disp_drv;
     lv_disp_drv_init(&disp_drv);
-    disp_drv.buffer = &disp_buf;
+    disp_drv.buffer   = &disp_buf;
     disp_drv.flush_cb = fbdev_flush;
     lv_disp_drv_register(&disp_drv);
 
     /*Create a Demo*/
-    demo_create();
+    lv_demo_widgets();
 
     /*Handle LitlevGL tasks (tickless mode)*/
     while(1) {
@@ -41,7 +41,6 @@ int main(void)
 
     return 0;
 }
-
 
 /*Set in lv_conf.h as `LV_TICK_CUSTOM_SYS_TIME_EXPR`*/
 uint32_t custom_tick_get(void)
