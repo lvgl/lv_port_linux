@@ -1,0 +1,9 @@
+[submodule "lv_examples"]
+	path = lv_examples
+	url = https://github.com/littlevgl/lv_examples.git
+[submodule "lv_drivers"]
+	path = lv_drivers
+	url = https://github.com/littlevgl/lv_drivers.git
+[submodule "lvgl"]
+	path = lvgl
+	url = https://github.com/littlevgl/lvgl.git
