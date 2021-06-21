@@ -7,3 +7,6 @@
 [submodule "lvgl"]
 	path = lvgl
 	url = https://github.com/littlevgl/lvgl.git
+[submodule "lv_demos"]
+	path = lv_demos
+	url = https://github.com/lvgl/lv_demos

@@ -1,12 +1,12 @@
 #include "lvgl/lvgl.h"
 #include "lv_drivers/display/fbdev.h"
-#include "lv_examples/lv_examples.h"
+#include "lv_demos/lv_demo.h"
 #include <unistd.h>
 #include <pthread.h>
 #include <time.h>
 #include <sys/time.h>
 
-#define DISP_BUF_SIZE (80 * LV_HOR_RES_MAX)
+#define DISP_BUF_SIZE (128 * 1024)
 
 int main(void)
 {
@@ -20,14 +20,16 @@ int main(void)
     static lv_color_t buf[DISP_BUF_SIZE];
 
     /*Initialize a descriptor for the buffer*/
-    static lv_disp_buf_t disp_buf;
-    lv_disp_buf_init(&disp_buf, buf, NULL, DISP_BUF_SIZE);
+    static lv_disp_draw_buf_t disp_buf;
+    lv_disp_draw_buf_init(&disp_buf, buf, NULL, DISP_BUF_SIZE);
 
     /*Initialize and register a display driver*/
-    lv_disp_drv_t disp_drv;
+    static lv_disp_drv_t disp_drv;
     lv_disp_drv_init(&disp_drv);
-    disp_drv.buffer   = &disp_buf;
-    disp_drv.flush_cb = fbdev_flush;
+    disp_drv.draw_buf   = &disp_buf;
+    disp_drv.flush_cb   = fbdev_flush;
+    disp_drv.hor_res    = 800;
+    disp_drv.ver_res    = 480;
     lv_disp_drv_register(&disp_drv);
 
     /*Create a Demo*/

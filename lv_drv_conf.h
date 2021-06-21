@@ -1,6 +1,6 @@
 /**
  * @file lv_drv_conf.h
- *
+ * Configuration file for v8.1.0-dev
  */
 
 /*
@@ -87,21 +87,18 @@
 #endif
 
 #if USE_MONITOR
-#  define MONITOR_HOR_RES     LV_HOR_RES
-#  define MONITOR_VER_RES     LV_VER_RES
+#  define MONITOR_HOR_RES     480
+#  define MONITOR_VER_RES     320
 
 /* Scale window by this factor (useful when simulating small screens) */
 #  define MONITOR_ZOOM        1
 
 /* Used to test true double buffering with only address changing.
- * Set LV_VDB_SIZE = (LV_HOR_RES * LV_VER_RES) and  LV_VDB_DOUBLE = 1 and LV_COLOR_DEPTH = 32" */
+ * Use 2 draw buffers, bith with MONITOR_HOR_RES x MONITOR_VER_RES size*/
 #  define MONITOR_DOUBLE_BUFFERED 0
 
 /*Eclipse: <SDL2/SDL.h>    Visual Studio: <SDL.h>*/
 #  define MONITOR_SDL_INCLUDE_PATH    <SDL2/SDL.h>
-
-/*Different rendering might be used if running in a Virtual machine*/
-#  define MONITOR_VIRTUAL_MACHINE 0
 
 /*Open two windows to test multi display support*/
 #  define MONITOR_DUAL            0
@@ -114,10 +111,41 @@
 #  define USE_WINDOWS       0
 #endif
 
-#define USE_WINDOWS         0
 #if USE_WINDOWS
 #  define WINDOW_HOR_RES      480
 #  define WINDOW_VER_RES      320
+#endif
+
+/*----------------------------
+ *  Native Windows (win32drv)
+ *---------------------------*/
+#ifndef USE_WIN32DRV
+#  define USE_WIN32DRV       0
+#endif
+
+#if USE_WIN32DRV
+/* Scale window by this factor (useful when simulating small screens) */
+#  define WIN32DRV_MONITOR_ZOOM        1
+#endif
+
+/*----------------------------------------
+ *  GTK drivers (monitor, mouse, keyboard
+ *---------------------------------------*/
+#ifndef USE_GTK
+#  define USE_GTK       0
+#endif
+
+/*----------------------------------------
+ *  Wayland drivers (monitor, mouse, keyboard, touchscreen)
+ *---------------------------------------*/
+#ifndef USE_WAYLAND
+#  define USE_WAYLAND       0
+#endif
+
+#if USE_WAYLAND
+#  define WAYLAND_HOR_RES      480
+#  define WAYLAND_VER_RES      320
+#  define WAYLAND_SURF_TITLE   "LVGL"
 #endif
 
 /*----------------
@@ -179,6 +207,17 @@
 /*No settings*/
 #endif  /*USE_ST7565*/
 
+/*------------------------------
+ *  GC9A01 (color, low res.)
+ *-----------------------------*/
+#ifndef USE_GC9A01
+#  define USE_GC9A01          0
+#endif
+
+#if USE_GC9A01
+/*No settings*/
+#endif  /*USE_GC9A01*/
+
 /*------------------------------------------
  *  UC1610 (4 gray 160*[104|128])
  *  (EA DOGXL160 160x104 tested)
@@ -215,6 +254,20 @@
 #  define SHARP_MIP_REV_BYTE(b)         /*((uint8_t) __REV(__RBIT(b)))*/  /*Architecture / compiler dependent byte bits order reverse*/
 #endif  /*USE_SHARP_MIP*/
 
+/*-------------------------------------------------
+ *  ILI9341 240X320 TFT LCD
+ *------------------------------------------------*/
+#ifndef USE_ILI9341
+#  define USE_ILI9341       0
+#endif
+
+#if USE_ILI9341
+#  define ILI9341_HOR_RES       LV_HOR_RES
+#  define ILI9341_VER_RES       LV_VER_RES
+#  define ILI9341_GAMMA         1
+#  define ILI9341_TEARING       0
+#endif  /*USE_ILI9341*/
+
 /*-----------------------------------------
  *  Linux frame buffer device (/dev/fbx)
  *-----------------------------------------*/
@@ -230,11 +283,23 @@
  *  FreeBSD frame buffer device (/dev/fbx)
  *.........................................*/
 #ifndef USE_BSD_FBDEV
-#  define USE_BSD_FBDEV     0
+#  define USE_BSD_FBDEV		0
 #endif
 
 #if USE_BSD_FBDEV
-# define FBDEV_PATH     "/dev/fb0"
+# define FBDEV_PATH		"/dev/fb0"
+#endif
+
+/*-----------------------------------------
+ *  DRM/KMS device (/dev/dri/cardX)
+ *-----------------------------------------*/
+#ifndef USE_DRM
+#  define USE_DRM           0
+#endif
+
+#if USE_DRM
+#  define DRM_CARD          "/dev/dri/card0"
+#  define DRM_CONNECTOR_ID  -1	/* -1 for the first connected one */
 #endif
 
 /*********************
@@ -324,23 +389,22 @@
 #  define USE_EVDEV           0
 #endif
 
-#if USE_EVDEV
+#ifndef USE_BSD_EVDEV
+#  define USE_BSD_EVDEV       0
+#endif
+
+#if USE_EVDEV || USE_BSD_EVDEV
 #  define EVDEV_NAME   "/dev/input/event0"        /*You can use the "evtest" Linux tool to get the list of devices and test them*/
 #  define EVDEV_SWAP_AXES         0               /*Swap the x and y axes of the touchscreen*/
 
-#  define EVDEV_SCALE             0               /* Scale input, e.g. if touchscreen resolution does not match display resolution */
-#  if EVDEV_SCALE
-#    define EVDEV_SCALE_HOR_RES     (4096)          /* Horizontal resolution of touchscreen */
-#    define EVDEV_SCALE_VER_RES     (4096)          /* Vertical resolution of touchscreen */
-#  endif  /*EVDEV_SCALE*/
-
 #  define EVDEV_CALIBRATE         0               /*Scale and offset the touchscreen coordinates by using maximum and minimum values for each axis*/
+
 #  if EVDEV_CALIBRATE
-#    define EVDEV_HOR_MIN   3800                    /*If EVDEV_XXX_MIN > EVDEV_XXX_MAX the XXX axis is automatically inverted*/
-#    define EVDEV_HOR_MAX   200
-#    define EVDEV_VER_MIN   200
-#    define EVDEV_VER_MAX   3800
-#  endif  /*EVDEV_SCALE*/
+#    define EVDEV_HOR_MIN         0               /*to invert axis swap EVDEV_XXX_MIN by EVDEV_XXX_MAX*/
+#    define EVDEV_HOR_MAX      4096               /*"evtest" Linux tool can help to get the correct calibraion values>*/
+#    define EVDEV_VER_MIN         0
+#    define EVDEV_VER_MAX      4096
+#  endif  /*EVDEV_CALIBRATE*/
 #endif  /*USE_EVDEV*/
 
 /*-------------------------------
