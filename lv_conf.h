@@ -19,6 +19,12 @@
 
 #include <stdint.h>
 
+/*=======================
+   FUNCTION PROTOTYPES
+ *=======================*/
+
+extern uint32_t custom_tick_get(void);
+
 /*====================
    COLOR SETTINGS
  *====================*/
