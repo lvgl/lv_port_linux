@@ -8,6 +8,8 @@ CFLAGS ?= -O3 -g0 -I$(LVGL_DIR)/ -Wall -Wshadow -Wundef -Wmissing-prototypes -Wn
 LDFLAGS ?= -lm
 BIN = demo
 
+prefix ?= /usr
+bindir ?= $(prefix)/bin
 
 #Collect the files to compile
 MAINSRC = ./main.c
@@ -41,3 +43,9 @@ default: $(AOBJS) $(COBJS) $(MAINOBJ)
 clean: 
 	rm -f $(BIN) $(AOBJS) $(COBJS) $(MAINOBJ)
 
+install:
+	install -d $(DESTDIR)$(bindir)
+	install $(BIN) $(DESTDIR)$(bindir)
+
+uninstall:
+	$(RM) -r $(addprefix $(DESTDIR)$(bindir)/,$(BIN))
