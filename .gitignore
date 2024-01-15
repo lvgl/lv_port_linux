@@ -7,6 +7,7 @@
 *.obj
 *.elf
 /build/
+/bin/
 
 # Linker output
 *.ilk
