@@ -27,9 +27,24 @@ make -j
 
 ## Run the demo application
 
+### As root
+
+Normal users don't have access to `/dev/fb0` so use `sudo` (or see below) : 
+
 ```
 cd ../bin
 sudo main
+```
+
+### Userland
+
+You can give a normal user access to the framebuffer by adding them to the `video` group : 
+
+```
+sudo adduser $USER video
+newgrp video
+cd ../bin
+./main
 ```
 
 ## Notes
