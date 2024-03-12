@@ -1,6 +1,7 @@
 # LVGL for frame buffer device
 
-Example project to use LVGL with a Linux frame buffer device, for example `/dev/fb0`.
+Example project to use LVGL with a Linux frame buffer device,
+by default `/dev/fb0`.
 
 
 Check out this blog post for a step by step tutorial:
@@ -24,6 +25,15 @@ cd build
 cmake ..
 make -j
 ```
+
+## Environment variables
+
+Environment variables can be set to modify behavior of the demo.
+The following variables are supported.
+
+### Legacy framebuffer (fbdev)
+
+- `LV_LINUX_FBDEV_DEVICE` - override default (`/dev/fb0`) framebuffer device node.
 
 ## Run the demo application
 
