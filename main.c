@@ -25,6 +25,14 @@ static void lv_linux_disp_init(void)
 
     lv_linux_drm_set_file(disp, device, -1);
 }
+#elif LV_USE_SDL
+static void lv_linux_disp_init(void)
+{
+    const int width = atoi(getenv("LV_SDL_VIDEO_WIDTH") ? : "800");
+    const int height = atoi(getenv("LV_SDL_VIDEO_HEIGHT") ? : "480");
+
+    lv_sdl_window_create(width, height);
+}
 #else
 #error Unsupported configuration
 #endif

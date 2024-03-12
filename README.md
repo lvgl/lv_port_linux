@@ -2,10 +2,11 @@
 
 Example project to use LVGL on top of Linux graphics stack.
 Currently supported backends are either legacy framebuffer
-(fbdev) or modern DRM/KMS.
+(fbdev), modern DRM/KMS, or SDL2.
 
 By default, legacy framebuffer backend uses `/dev/fb0` device node,
-DRM/KMS backend uses '/dev/dri/card0' card node.
+DRM/KMS backend uses '/dev/dri/card0' card node, SDL2 uses window
+resolution of 800x480.
 
 Check out this blog post for a step by step tutorial:
 https://blog.lvgl.io/2018-01-03/linux_fb
@@ -26,12 +27,21 @@ To use legacy framebuffer (fbdev) support, adjust `lv_conf.h` as follows:
 ```
 #define LV_USE_LINUX_FBDEV	1
 #define LV_USE_LINUX_DRM	0
+#define LV_USE_SDL		0
 ```
 
 To use modern DRM/KMS support, adjust `lv_conf.h` as follows:
 ```
 #define LV_USE_LINUX_FBDEV	0
 #define LV_USE_LINUX_DRM	1
+#define LV_USE_SDL		0
+```
+
+To use SDL2 support, adjust `lv_conf.h` as follows:
+```
+#define LV_USE_LINUX_FBDEV	0
+#define LV_USE_LINUX_DRM	0
+#define LV_USE_SDL		1
 ```
 
 ## Build the project
@@ -55,6 +65,11 @@ The following variables are supported.
 ### DRM/KMS
 
 - `LV_LINUX_DRM_CARD` - override default (`/dev/dri/card0`) card.
+
+### SDL2
+
+- `LV_SDL_VIDEO_WIDTH` - width of SDL2 surface (default `800`).
+- `LV_SDL_VIDEO_HEIGHT` - height of SDL2 surface (default `480`).
 
 ## Run the demo application
 
