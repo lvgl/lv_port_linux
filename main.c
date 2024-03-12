@@ -9,14 +9,24 @@ static const char *getenv_default(const char *name, const char *dflt)
     return getenv(name) ? : dflt;
 }
 
-int main(void)
+#if LV_USE_LINUX_FBDEV
+static void lv_linux_disp_init(void)
 {
     const char *device = getenv_default("LV_LINUX_FBDEV_DEVICE", "/dev/fb0");
+    lv_display_t * disp = lv_linux_fbdev_create();
+
+    lv_linux_fbdev_set_file(disp, device);
+}
+#else
+#error Unsupported configuration
+#endif
+
+int main(void)
+{
     lv_init();
 
-    /*Linux frame buffer device init*/
-    lv_display_t * disp = lv_linux_fbdev_create();
-    lv_linux_fbdev_set_file(disp, device);
+    /*Linux display device init*/
+    lv_linux_disp_init();
 
     /*Create a Demo*/
     lv_demo_widgets();
