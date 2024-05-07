@@ -3,6 +3,8 @@
 #include <unistd.h>
 #include <pthread.h>
 #include <time.h>
+#include <stdio.h>
+#include <stdlib.h>
 
 static const char *getenv_default(const char *name, const char *dflt)
 {
