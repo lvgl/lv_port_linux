@@ -59,7 +59,6 @@ To use wayland, adjust `lv_conf.h` as follows:
 #define LV_USE_WAYLAND		1
 ```
 
-
 ### cmake
 
 ```
