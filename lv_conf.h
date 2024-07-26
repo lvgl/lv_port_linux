@@ -693,7 +693,9 @@
 #define LV_USE_VECTOR_GRAPHIC  1
 
 /* Enable ThorVG (vector graphics library) from the src/libs folder */
-#define LV_USE_THORVG_INTERNAL 1
+#ifndef LV_USE_THORVG_INTERNAL
+#define LV_USE_THORVG_INTERNAL 0
+#endif // LV_USE_THORVG_INTERNAL
 
 /* Enable ThorVG by assuming that its installed and linked to the project */
 #define LV_USE_THORVG_EXTERNAL 0
@@ -850,7 +852,9 @@
 #endif
 
 /*Driver for /dev/fb*/
+#ifndef LV_USE_LINUX_FBDEV
 #define LV_USE_LINUX_FBDEV      1
+#endif // LV_USE_LINUX_FBDEV
 #if LV_USE_LINUX_FBDEV
     #define LV_LINUX_FBDEV_BSD           0
     #define LV_LINUX_FBDEV_RENDER_MODE   LV_DISPLAY_RENDER_MODE_DIRECT
