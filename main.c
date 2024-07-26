@@ -15,8 +15,9 @@ static uint16_t window_height;
 bool fullscreen;
 bool maximize;
 
-void default_run_loop(void);
-void wayland_run_loop(void);
+static void default_run_loop(void);
+static void wayland_run_loop(void);
+static void configure_simulator(int argc, char **argv);
 
 
 static const char *getenv_default(const char *name, const char *dflt)
@@ -54,6 +55,7 @@ static void lv_linux_disp_init(void)
     lv_group_t *g;
 
     lv_wayland_init();
+
     disp = lv_wayland_window_create(window_width, window_height, "LVGL Simulator", NULL);
 
     if (fullscreen) {
@@ -72,9 +74,7 @@ static void lv_linux_disp_init(void)
 #error Unsupported configuration
 #endif
 
-#if !LV_USE_WAYLAND
-
-void default_run_loop(void)
+static void default_run_loop(void)
 {
     /*Handle LVGL tasks*/
     while(1) {
@@ -84,50 +84,30 @@ void default_run_loop(void)
 }
 
 
-#else
 
-void wayland_run_loop(void)
+static void wayland_run_loop(void)
 {
-    struct pollfd pfd;
-    int sleep_wait = 0;
-    uint32_t time_till_next;
-    uint8_t tickless = 0;
-
-    pfd.fd = lv_wayland_get_fd();
-    pfd.events = POLLIN;
 
     /* Handle LVGL tasks */
     while (1) {
 
-        if (tickless == 0 && sleep_wait > 0) {
-            lv_tick_inc(sleep_wait);
-        }
-
-        /* Handle any Wayland/LVGL timers/events */
-        time_till_next = lv_wayland_timer_handler();
+        lv_wayland_timer_handler();
+        usleep(LV_DEF_REFR_PERIOD * 1000);
 
         /* Run until the last window closes */
         if (!lv_wayland_window_is_open(NULL)) {
             break;
         }
-
-        /* Wait for something for an event to happen */
-        if (time_till_next == LV_NO_TIMER_READY) {
-            sleep_wait = -1;
-        } else if (time_till_next > INT_MAX) {
-            sleep_wait = INT_MAX;
-        } else {
-            sleep_wait = time_till_next;
-        }
-
-        while ((poll(&pfd, 1, sleep_wait) < 0) && (errno == EINTR));
     }
 }
 
-#endif
-
-int main(int argc, char **argv)
+/*
+ * Process command line arguments and environment
+ * variables to configure the simulator
+ */
+static void configure_simulator(int argc, char **argv)
 {
+
     int opt = 0;
     bool err = false;
 
@@ -161,14 +141,18 @@ int main(int argc, char **argv)
             break;
         case ':':
             fprintf (stderr, "Option -%c requires an argument.\n", optopt);
-            return EXIT_FAILURE;
+            exit(1);
         case '?':
             fprintf (stderr, "Unknown option -%c.\n", optopt);
-            return EXIT_FAILURE;
-        default:
-            return EXIT_FAILURE;
+            exit(1);
         }
     }
+}
+
+int main(int argc, char **argv)
+{
+
+    configure_simulator(argc, argv);
 
     /* Initialize LVGL. */
     lv_init();
