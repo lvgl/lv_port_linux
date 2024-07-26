@@ -92,7 +92,7 @@ void lv_linux_run_loop(void)
 
     /*Handle LVGL tasks*/
     while(1) {
-        idle_time = lv_timer_handler(); /* Returns the time to the next timer execution */
+        idle_time = lv_timer_handler(); /* Returns the time to the next time execution */
         usleep(idle_time * 1000);
     }
 }
