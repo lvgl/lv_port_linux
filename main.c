@@ -92,8 +92,36 @@ void lv_linux_run_loop(void)
 
     /*Handle LVGL tasks*/
     while(1) {
+<<<<<<< HEAD
         idle_time = lv_timer_handler(); /* Returns the time to the next time execution */
         usleep(idle_time * 1000);
+=======
+        lv_timer_handler();
+        usleep(5000);
+    }
+}
+
+
+
+static void wayland_run_loop(void)
+{
+    bool completed;
+
+    /* Handle LVGL tasks */
+    while (1) {
+
+        completed = lv_wayland_timer_handler();
+
+        if (completed) {
+            /* wait only if the cycle was completed */
+            usleep(LV_DEF_REFR_PERIOD * 1000);
+        }
+
+        /* Run until the last window closes */
+        if (!lv_wayland_window_is_open(NULL)) {
+            break;
+        }
+>>>>>>> 87211ac (chore(wayland) align with driver, wait only if the cycle was fully completed)
     }
 }
 #endif
