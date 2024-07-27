@@ -87,12 +87,17 @@ static void default_run_loop(void)
 
 static void wayland_run_loop(void)
 {
+    bool completed;
 
     /* Handle LVGL tasks */
     while (1) {
 
-        lv_wayland_timer_handler();
-        usleep(LV_DEF_REFR_PERIOD * 1000);
+        completed = lv_wayland_timer_handler();
+
+        if (completed) {
+            /* wait only if the cycle was completed */
+            usleep(LV_DEF_REFR_PERIOD * 1000);
+        }
 
         /* Run until the last window closes */
         if (!lv_wayland_window_is_open(NULL)) {
