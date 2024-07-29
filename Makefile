@@ -9,7 +9,7 @@ WARNINGS		:= -Wall -Wshadow -Wundef -Wmissing-prototypes -Wno-discarded-qualifie
 					-fno-strict-aliasing -Wno-error=cpp -Wuninitialized -Wmaybe-uninitialized -Wno-unused-parameter -Wno-missing-field-initializers -Wtype-limits \
 					-Wsizeof-pointer-memaccess -Wno-format-nonliteral -Wno-cast-qual -Wunreachable-code -Wno-switch-default -Wreturn-type -Wmultichar -Wformat-security \
 					-Wno-ignored-qualifiers -Wno-error=pedantic -Wno-sign-compare -Wno-error=missing-prototypes -Wdouble-promotion -Wclobbered -Wdeprecated -Wempty-body \
-					-Wshift-negative-value -Wstack-usage=2048 -Wno-unused-value -std=c99
+					-Wshift-negative-value -Wstack-usage=2048 -Wno-unused-value -std=gnu99
 CFLAGS 			?= -O3 -g0 -I$(LVGL_DIR)/ $(WARNINGS)
 LDFLAGS 		?= -lm
 BIN 			= demo
@@ -40,12 +40,19 @@ TARGET 			= $(addprefix $(BUILD_OBJ_DIR)/, $(patsubst ./%, %, $(OBJS)))
 
 ## MAINOBJ -> OBJFILES
 
+
 all: default
 
 $(BUILD_OBJ_DIR)/%.o: %.c
 	@mkdir -p $(dir $@)
 	@$(CC)  $(CFLAGS) -c $< -o $@
 	@echo "CC $<"
+
+$(BUILD_OBJ_DIR)/%.o: %.S
+	@mkdir -p $(dir $@)
+	@$(CC)  $(CFLAGS) -c $< -o $@
+	@echo "CC $<"
+
 
 default: $(TARGET)
 	@mkdir -p $(dir $(BUILD_BIN_DIR)/)
