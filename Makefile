@@ -12,7 +12,7 @@ WARNINGS		:= -Wall -Wshadow -Wundef -Wmissing-prototypes -Wno-discarded-qualifie
 					-Wshift-negative-value -Wstack-usage=2048 -Wno-unused-value -std=gnu99
 CFLAGS 			?= -O3 -g0 -I$(LVGL_DIR)/ $(WARNINGS)
 LDFLAGS 		?= -lm
-BIN 			= demo
+BIN 			= main
 BUILD_DIR 		= ./build
 BUILD_OBJ_DIR 	= $(BUILD_DIR)/obj
 BUILD_BIN_DIR 	= $(BUILD_DIR)/bin
@@ -21,7 +21,7 @@ prefix 			?= /usr
 bindir 			?= $(prefix)/bin
 
 #Collect the files to compile
-MAINSRC = 		./main.c
+MAINSRC          = ./main.c
 
 include $(LVGL_DIR)/lvgl/lvgl.mk
 
