@@ -16,8 +16,8 @@ https://blog.lvgl.io/2018-01-03/linux_fb
 Clone the LVGL Framebuffer Demo project and its related sub modules.
 
 ```
-git clone https://github.com/lvgl/lv_port_linux_frame_buffer.git
-cd lv_port_linux_frame_buffer/
+git clone https://github.com/lvgl/lv_port_linux.git
+cd lv_port_linux/
 git submodule update --init --recursive
 ```
 
@@ -44,12 +44,20 @@ To use SDL2 support, adjust `lv_conf.h` as follows:
 #define LV_USE_SDL		1
 ```
 
-## Build the project
+## Build the project (cmake or Makefile)
+
+### cmake
 
 ```
 mkdir build
 cd build 
 cmake ..
+make -j
+```
+
+### Makefile
+
+```
 make -j
 ```
 
@@ -77,8 +85,15 @@ The following variables are supported.
 
 Normal users don't have access to `/dev/fb0` so use `sudo` (or see below) : 
 
+cmake:
 ```
 cd ../bin
+sudo main
+```
+
+Makefile:
+```
+cd build/bin/
 sudo main
 ```
 
@@ -86,6 +101,8 @@ sudo main
 
 You can give a normal user access to the framebuffer by adding them to the `video` group : 
 
+
+cmake:
 ```
 sudo adduser $USER video
 newgrp video
@@ -93,6 +110,10 @@ cd ../bin
 ./main
 ```
 
-## Notes
-
-- The Makefile is broken right now, so Cmake shall be used.
+Makefile:
+```
+sudo adduser $USER video
+newgrp video
+cd build/bin/
+./main
+```
