@@ -1,0 +1,92 @@
+{
+    "name": "LVGL on top of Linux graphics stack",
+    "maintainer": "LVGL",
+    "hostOperatingsystem": [
+        "Linux",
+        "Windows",
+        "MacOS"
+    ],
+    "environment": [
+        "VSCode",
+        "SDL"
+    ],
+    "description": "Example project to use LVGL on top of Linux graphics stack. Currently supported backends are either legacy framebuffer (fbdev), modern DRM/KMS, or SDL2.",
+    "settings": [
+        {
+            "type": "dropdown",
+            "label": "Color Depth",
+            "options": [
+                {
+                    "name": "16 (RGB565)",
+                    "value": "16"
+                },
+                {
+                    "name": "24 (RGB565)",
+                    "value": "24"
+                },
+                {
+                    "name": "32 (RGB565)",
+                    "value": "32"
+                }
+            ],
+            "actions": [
+                {
+                    "toReplace": "#define LV_COLOR_DEPTH \\d+",
+                    "newContent": "#define LV_COLOR_DEPTH {value}",
+                    "filePath": "lv_conf.h"
+                }
+            ]
+        },
+        {
+            "type": "dropdown",
+            "label": "Driver",
+            "options": [
+                {
+                    "name": "Frame buffer device",
+                    "value": "0"
+                },
+                {
+                    "name": "DRM",
+                    "value": "1"
+                },
+                {
+                    "name": "SDL",
+                    "value": "2"
+                }
+            ]
+        },
+        {
+            "type": "checkbox",
+            "label": "Show performance monitor",
+            "actions": [
+                {
+                    "toReplace": "#define LV_USE_PERF_MONITOR .*",
+                    "newContent": "#define LV_USE_PERF_MONITOR {value}",
+                    "filePath": "lv_conf.h"
+                }
+            ]
+        },
+        {
+            "actions": [
+                {
+                    "ifValue": "0",
+                    "toReplace": "#define LV_USE_LINUX_FBDEV \\d+",
+                    "newContent": "#define LV_USE_LINUX_FBDEV 1",
+                    "filePath": "lv_conf.h"
+                },
+                {
+                    "ifValue": "1",
+                    "toReplace": "#define LV_USE_LINUX_DRM \\d+",
+                    "newContent": "#define LV_USE_LINUX_DRM 1",
+                    "filePath": "lv_conf.h"
+                },
+                {
+                    "ifValue": "2",
+                    "toReplace": "#define LV_USE_SDL \\d+",
+                    "newContent": "#define LV_USE_SDL 1",
+                    "filePath": "lv_conf.h"
+                }
+            ]
+        }
+    ]
+}
