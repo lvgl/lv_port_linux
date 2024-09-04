@@ -78,6 +78,23 @@
             ]
         },
         {
+            "type": "dropdown",
+            "label": "Select display driver",
+            "options": [
+                {
+                    "name": "Linux frame buffer device",
+                    "value": "0",
+                    "default": "true"
+                },
+                {
+                    "name": "DRM",
+                    "value": "1"
+                },
+                {
+                    "name": "SDL",
+                    "value": "2"
+                }
+            ],
             "actions": [
                 {
                     "ifValue": "0",
