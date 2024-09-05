@@ -6,12 +6,12 @@
     ],
     "environment": [
         "Cmake",
-        "SDL", 
+        "SDL",
         "DRM",
         "Linux"
     ],
     "description": "Example project to use LVGL on top of Linux graphics stack. Currently supported backends are either legacy framebuffer (fbdev), modern DRM/KMS, or SDL2.",
-    "shortDescription": "CMake project for Linux devices supporting various display drivers."
+    "shortDescription": "CMake project for Linux devices supporting various display drivers.",
     "urlToClone": "https://github.com/lvgl/lv_port_linux",
     "logo": "https://raw.githubusercontent.com/lvgl-private/project_creator_data/master/meta/images/linux/logo.svg",
     "branches": [
