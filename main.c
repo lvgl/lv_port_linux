@@ -80,7 +80,29 @@ static void lv_linux_disp_init(void)
 
 }
 #elif LV_USE_WAYLAND
+<<<<<<< HEAD
     /* see backend/wayland.c */
+=======
+static void lv_linux_disp_init(void)
+{
+    lv_display_t *disp;
+    lv_group_t *g;
+
+    disp = lv_wayland_window_create(window_width, window_height, "LVGL Simulator", NULL);
+
+    if (fullscreen) {
+            lv_wayland_window_set_fullscreen(disp, fullscreen);
+    } else if (maximize) {
+            lv_wayland_window_set_maximized(disp, maximize);
+    }
+
+    g = lv_group_create();
+    lv_group_set_default(g);
+    lv_indev_set_group(lv_wayland_get_keyboard(disp), g);
+    lv_indev_set_group(lv_wayland_get_pointeraxis(disp), g);
+
+}
+>>>>>>> 52376aa (feat(wayland) Simplify CMakeLists file)
 #else
 #error Unsupported configuration
 #endif
