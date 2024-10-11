@@ -54,8 +54,6 @@ static void lv_linux_disp_init(void)
     lv_display_t *disp;
     lv_group_t *g;
 
-    lv_wayland_init();
-
     disp = lv_wayland_window_create(window_width, window_height, "LVGL Simulator", NULL);
 
     if (fullscreen) {
