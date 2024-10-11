@@ -59,7 +59,6 @@ To use wayland, adjust `lv_conf.h` as follows:
 #define LV_USE_WAYLAND		1
 ```
 
-When using SDL2, wayland or libdrm the relevant option needs to be enabled in `CMakeLists.txt`
 
 ### cmake
 
