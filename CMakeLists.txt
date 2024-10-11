@@ -1,24 +1,63 @@
 cmake_minimum_required(VERSION 3.10)
 project(lvgl)
 
-set(CMAKE_C_STANDARD 99)#C99 # lvgl officially support C99 and above
-set(CMAKE_CXX_STANDARD 17)#C17
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
+foreach(BACKEND_NAME "SDL" "LINUX_DRM" "LINUX_FBDEV" "X11" "WAYLAND")
 
+	execute_process(COMMAND "scripts/backend_conf.sh" ${BACKEND_NAME} OUTPUT_VARIABLE IS_BACKEND_ENABLED)
+	set("LV_USE_${BACKEND_NAME}" ${IS_BACKEND_ENABLED})
+
+endforeach()
+
+# Uncomment if the program needs debugging
+#set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -O0 -ggdb")
+
+set(CMAKE_C_STANDARD 99) # LVGL officially supports C99 and above
+set(CMAKE_CXX_STANDARD 17) #C17
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin)
 
 add_subdirectory(lvgl)
 target_include_directories(lvgl PUBLIC ${PROJECT_SOURCE_DIR})
 
-add_executable(main main.c mouse_cursor_icon.c)
 
-include(${CMAKE_CURRENT_LIST_DIR}/lvgl/tests/FindLibDRM.cmake)
-include_directories(${Libdrm_INCLUDE_DIRS})
+if (LV_USE_DRM)
 
-find_package(SDL2)
-find_package(SDL2_image)
-include_directories(${SDL2_INCLUDE_DIRS} ${SDL2_IMAGE_INCLUDE_DIRS})
+    include(${CMAKE_CURRENT_LIST_DIR}/lvgl/tests/FindLibDRM.cmake)
+    include_directories(${Libdrm_INCLUDE_DIRS})
+    add_executable(lvglsim main.c mouse_cursor_icon.c)
+    target_link_libraries(lvglsim lvgl lvgl::examples lvgl::demos lvgl::thorvg ${Libdrm_LIBRARIES} m pthread)
 
-target_link_libraries(main lvgl lvgl::examples lvgl::demos lvgl::thorvg ${SDL2_LIBRARIES} ${SDL2_IMAGE_LIBRARIES} ${Libdrm_LIBRARIES} m pthread)
-add_custom_target (run COMMAND ${EXECUTABLE_OUTPUT_PATH}/main DEPENDS main)
+elseif (LV_USE_SDL)
 
+    find_package(SDL2)
+    find_package(SDL2_image)
+    include_directories(${SDL2_INCLUDE_DIRS} ${SDL2_IMAGE_INCLUDE_DIRS})
+    add_executable(lvglsim main.c mouse_cursor_icon.c)
+    target_link_libraries(lvglsim lvgl lvgl::examples lvgl::demos lvgl::thorvg ${SDL2_LIBRARIES} ${SDL2_IMAGE_LIBRARIES} m pthread)
+
+elseif (LV_USE_WAYLAND)
+
+    find_package(PkgConfig)
+    pkg_check_modules(wayland-client REQUIRED wayland-client)
+    pkg_check_modules(wayland-cursor REQUIRED wayland-cursor)
+    pkg_check_modules(xkbcommon REQUIRED xkbcommon)
+
+    # Wayland protocols
+    pkg_check_modules(WAYLAND_PROTOCOLS REQUIRED wayland-protocols>=1.25)
+    pkg_get_variable(WAYLAND_PROTOCOLS_BASE wayland-protocols pkgdatadir)
+
+    execute_process(COMMAND "scripts/gen_wl_protocols.sh" OUTPUT_VARIABLE WAYLAND_PROTOCOLS_SRC)
+    target_include_directories(lvgl PUBLIC ${PROJECT_SOURCE_DIR} "wl_protocols")
+    add_executable(lvglsim main.c ${WAYLAND_PROTOCOLS_SRC} mouse_cursor_icon.c)
+    target_compile_definitions(lvglsim PRIVATE LV_CONF_INCLUDE_SIMPLE)
+    target_link_libraries(lvglsim lvgl lvgl::examples lvgl::demos lvgl::thorvg m wayland-client xkbcommon wayland-cursor)
+
+else()
+
+    # No specific build steps required for FBDEV
+    add_executable(lvglsim main.c mouse_cursor_icon.c)
+    target_link_libraries(lvglsim lvgl lvgl::examples lvgl::demos lvgl::thorvg m pthread)
+
+endif()
+
+add_custom_target (run COMMAND ${EXECUTABLE_OUTPUT_PATH}/lvglsim DEPENDS lvglsim)
