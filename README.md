@@ -11,6 +11,9 @@ resolution of 800x480.
 Check out this blog post for a step by step tutorial:
 https://blog.lvgl.io/2018-01-03/linux_fb
 
+## Build dependencies
+Check the [Dockerfiles](docker/) for the build dependencies.  
+
 ## Clone the project
 
 Clone the LVGL Framebuffer Demo project and its related sub modules.
@@ -69,6 +72,11 @@ The following variables are supported.
 ### Legacy framebuffer (fbdev)
 
 - `LV_LINUX_FBDEV_DEVICE` - override default (`/dev/fb0`) framebuffer device node.
+
+
+### EVDEV touchscreen/mouse pointer device
+
+- `LV_LINUX_EVDEV_POINTER_DEVICE` - override default (`/dev/input/by-id/my-mouse-or-touchscreen`) input device
 
 ### DRM/KMS
 

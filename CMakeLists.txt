@@ -8,17 +8,26 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin)
 
 add_subdirectory(lvgl)
-target_include_directories(lvgl PUBLIC ${PROJECT_SOURCE_DIR})
-
 add_executable(main main.c mouse_cursor_icon.c)
 
-include(${CMAKE_CURRENT_LIST_DIR}/lvgl/tests/FindLibDRM.cmake)
-include_directories(${Libdrm_INCLUDE_DIRS})
+find_package(PkgConfig REQUIRED) # We use the platform independent pkg-config to find all the libs
+pkg_check_modules(LIBDRM REQUIRED libdrm)
+pkg_check_modules(SDL2 REQUIRED sdl2)
+pkg_check_modules(SDL2_image REQUIRED SDL2_image)
 
-find_package(SDL2)
-find_package(SDL2_image)
-include_directories(${SDL2_INCLUDE_DIRS} ${SDL2_IMAGE_INCLUDE_DIRS})
+target_include_directories(lvgl PUBLIC ${PROJECT_SOURCE_DIR})
+target_include_directories(lvgl PRIVATE ${SDL2_INCLUDE_DIRS})
+target_include_directories(lvgl PRIVATE ${SDL2_IMAGE_INCLUDE_DIRS})
+target_include_directories(lvgl PRIVATE ${LIBDRM_INCLUDE_DIRS})
 
-target_link_libraries(main lvgl lvgl::examples lvgl::demos lvgl::thorvg ${SDL2_LIBRARIES} ${SDL2_IMAGE_LIBRARIES} ${Libdrm_LIBRARIES} m pthread)
-add_custom_target (run COMMAND ${EXECUTABLE_OUTPUT_PATH}/main DEPENDS main)
+target_link_libraries(main PRIVATE lvgl) # Add '-static' if you want a standalone binary
+target_link_libraries(main PRIVATE lvgl::examples)
+target_link_libraries(main PRIVATE lvgl::demos)
+target_link_libraries(main PRIVATE lvgl::thorvg)
+target_link_libraries(main PRIVATE ${SDL2_LIBRARIES})
+target_link_libraries(main PRIVATE ${SDL2_IMAGE_LIBRARIES})
+target_link_libraries(main PRIVATE ${LIBDRM_LIBRARIES})
+target_link_libraries(main PRIVATE m)
+target_link_libraries(main PRIVATE pthread)
 
+add_custom_target(run COMMAND ${EXECUTABLE_OUTPUT_PATH}/main DEPENDS main)

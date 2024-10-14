@@ -1,0 +1,31 @@
+ARG BASE_OS
+FROM "$BASE_OS"
+
+RUN dnf makecache --refresh
+RUN dnf -y install 'dnf-command(config-manager)'
+RUN dnf repolist --all
+
+# Rocky 8
+RUN dnf config-manager --set-enabled powertools || true
+
+# Oracle 8
+RUN dnf config-manager --set-enabled ol8_codeready_builder || true
+
+# Rocky/Oracle 9+
+RUN dnf config-manager --set-enabled crb || true
+
+RUN dnf -y install epel-release
+RUN dnf makecache --refresh
+
+# Build tools
+RUN dnf -y groupinstall "Development Tools"
+RUN dnf -y install cmake
+
+# Required for LV_USE_SDL
+RUN dnf -y install SDL2-devel SDL2_image-devel
+
+# Required for LV_USE_LINUX_DRM
+RUN dnf -y install libdrm-devel
+
+RUN mkdir /workdir
+WORKDIR /workdir
