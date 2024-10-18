@@ -78,8 +78,8 @@ int main(void)
 
     /*Handle LVGL tasks*/
     while(1) {
-        lv_timer_handler();
-        usleep(5000);
+        uint32_t idle_time = lv_timer_handler(); /*Returns the time to the next timer execution*/
+        usleep(idle_time * 1000);
     }
 
     return 0;
