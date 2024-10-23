@@ -80,29 +80,7 @@ static void lv_linux_disp_init(void)
 
 }
 #elif LV_USE_WAYLAND
-<<<<<<< HEAD
     /* see backend/wayland.c */
-=======
-static void lv_linux_disp_init(void)
-{
-    lv_display_t *disp;
-    lv_group_t *g;
-
-    disp = lv_wayland_window_create(window_width, window_height, "LVGL Simulator", NULL);
-
-    if (fullscreen) {
-            lv_wayland_window_set_fullscreen(disp, fullscreen);
-    } else if (maximize) {
-            lv_wayland_window_set_maximized(disp, maximize);
-    }
-
-    g = lv_group_create();
-    lv_group_set_default(g);
-    lv_indev_set_group(lv_wayland_get_keyboard(disp), g);
-    lv_indev_set_group(lv_wayland_get_pointeraxis(disp), g);
-
-}
->>>>>>> 52376aa (feat(wayland) Simplify CMakeLists file)
 #else
 #error Unsupported configuration
 #endif
@@ -110,40 +88,10 @@ static void lv_linux_disp_init(void)
 #if LV_USE_WAYLAND == 0
 void lv_linux_run_loop(void)
 {
-    uint32_t idle_time;
-
     /*Handle LVGL tasks*/
     while(1) {
-<<<<<<< HEAD
-        idle_time = lv_timer_handler(); /* Returns the time to the next time execution */
-        usleep(idle_time * 1000);
-=======
         lv_timer_handler();
         usleep(5000);
-    }
-}
-
-
-
-static void wayland_run_loop(void)
-{
-    bool completed;
-
-    /* Handle LVGL tasks */
-    while (1) {
-
-        completed = lv_wayland_timer_handler();
-
-        if (completed) {
-            /* wait only if the cycle was completed */
-            usleep(LV_DEF_REFR_PERIOD * 1000);
-        }
-
-        /* Run until the last window closes */
-        if (!lv_wayland_window_is_open(NULL)) {
-            break;
-        }
->>>>>>> 87211ac (chore(wayland) align with driver, wait only if the cycle was fully completed)
     }
 }
 #endif
