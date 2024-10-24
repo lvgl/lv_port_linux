@@ -88,10 +88,13 @@ static void lv_linux_disp_init(void)
 #if LV_USE_WAYLAND == 0
 void lv_linux_run_loop(void)
 {
+    uint32_t idle_time;
+
     /*Handle LVGL tasks*/
     while(1) {
-        lv_timer_handler();
-        usleep(5000);
+
+        idle_time = lv_timer_handler(); /*Returns the time to the next timer execution*/
+        usleep(idle_time * 1000);
     }
 }
 #endif
