@@ -10,7 +10,7 @@ WARNINGS		:= -Wall -Wshadow -Wundef -Wmissing-prototypes -Wno-discarded-qualifie
 					-Wsizeof-pointer-memaccess -Wno-format-nonliteral -Wno-cast-qual -Wunreachable-code -Wno-switch-default -Wreturn-type -Wmultichar -Wformat-security \
 					-Wno-ignored-qualifiers -Wno-error=pedantic -Wno-sign-compare -Wno-error=missing-prototypes -Wdouble-promotion -Wclobbered -Wdeprecated -Wempty-body \
 					-Wshift-negative-value -Wstack-usage=2048 -Wno-unused-value -std=gnu99
-CFLAGS 			?= -O3 -g0 -I$(LVGL_DIR)/ $(WARNINGS)
+CFLAGS 			?= -O3 -g0 -I$(LVGL_DIR) -I$(LVGL_DIR)/src -I${LVGL_DIR}/src/backend $(WARNINGS)
 LDFLAGS 		?= -lm
 BIN 			= main
 BUILD_DIR 		= ./build
@@ -21,11 +21,11 @@ prefix 			?= /usr
 bindir 			?= $(prefix)/bin
 
 #Collect the files to compile
-MAINSRC          = ./main.c
+MAINSRC          = ./src/main.c
 
 include $(LVGL_DIR)/lvgl/lvgl.mk
 
-CSRCS 			+=$(LVGL_DIR)/mouse_cursor_icon.c 
+CSRCS 			+=$(LVGL_DIR)/src/mouse_cursor_icon.c ${LVGL_DIR}/src/util.c ${LVGL_DIR}/src/backends/fbdev.c
 
 OBJEXT 			?= .o
 

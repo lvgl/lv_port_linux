@@ -1,3 +1,10 @@
+/**
+ * @file mouse_cursor_icon.c
+ *
+ * Contains the image of the mouse cursor so that
+ * LVGL is able to show a cursor
+ *
+ */
 #include "lvgl/lvgl.h"
 
 const uint8_t mouse_cursor_icon_map[] = {

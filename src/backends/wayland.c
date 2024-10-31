@@ -1,17 +1,26 @@
+/**
+ * @file wayland.c
+ *
+ * The wayland backend
+ *
+ */
 #include <unistd.h>
+#include <stdbool.h>
 #include <stdlib.h>
 
 #include "lvgl/lvgl.h"
 #include "settings.h"
+#include "util.h"
 
 /* Currently, the wayland driver calls lv_timer_handler internaly */
+/* The wayland driver needs to be re-written to match the other backends */
 void lv_linux_run_loop(void)
 {
 
     bool completed;
 
     /* Handle LVGL tasks */
-    while (1) {
+    while (true) {
 
         completed = lv_wayland_timer_handler();
 
@@ -35,6 +44,10 @@ void lv_linux_disp_init(void)
 
     disp = lv_wayland_window_create(window_width, window_height,
             "LVGL Simulator", NULL);
+
+    if (disp == NULL) {
+        die("Failed to initialize Wayland backend\n");
+    }
 
     if (fullscreen) {
             lv_wayland_window_set_fullscreen(disp, fullscreen);
