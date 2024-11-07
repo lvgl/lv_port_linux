@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.10)
 project(lvgl)
 
-foreach(BACKEND_NAME "SDL" "LINUX_DRM" "LINUX_FBDEV" "X11" "WAYLAND")
+foreach(BACKEND_NAME "SDL" "LINUX_DRM" "LINUX_FBDEV" "X11" "WAYLAND" "OPENGLES")
     execute_process(COMMAND "scripts/backend_conf.sh" ${BACKEND_NAME} OUTPUT_VARIABLE IS_BACKEND_ENABLED)
     set("LV_USE_${BACKEND_NAME}" ${IS_BACKEND_ENABLED})
 endforeach()
@@ -64,6 +64,16 @@ elseif (LV_USE_LINUX_FBDEV)
     # No specific build steps required for FBDEV
     add_executable(lvglsim ${SIM_SRC} src/backends/fbdev.c)
     target_link_libraries(lvglsim lvgl lvgl::examples lvgl::demos lvgl::thorvg m pthread)
+
+elseif (LV_USE_OPENGLES)
+
+    find_package(PkgConfig REQUIRED)
+    pkg_check_modules(GLFW3 REQUIRED glfw3)
+    pkg_check_modules(GLEW REQUIRED glew)
+
+    add_executable(lvglsim ${SIM_SRC} src/backends/glfw3.c)
+    target_link_libraries(lvglsim lvgl lvgl::examples lvgl::demos lvgl::thorvg
+        m pthread ${GLFW3_LIBRARIES} ${GLEW_LIBRARIES})
 
 endif()
 

@@ -13,6 +13,7 @@
 #if LV_USE_SDL == 0 && \
     LV_USE_WAYLAND == 0 && \
     LV_USE_LINUX_DRM == 0 && \
+    LV_USE_OPENGLES == 0 && \
     LV_USE_LINUX_FBDEV == 0
 
 #error Unsupported configuration - Please select at least one backend in lv_conf.h
