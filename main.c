@@ -6,6 +6,7 @@
 
 #include "lvgl/lvgl.h"
 #include "lvgl/demos/lv_demos.h"
+#include "lvgl/src/core/lv_global.h"
 
 #if LV_USE_WAYLAND
 #include "backends/interface.h"
@@ -24,17 +25,49 @@ static const char *getenv_default(const char *name, const char *dflt)
 }
 
 #if LV_USE_EVDEV
+static void indev_deleted_cb(lv_event_t * e)
+{
+    if(LV_GLOBAL_DEFAULT()->deinit_in_progress) return;
+    lv_obj_t * cursor_obj = lv_event_get_user_data(e);
+    lv_obj_delete(cursor_obj);
+}
+
+static void discovery_cb(lv_indev_t * indev, lv_evdev_type_t type, void * user_data)
+{
+    LV_LOG_USER("new '%s' device discovered", type == LV_EVDEV_TYPE_REL ? "REL" :
+                                              type == LV_EVDEV_TYPE_ABS ? "ABS" :
+                                              type == LV_EVDEV_TYPE_KEY ? "KEY" :
+                                              "unknown");
+
+    lv_display_t * disp = user_data;
+    lv_indev_set_display(indev, disp);
+
+    if(type == LV_EVDEV_TYPE_REL) {
+        /* Set the cursor icon */
+        LV_IMAGE_DECLARE(mouse_cursor_icon);
+        lv_obj_t * cursor_obj = lv_image_create(lv_display_get_screen_active(disp));
+        lv_image_set_src(cursor_obj, &mouse_cursor_icon);
+        lv_indev_set_cursor(indev, cursor_obj);
+
+        /* delete the mouse cursor icon if the device is removed */
+        lv_indev_add_event_cb(indev, indev_deleted_cb, LV_EVENT_DELETE, cursor_obj);
+    }
+}
+
 static void lv_linux_init_input_pointer(lv_display_t *disp)
 {
     /* Enables a pointer (touchscreen/mouse) input device
      * Use 'evtest' to find the correct input device. /dev/input/by-id/ is recommended if possible
      * Use /dev/input/by-id/my-mouse-or-touchscreen or /dev/input/eventX
+     * 
+     * If LV_LINUX_EVDEV_POINTER_DEVICE is not set, automatic evdev disovery will start
      */
     const char *input_device = getenv("LV_LINUX_EVDEV_POINTER_DEVICE");
 
     if (input_device == NULL) {
-        fprintf(stderr, "please set the LV_LINUX_EVDEV_POINTER_DEVICE environment variable\n");
-        exit(1);
+        LV_LOG_USER("the LV_LINUX_EVDEV_POINTER_DEVICE environment variable is not set. using evdev automatic discovery.");
+        lv_evdev_discovery_start(discovery_cb, disp);
+        return;
     }
 
     lv_indev_t *touch = lv_evdev_create(LV_INDEV_TYPE_POINTER, input_device);
@@ -42,7 +75,7 @@ static void lv_linux_init_input_pointer(lv_display_t *disp)
 
     /* Set the cursor icon */
     LV_IMAGE_DECLARE(mouse_cursor_icon);
-    lv_obj_t * cursor_obj = lv_image_create(lv_screen_active());
+    lv_obj_t * cursor_obj = lv_image_create(lv_display_get_screen_active(disp));
     lv_image_set_src(cursor_obj, &mouse_cursor_icon);
     lv_indev_set_cursor(touch, cursor_obj);
 }
