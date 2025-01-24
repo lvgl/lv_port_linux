@@ -60,14 +60,22 @@ To use wayland, adjust `lv_conf.h` as follows:
 ```
 
 
-### cmake
+## Enable Input
+
+To use EVDEV with fbdev or DRM, adjust `lv_conf.h` as follows:
+```
+#define LV_USE_EVDEV	1
+```
+
+
+## cmake
 
 ```
 cmake -B build -S .
 make -C build -j
 ```
 
-### Makefile
+## Makefile
 
 ```
 make -j
@@ -100,7 +108,9 @@ Environment variables can be set to modify the behavior of the demo.
 
 ### EVDEV touchscreen/mouse pointer device
 
-- `LV_LINUX_EVDEV_POINTER_DEVICE` - override default (`/dev/input/by-id/my-mouse-or-touchscreen`) input device
+- `LV_LINUX_EVDEV_POINTER_DEVICE` - the path of the input device, i.e.
+  `/dev/input/by-id/my-mouse-or-touchscreen`. If not set, devices will
+  be discovered and added automatically.
 
 ### DRM/KMS
 
