@@ -59,7 +59,6 @@ To use wayland, adjust `lv_conf.h` as follows:
 #define LV_USE_WAYLAND		1
 ```
 
-
 ## Enable Input
 
 To use EVDEV with fbdev or DRM, adjust `lv_conf.h` as follows:
@@ -70,9 +69,18 @@ To use EVDEV with fbdev or DRM, adjust `lv_conf.h` as follows:
 
 ## cmake
 
+1. gcc compiler:
+
 ```
 cmake -B build -S .
 make -C build -j
+```
+2. Cross compiler:
+
+```
+vim ./user_cross_compile_setup.cmake
+cmake -DCMAKE_TOOLCHAIN_FILE=./user_cross_compile_setup.cmake -B build -S .
+make  -C build -j
 ```
 
 ## Makefile
