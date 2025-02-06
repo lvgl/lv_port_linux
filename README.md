@@ -68,7 +68,6 @@ To use EVDEV with fbdev or DRM, adjust `lv_conf.h` as follows:
 
 
 ## cmake
->>>>>>> 5f13fb6 (feat(cmake): add user cross compile setup)
 
 1. gcc compiler:
 
