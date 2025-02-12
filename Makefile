@@ -45,17 +45,17 @@ TARGET 			= $(addprefix $(BUILD_OBJ_DIR)/, $(patsubst ./%, %, $(OBJS)))
 
 all: default
 
-$(BUILD_OBJ_DIR)/%.o: %.c
+$(BUILD_OBJ_DIR)/%.o: %.c lv_conf.h
 	@mkdir -p $(dir $@)
 	@$(CC)  $(CFLAGS) -c $< -o $@
 	@echo "CC $<"
 
-$(BUILD_OBJ_DIR)/%.o: %.S
+$(BUILD_OBJ_DIR)/%.o: %.S lv_conf.h
 	@mkdir -p $(dir $@)
 	@$(CC)  $(CFLAGS) -c $< -o $@
 	@echo "CC $<"
 
-$(BUILD_OBJ_DIR)/%.o: %.cpp
+$(BUILD_OBJ_DIR)/%.o: %.cpp lv_conf.h
 	@mkdir -p $(dir $@)
 	@$(CXX)  $(CFLAGS) -c $< -o $@
 	@echo "CXX $<"
