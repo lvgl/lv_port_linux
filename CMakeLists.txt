@@ -1,12 +1,7 @@
 cmake_minimum_required(VERSION 3.10)
 project(lvgl)
 
-foreach(BACKEND_NAME "SDL" "LINUX_DRM" "LINUX_FBDEV" "X11" "WAYLAND" "OPENGLES")
-    execute_process(COMMAND "scripts/backend_conf.sh" ${BACKEND_NAME} OUTPUT_VARIABLE IS_BACKEND_ENABLED)
-    set("LV_USE_${BACKEND_NAME}" ${IS_BACKEND_ENABLED})
-endforeach()
-
-foreach(BACKEND_NAME "EVDEV")
+foreach(BACKEND_NAME "SDL" "LINUX_DRM" "LINUX_FBDEV" "X11" "WAYLAND" "OPENGLES" "EVDEV")
     execute_process(COMMAND "scripts/backend_conf.sh" ${BACKEND_NAME} OUTPUT_VARIABLE IS_BACKEND_ENABLED)
     set("LV_USE_${BACKEND_NAME}" ${IS_BACKEND_ENABLED})
 endforeach()
