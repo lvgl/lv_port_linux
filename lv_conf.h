@@ -1143,7 +1143,7 @@
     #define LV_LINUX_FBDEV_BSD           0
     #define LV_LINUX_FBDEV_RENDER_MODE   LV_DISPLAY_RENDER_MODE_PARTIAL
     #define LV_LINUX_FBDEV_BUFFER_COUNT  2
-    #define LV_LINUX_FBDEV_BUFFER_SIZE   60
+    #define LV_LINUX_FBDEV_BUFFER_SIZE   1080
 #endif
 
 /** Use Nuttx to open window and handle touchscreen */
@@ -1306,9 +1306,6 @@
 
 /* Smart watch demo */
 #define LV_USE_DEMO_SMARTWATCH      0
-
-/** ECG demo */
-#define LV_USE_DEMO_ECG        0
 
 /*--END OF LV_CONF_H--*/
 
