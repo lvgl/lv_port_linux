@@ -39,7 +39,7 @@
  * - LV_STDLIB_RTTHREAD:    RT-Thread implementation
  * - LV_STDLIB_CUSTOM:      Implement the functions externally
  */
-#define LV_USE_STDLIB_MALLOC    LV_STDLIB_BUILTIN
+#define LV_USE_STDLIB_MALLOC    LV_STDLIB_CLIB
 
 /** Possible values
  * - LV_STDLIB_BUILTIN:     LVGL's built in implementation
@@ -48,7 +48,7 @@
  * - LV_STDLIB_RTTHREAD:    RT-Thread implementation
  * - LV_STDLIB_CUSTOM:      Implement the functions externally
  */
-#define LV_USE_STDLIB_STRING    LV_STDLIB_BUILTIN
+#define LV_USE_STDLIB_STRING    LV_STDLIB_CLIB
 
 /** Possible values
  * - LV_STDLIB_BUILTIN:     LVGL's built in implementation
@@ -57,7 +57,7 @@
  * - LV_STDLIB_RTTHREAD:    RT-Thread implementation
  * - LV_STDLIB_CUSTOM:      Implement the functions externally
  */
-#define LV_USE_STDLIB_SPRINTF   LV_STDLIB_BUILTIN
+#define LV_USE_STDLIB_SPRINTF   LV_STDLIB_CLIB
 
 #define LV_STDINT_INCLUDE       <stdint.h>
 #define LV_STDDEF_INCLUDE       <stddef.h>
@@ -68,7 +68,7 @@
 
 #if LV_USE_STDLIB_MALLOC == LV_STDLIB_BUILTIN
     /** Size of memory available for `lv_malloc()` in bytes (>= 2kB) */
-    #define LV_MEM_SIZE (1024 * 1024)
+    #define LV_MEM_SIZE (64 * 1024U)          /**< [bytes] */
 
     /** Size of the memory expand for `lv_malloc()` in bytes */
     #define LV_MEM_POOL_EXPAND_SIZE 0
@@ -172,6 +172,10 @@
     #define LV_DRAW_SW_SUPPORT_AL88         1
     #define LV_DRAW_SW_SUPPORT_A8           1
     #define LV_DRAW_SW_SUPPORT_I1           1
+
+    /* The threshold of the luminance to consider a pixel as
+     * active in indexed color format */
+    #define LV_DRAW_SW_I1_LUM_THRESHOLD 127
 
     /** Set number of draw units.
      *  - > 1 requires operating system to be enabled in `LV_USE_OS`.
@@ -590,7 +594,7 @@
 /** Enable handling large font and/or fonts with a lot of characters.
  *  The limit depends on the font size, font face and bpp.
  *  A compiler error will be triggered if a font needs it. */
-#define LV_FONT_FMT_TXT_LARGE 0
+#define LV_FONT_FMT_TXT_LARGE 1
 
 /** Enables/disables support for compressed fonts. */
 #define LV_USE_FONT_COMPRESSED 0
@@ -790,7 +794,7 @@
 /* File system interfaces for common APIs */
 
 /** Setting a default driver letter allows skipping the driver prefix in filepaths. */
-#define LV_FS_DEFAULT_DRIVER_LETTER '\0'
+#define LV_FS_DEFAULT_DRIVER_LETTER 'A'
 
 /** API for fopen, fread, etc. */
 #define LV_USE_FS_STDIO 1
@@ -1138,8 +1142,8 @@
 #if LV_USE_LINUX_FBDEV
     #define LV_LINUX_FBDEV_BSD           0
     #define LV_LINUX_FBDEV_RENDER_MODE   LV_DISPLAY_RENDER_MODE_PARTIAL
-    #define LV_LINUX_FBDEV_BUFFER_COUNT  0
-    #define LV_LINUX_FBDEV_BUFFER_SIZE   60
+    #define LV_LINUX_FBDEV_BUFFER_COUNT  2
+    #define LV_LINUX_FBDEV_BUFFER_SIZE   1080
 #endif
 
 /** Use Nuttx to open window and handle touchscreen */
@@ -1170,11 +1174,20 @@
 /** Driver for /dev/dri/card */
 #define LV_USE_LINUX_DRM        0
 
+#if LV_USE_LINUX_DRM
+
+    /* Use the MESA GBM library to allocate DMA buffers that can be
+     * shared across sub-systems and libraries using the Linux DMA-BUF API.
+     * The GBM library aims to provide a platform independent memory management system
+     * it supports the major GPU vendors - This option requires linking with libgbm */
+    #define LV_LINUX_DRM_GBM_BUFFERS 0
+#endif
+
 /** Interface for TFT_eSPI */
 #define LV_USE_TFT_ESPI         0
 
 /** Driver for evdev input devices */
-#define LV_USE_EVDEV    0
+#define LV_USE_EVDEV    1
 
 /** Driver for libinput input devices */
 #define LV_USE_LIBINPUT    0
@@ -1289,7 +1302,7 @@
 #endif
 
 /** High-resolution demo */
-#define LV_USE_DEMO_HIGH_RES        0
+#define LV_USE_DEMO_HIGH_RES        1
 
 /* Smart watch demo */
 #define LV_USE_DEMO_SMARTWATCH      0
