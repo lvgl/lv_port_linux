@@ -1,6 +1,7 @@
-/*******************************************************************
+/**
+ * @file sdl.c
  *
- * sdl.c - The backend for the SDL simulator
+ * The backend for the SDL simulator
  *
  * Based on the original file from the repository
  *
@@ -9,29 +10,59 @@
  *
  * Author: EDGEMTech Ltd, Erik Tagirov (erik.tagirov@edgemtech.ch)
  *
- ******************************************************************/
+ */
+
+/*********************
+ *      INCLUDES
+ *********************/
 #include <unistd.h>
 #include <stdlib.h>
 #include <stdbool.h>
 
 #include "lvgl/lvgl.h"
-#include "lv_simulator_util.h"
-#include "lv_simulator_settings.h"
+#include "simulator_util.h"
+#include "simulator_settings.h"
 #include "backends.h"
 
+/*********************
+ *      DEFINES
+ *********************/
+
+/**********************
+ *      TYPEDEFS
+ **********************/
+
+/**********************
+ *  EXTERNAL VARIABLES
+ **********************/
 extern simulator_settings_t settings;
 
-static char *backend_name = "SDL";
-
+/**********************
+ *  STATIC PROTOTYPES
+ **********************/
 static void run_loop_sdl(void);
 static lv_display_t *init_sdl(void);
 
+/**********************
+ *  STATIC VARIABLES
+ **********************/
+
+static char *backend_name = "SDL";
+
+/**********************
+ *      MACROS
+ **********************/
+
+/**********************
+ *   GLOBAL FUNCTIONS
+ **********************/
+
 /**
- * @brief Register the backend
+ * Register the backend
  * @param backend the backend descriptor
  * @description configures the descriptor
  */
-void backend_init_sdl(backend_t *backend)
+int backend_init_sdl(backend_t *backend)
 {
     LV_ASSERT_NULL(backend);
 
@@ -42,10 +73,17 @@ void backend_init_sdl(backend_t *backend)
     backend->handle->display->run_loop = run_loop_sdl;
     backend->name = backend_name;
     backend->type = BACKEND_DISPLAY;
+
+    return 0;
 }
 
+/**********************
+ *   STATIC FUNCTIONS
+ **********************/
+
 /**
- * @brief Initialize the SDL display driver
+ * Initialize the SDL display driver
+ *
  * @return the LVGL display
  */
 static lv_display_t *init_sdl(void)
@@ -62,7 +100,7 @@ static lv_display_t *init_sdl(void)
 }
 
 /**
- * @brief The run loop of the SDL driver
+ * The run loop of the SDL driver
  */
 static void run_loop_sdl(void)
 {

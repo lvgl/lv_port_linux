@@ -1,21 +1,14 @@
-/******************************************************************
- *
- * lv_driver_backend.c
- * provides an abstration to support multiple graphical
- * driver backends at the same time whitout recompiling everything
- * each time
- *
- * E.g: this means LVGL can be compiled with both SDL or X11
- *
- * - see backend.h for the details on the interface.
- * - see the files in display_backends directory for examples
- *   on how to use each driver
+/**
+ * @file driver_backends.c
  *
  * Copyright (c) 2025 EDGEMTech Ltd.
  *
  * Author: EDGEMTech Ltd, Erik Tagirov (erik.tagirov@edgemtech.ch)
- *
- ******************************************************************/
+ */
+
+/*********************
+ *      INCLUDES
+ *********************/
 
 #include <unistd.h>
 #include <pthread.h>
@@ -28,43 +21,108 @@
 
 #include "lvgl/lvgl.h"
 
-#include "lv_simulator_util.h"
-#include "lv_simulator_settings.h"
-#include "lv_driver_backends.h"
+#include "simulator_util.h"
+#include "simulator_settings.h"
+#include "driver_backends.h"
 
 #include "backends.h"
-#include "available_backends.h"
+
+/*********************
+ *      DEFINES
+ *********************/
+
+/* Catch configuration errors at compile time - checks if no backend was selected */
+#if LV_USE_SDL == 0 && \
+    LV_USE_WAYLAND == 0 && \
+    LV_USE_LINUX_DRM == 0 && \
+    LV_USE_OPENGLES == 0 && \
+    LV_USE_X11 == 0 && \
+    LV_USE_LINUX_FBDEV == 0
+
+#error Unsupported configuration - Please select at least one graphics backend in lv_conf.h
+#endif
+
+/**********************
+ *      TYPEDEFS
+ **********************/
+
+/**********************
+ *  STATIC PROTOTYPES
+ **********************/
 
 /* Internal functions */
 static void register_backends(void);
 
+/**********************
+ *  STATIC VARIABLES
+ **********************/
+
+/* The default backend is the one that will end up at index 0
+ * To add support for a new driver backend add the declaration
+ * and append an entry to the available_backends array
+ */
+backend_init_t available_backends[] = {
+
+#if LV_USE_LINUX_FBDEV
+    backend_init_fbdev,
+#endif
+
+#if LV_USE_LINUX_DRM
+    backend_init_drm,
+#endif
+
+#if LV_USE_SDL
+    backend_init_sdl,
+#endif
+
+#if LV_USE_WAYLAND
+    backend_init_wayland,
+#endif
+
+#if LV_USE_X11
+    backend_init_x11,
+#endif
+
+#if LV_USE_OPENGLES
+    backend_init_glfw3,
+#endif
+
+#if LV_USE_EVDEV
+    backend_init_evdev,
+#endif
+    NULL    /* Sentinel */
+};
+
 /* Contains the backend descriptors */
-static backend_t *backends[BACKEND_CNT] = {NULL};
+static backend_t *backends[sizeof(available_backends) / sizeof(backend_init_t)];
 
 /* Set once the user selects a backend - or it is set to the default backend */
 static backend_t *sel_display_backend = NULL;
 
+/**********************
+ *  GLOBAL VARIABLES
+ **********************/
 /* Contains global simulator settings common to each backend */
 simulator_settings_t settings;
 
-/**
- * @brief Register all available backends
- * @description Registers available backends by calling the init function of
- * each backend contained in available_backend array
- * it then and adds the descriptor to the backends array
- */
-static void register_backends(void)
+/**********************
+ *      MACROS
+ **********************/
+
+/**********************
+ *   GLOBAL FUNCTIONS
+ **********************/
+
+void driver_backends_register(void)
 {
     int i;
+    int cnt;
     backend_init_t init_backend;
     backend_t *b;
 
-    if (backends[0] != NULL) {
-        /* All available backends were already registered */
-        return;
-    }
+    cnt = sizeof(available_backends) / sizeof(backend_init_t);
 
-    for (i = 0; i < BACKEND_CNT; i++) {
+    for (i = 0; i < cnt; i++) {
         if (available_backends[i] != NULL) {
 
             b = malloc(sizeof(backend_t));
@@ -81,24 +139,17 @@ static void register_backends(void)
     }
 }
 
-
-/**
- * @brief Initialize the specified backend
- * @description in case of a display driver backend
- * - create the lv_display, in case of a indev driver backend
- * create an input device
- *
- * @param backend_name the name of the backend to initialize FBDEV,DRM etc
- * @return 0 on success, -1 on error
- */
-int lv_driver_backends_init_backend(const char *backend_name)
+int driver_backends_init_backend(const char *backend_name)
 {
     backend_t *b;
     int i;
     display_backend_t *dispb;
     indev_backend_t *indevb;
 
-    register_backends();
+    if (backends[0] == NULL) {
+        LV_LOG_ERROR("Please call driver_backends_register first");
+        return -1;
+    }
 
     if (backend_name == NULL) {
         /* set default display backend */
@@ -162,13 +213,7 @@ int lv_driver_backends_init_backend(const char *backend_name)
     return 0;
 }
 
-/**
- * @brief Retrieve a list of supported driver backends
- *
- * @return an array of strings containing the
- * names of all the supported backends
- */
-char **lv_driver_backends_get_supported(void)
+char **driver_backends_get_supported(void)
 {
 
     backend_t *backend;
@@ -176,17 +221,28 @@ char **lv_driver_backends_get_supported(void)
     char **list;
     char **supported_backends;
     int i;
+    int cnt;
 
-    register_backends();
+    i = 0;
+    cnt = sizeof(available_backends) / sizeof(backend_init_t);
 
-    list = supported_backends = malloc(sizeof(char *) * BACKEND_CNT + 1);
+    if (backends[0] == NULL) {
+        LV_LOG_ERROR("Please call driver_backends_register first");
+        return NULL;
+    }
+
+    list = supported_backends = malloc(sizeof(char *) * cnt + 1);
+    LV_ASSERT_NULL(list);
 
     while ((backend = backends[i]) != NULL) {
-        backend_name = malloc(strlen(backend->name));
-        strcpy(backend_name, backend->name);
 
-        *list = backend_name;
-        list++;
+        if (backend->type == BACKEND_DISPLAY) {
+            backend_name = malloc(strlen(backend->name));
+            strcpy(backend_name, backend->name);
+
+            *list = backend_name;
+            list++;
+        }
         i++;
     }
 
@@ -196,11 +252,8 @@ char **lv_driver_backends_get_supported(void)
     return supported_backends;
 }
 
-/**
- * @brief Enter the run loop
- * @description enter the run loop of the selected backend
- */
-void lv_driver_backends_run_loop(void)
+
+void driver_backends_run_loop(void)
 {
     display_backend_t *dispb;
 
@@ -213,3 +266,8 @@ void lv_driver_backends_run_loop(void)
         LV_LOG_ERROR("No backend has been selected - initialize the backend first");
     }
 }
+
+/**********************
+ *   STATIC FUNCTIONS
+ **********************/
+

@@ -1,6 +1,7 @@
-/*******************************************************************
+/**
+ * @file x11.c
  *
- * x11.c - driver for the X11 windowing system
+ * The backend for the X11 windowing system
  *
  * Based on the original file from the repository.
  *
@@ -9,29 +10,60 @@
  *
  * Author: EDGEMTech Ltd, Erik Tagirov (erik.tagirov@edgemtech.ch)
  *
- ******************************************************************/
+ */
+
+/*********************
+ *      INCLUDES
+ *********************/
+
 #include <unistd.h>
 #include <stdlib.h>
 #include <stdbool.h>
 
 #include "lvgl/lvgl.h"
-#include "lv_simulator_util.h"
-#include "lv_simulator_settings.h"
+#include "simulator_util.h"
+#include "simulator_settings.h"
 #include "backends.h"
 
-static char *backend_name = "X11";
+/*********************
+ *      DEFINES
+ *********************/
 
+/**********************
+ *      TYPEDEFS
+ **********************/
+
+/**********************
+ *  EXTERNAL VARIABLES
+ **********************/
 extern simulator_settings_t settings;
 
+/**********************
+ *  STATIC PROTOTYPES
+ **********************/
 static lv_display_t *init_x11(void);
 static void run_loop_x11(void);
 
+/**********************
+ *  STATIC VARIABLES
+ **********************/
+static char *backend_name = "X11";
+
+/**********************
+ *      MACROS
+ **********************/
+
+/**********************
+ *   GLOBAL FUNCTIONS
+ **********************/
+
 /**
- * @brief Register the backend
+ * Register the backend
+ *
  * @param backend the backend descriptor
  * @description configures the descriptor
  */
-void backend_init_x11(backend_t *backend)
+int backend_init_x11(backend_t *backend)
 {
     LV_ASSERT_NULL(backend);
     backend->handle->display = malloc(sizeof(display_backend_t));
@@ -42,10 +74,16 @@ void backend_init_x11(backend_t *backend)
     backend->handle->display->run_loop = run_loop_x11;
     backend->type = BACKEND_DISPLAY;
 
+    return 0;
 }
 
+/**********************
+ *   STATIC FUNCTIONS
+ **********************/
+
 /**
- * @brief Initialize the X11 display driver
+ * Initialize the X11 display driver
+ *
  * @return the LVGL display
  */
 static lv_display_t *init_x11(void)
@@ -68,7 +106,7 @@ static lv_display_t *init_x11(void)
 }
 
 /**
- * @brief The run loop of the X11 driver
+ * The run loop of the X11 driver
  */
 void run_loop_x11(void)
 {

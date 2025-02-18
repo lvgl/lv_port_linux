@@ -1,13 +1,16 @@
 cmake_minimum_required(VERSION 3.10)
 project(lvgl)
 
+
+set(CONF_PATH "${PROJECT_SOURCE_DIR}/lv_conf.h")
+
 foreach(BACKEND_NAME "SDL" "LINUX_DRM" "LINUX_FBDEV" "X11" "WAYLAND" "OPENGLES" "EVDEV")
-    execute_process(COMMAND "scripts/backend_conf.sh" ${BACKEND_NAME} OUTPUT_VARIABLE IS_BACKEND_ENABLED)
+    execute_process(COMMAND "${PROJECT_SOURCE_DIR}/scripts/backend_conf.sh" ${BACKEND_NAME} ${CONF_PATH} OUTPUT_VARIABLE IS_BACKEND_ENABLED)
     set("LV_USE_${BACKEND_NAME}" ${IS_BACKEND_ENABLED})
 endforeach()
 
 # Uncomment if the program needs debugging
-#set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -O0 -ggdb")
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -O0 -ggdb")
 
 set(CMAKE_C_STANDARD 99) # LVGL officially supports C99 and above
 set(CMAKE_CXX_STANDARD 17) #C17
@@ -122,12 +125,10 @@ set(LV_LINUX_INC src/lib)
 add_subdirectory(lvgl)
 target_include_directories(lvgl PUBLIC ${PROJECT_SOURCE_DIR} ${PROJECT_SOURCE_DIR}/src/lib ${PKG_CONFIG_INC})
 add_library(lvgl_linux STATIC ${LV_LINUX_SRC} ${LV_LINUX_BACKEND_SRC})
-target_include_directories(lvgl_linux PRIVATE ${LV_LINUX_INC})
-target_link_libraries(lvgl_linux lvgl lvgl::examples lvgl::demos lvgl::thorvg
-    m pthread ${PKG_CONFIG_LIB})
+target_include_directories(lvgl_linux PRIVATE ${LV_LINUX_INC} ${PROJECT_SOURCE_DIR})
 
-add_executable(lvglsim src/simulator.c ${LV_LINUX_SRC} ${LV_LINUX_BACKEND_SRC})
-target_link_libraries(lvglsim lvgl_linux)
+add_executable(lvglsim src/main.c ${LV_LINUX_SRC} ${LV_LINUX_BACKEND_SRC})
+target_link_libraries(lvglsim lvgl_linux lvgl lvgl::examples lvgl::demos lvgl::thorvg m pthread ${PKG_CONFIG_LIB})
 
 # Install the lvgl_linux library and its headers
 install(DIRECTORY src/lib/

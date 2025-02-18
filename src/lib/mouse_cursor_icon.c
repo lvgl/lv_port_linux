@@ -1,14 +1,15 @@
-/*******************************************************************
+/**
  *
- * mouse_cursor_icon.c - The C array containing the mouse
- * cursor icon
+ * @file mouse_cursor_icon.c
+ *
+ * The C array containing the mouse cursor icon
  *
  * Based on the original file from the repository
  * Copyright (c) 2025 EDGEMTech Ltd.
  *
  * Author: EDGEMTech Ltd, Erik Tagirov (erik.tagirov@edgemtech.ch)
  *
- ******************************************************************/
+ */
 #include "lvgl/lvgl.h"
 
 const uint8_t mouse_cursor_icon_map[] = {

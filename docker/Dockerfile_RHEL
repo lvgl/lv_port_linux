@@ -12,6 +12,8 @@ RUN dnf config-manager --set-enabled powertools || true
 RUN dnf config-manager --set-enabled ol8_codeready_builder || true
 
 # Rocky/Oracle 9+
+RUN dnf config-manager --set-enabled ol9_codeready_builder || true
+
 RUN dnf config-manager --set-enabled crb || true
 
 RUN dnf -y install epel-release
@@ -26,6 +28,8 @@ RUN dnf -y install SDL2-devel SDL2_image-devel
 
 # Required for LV_USE_LINUX_DRM
 RUN dnf -y install libdrm-devel
+
+RUN dnf 
 
 RUN mkdir /workdir
 WORKDIR /workdir

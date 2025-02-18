@@ -1,6 +1,7 @@
-/*******************************************************************
+/**
+ * @file wayland.c
  *
- * wayland.c - The wayland backend
+ * The wayland backend
  *
  * Based on the original file from the repository
  *
@@ -9,25 +10,55 @@
  *
  * Author: EDGEMTech Ltd, Erik Tagirov (erik.tagirov@edgemtech.ch)
  *
- ******************************************************************/
+ */
+
+/*********************
+ *      INCLUDES
+ *********************/
 #include <unistd.h>
 #include <stdbool.h>
 #include <stdlib.h>
 
 #include "lvgl/lvgl.h"
-#include "lv_simulator_util.h"
-#include "lv_simulator_settings.h"
+#include "simulator_util.h"
+#include "simulator_settings.h"
 #include "backends.h"
 
-extern simulator_settings_t settings;
+/*********************
+ *      DEFINES
+ *********************/
 
-static char *backend_name = "WAYLAND";
+/**********************
+ *      TYPEDEFS
+ **********************/
 
+/**********************
+ *  STATIC PROTOTYPES
+ **********************/
 static lv_display_t *init_wayland(void);
 static void run_loop_wayland(void);
 
+/**********************
+ *  STATIC VARIABLES
+ **********************/
+static char *backend_name = "WAYLAND";
+
+/**********************
+ *  EXTERNAL VARIABLES
+ **********************/
+extern simulator_settings_t settings;
+
+/**********************
+ *      MACROS
+ **********************/
+
+/**********************
+ *   GLOBAL FUNCTIONS
+ **********************/
+
 /**
- * @brief Register the backend
+ * Register the backend
+ *
  * @param backend the backend descriptor
  * @description configures the descriptor
  */
@@ -41,10 +72,17 @@ int backend_init_wayland(backend_t *backend)
     backend->handle->display->run_loop = run_loop_wayland;
     backend->name = backend_name;
     backend->type = BACKEND_DISPLAY;
+
+    return 0;
 }
 
+/**********************
+ *   STATIC FUNCTIONS
+ **********************/
+
 /**
- * @brief Initialize the Wayland display driver
+ * Initialize the Wayland display driver
+ *
  * @return the LVGL display
  */
 static lv_display_t *init_wayland(void)
@@ -75,7 +113,8 @@ static lv_display_t *init_wayland(void)
 }
 
 /**
- * @brief The run loop of the DRM driver
+ * The run loop of the DRM driver
+ *
  * @note Currently, the wayland driver calls lv_timer_handler internaly
  * The wayland driver needs to be re-written to match the other backends
  */
@@ -100,4 +139,3 @@ static void run_loop_wayland(void)
         }
     }
 }
-

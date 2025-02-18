@@ -1,6 +1,7 @@
-/******************************************************************
+/**
+ * @file fbdev.c
  *
- * fbdev.c - Legacy framebuffer device
+ * Legacy framebuffer device
  *
  * Based on the original file from the repository
  *
@@ -9,23 +10,51 @@
  *
  * Author: EDGEMTech Ltd, Erik Tagirov (erik.tagirov@edgemtech.ch)
  *
- ******************************************************************/
+ */
+
+/*********************
+ *      INCLUDES
+ *********************/
 #include <unistd.h>
 #include <stdlib.h>
 #include <stdbool.h>
 
 #include "lvgl/lvgl.h"
-#include "lv_simulator_util.h"
+#include "simulator_util.h"
 #include "backends.h"
 
-static char *backend_name = "FBDEV";
+/*********************
+ *      DEFINES
+ *********************/
+
+/**********************
+ *      TYPEDEFS
+ **********************/
+
+/**********************
+ *  STATIC PROTOTYPES
+ **********************/
 
 static lv_display_t *init_fbdev(void);
 static void run_loop_fbdev(void);
 
+/**********************
+ *  STATIC VARIABLES
+ **********************/
+
+static char *backend_name = "FBDEV";
+
+/**********************
+ *      MACROS
+ **********************/
+
+/**********************
+ *   GLOBAL FUNCTIONS
+ **********************/
 
 /**
- * @brief Register the backend
+ * Register the backend
+ *
  * @param backend the backend descriptor
  * @description configures the descriptor
  */
@@ -41,10 +70,16 @@ int backend_init_fbdev(backend_t *backend)
     backend->name = backend_name;
     backend->type = BACKEND_DISPLAY;
 
+    return 0;
 }
 
+/**********************
+ *   STATIC FUNCTIONS
+ **********************/
+
 /**
- * @brief Initialize the fbdev driver
+ * Initialize the fbdev driver
+ *
  * @return the LVGL display
  */
 static lv_display_t *init_fbdev(void)
@@ -62,7 +97,7 @@ static lv_display_t *init_fbdev(void)
 }
 
 /**
- * @brief The run loop of the fbdev driver
+ * The run loop of the fbdev driver
  */
 static void run_loop_fbdev(void)
 {

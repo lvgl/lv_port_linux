@@ -1,6 +1,8 @@
-/******************************************************************
+/**
  *
- * drm.c - The DRM/KMS backend
+ * @file drm.c
+ *
+ * The DRM/KMS backend
  *
  * Based on the original file from the repository
  *
@@ -9,27 +11,55 @@
  *
  * Author: EDGEMTech Ltd, Erik Tagirov (erik.tagirov@edgemtech.ch)
  *
- ******************************************************************/
+ */
+
+/*********************
+ *      INCLUDES
+ *********************/
 #include <unistd.h>
 #include <stdlib.h>
 #include <stdbool.h>
 
 #include "lvgl/lvgl.h"
-#include "lv_simulator_util.h"
-#include "lv_simulator_settings.h"
+#include "simulator_util.h"
+#include "simulator_settings.h"
 #include "backends.h"
 
+/*********************
+ *      DEFINES
+ *********************/
+
+/**********************
+ *      TYPEDEFS
+ **********************/
+
+/**********************
+ *  STATIC PROTOTYPES
+ **********************/
 static void run_loop_drm(void);
 static lv_display_t *init_drm(void);
 
+
+/**********************
+ *  STATIC VARIABLES
+ **********************/
 static char *backend_name = "DRM";
 
+/**********************
+ *      MACROS
+ **********************/
+
+/**********************
+ *   GLOBAL FUNCTIONS
+ **********************/
+
 /**
- * @brief Register the backend
+ * Register the backend
+ *
  * @param backend the backend descriptor
  * @description configure the descriptor
  */
-void backend_init_drm(backend_t *backend)
+int backend_init_drm(backend_t *backend)
 {
     LV_ASSERT_NULL(backend);
 
@@ -41,10 +71,16 @@ void backend_init_drm(backend_t *backend)
     backend->name = backend_name;
     backend->type = BACKEND_DISPLAY;
 
+    return 0;
 }
 
+/**********************
+ *   STATIC FUNCTIONS
+ **********************/
+
 /**
- * @brief Initialize the DRM display driver
+ * Initialize the DRM display driver
+ *
  * @return the LVGL display
  */
 static lv_display_t *init_drm(void)
@@ -63,7 +99,7 @@ static lv_display_t *init_drm(void)
 
 
 /**
- * @brief The run loop of the DRM driver
+ * The run loop of the DRM driver
  */
 static void run_loop_drm(void)
 {

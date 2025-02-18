@@ -1,6 +1,7 @@
-/******************************************************************
+/**
+ * @file glfw3.c
  *
- * glfw3.c - The GLFW3 backend
+ * The GLFW3 backend
  *
  * Based on the original file from the repository
  *
@@ -9,29 +10,59 @@
  *
  * Author: EDGEMTech Ltd, Erik Tagirov (erik.tagirov@edgemtech.ch)
  *
- ******************************************************************/
+ */
+
+/*********************
+ *      INCLUDES
+ *********************/
 
 #include <unistd.h>
 #include <stdlib.h>
 #include <stdbool.h>
 #include "lvgl/lvgl.h"
-#include "lv_simulator_util.h"
-#include "lv_simulator_settings.h"
+#include "simulator_util.h"
+#include "simulator_settings.h"
 #include "backends.h"
 
-extern simulator_settings_t settings;
+/*********************
+ *      DEFINES
+ *********************/
 
-static char *backend_name = "GLFW";
+/**********************
+ *      TYPEDEFS
+ **********************/
 
+/**********************
+ *  STATIC PROTOTYPES
+ **********************/
 static void run_loop_glfw3(void);
 static lv_display_t *init_glfw3(void);
 
+/**********************
+ *  STATIC VARIABLES
+ **********************/
+static char *backend_name = "GLFW";
+
+/**********************
+ *  EXTERNAL VARIABLES
+ **********************/
+extern simulator_settings_t settings;
+
+/**********************
+ *      MACROS
+ **********************/
+
+/**********************
+ *   GLOBAL FUNCTIONS
+ **********************/
+
 /**
- * @brief Register the backend
+ * Register the backend
+ *
  * @param backend the backend descriptor
  * @description configures the descriptor
  */
-void backend_init_glfw3(backend_t *backend)
+int backend_init_glfw3(backend_t *backend)
 {
 
     LV_ASSERT_NULL(backend);
@@ -44,10 +75,17 @@ void backend_init_glfw3(backend_t *backend)
     backend->name = backend_name;
     backend->type = BACKEND_DISPLAY;
 
+    return 0;
+
 }
 
+/**********************
+ *   STATIC FUNCTIONS
+ **********************/
+
 /**
- * @brief Initialize the GLFW3 display driver
+ * Initialize the GLFW3 display driver
+ *
  * @note GLFW3 provides OpenGL but also handles inputs devices
  * @return the LVGL display
  */
@@ -86,7 +124,7 @@ static lv_display_t *init_glfw3(void)
 }
 
 /**
- * @brief The run loop of the GLFW3 driver
+ * The run loop of the GLFW3 driver
  */
 void run_loop_glfw3(void)
 {

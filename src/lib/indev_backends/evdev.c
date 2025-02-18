@@ -1,37 +1,69 @@
-/******************************************************************
+/**
  *
- * evdev.c - The lib evdev driver
+ * @file evdev.c
+ *
+ * The lib evdev driver
+ *
  * Based on the original file from the repository
  *
  * - Move the driver to a separate file to avoid excessive conditional
- * Author: EDGEMTech Ltd, Erik Tagirov (erik.tagirov@edgemtech.ch)
+ *   compilation
+ *   Author: EDGEMTech Ltd, Erik Tagirov (erik.tagirov@edgemtech.ch)
  *
  * Copyright (c) 2025 EDGEMTech Ltd.
  *
- ******************************************************************/
+ */
+
+/*********************
+ *      INCLUDES
+ *********************/
 #include <stdbool.h>
 #include <stdlib.h>
 #include <unistd.h>
 
 #include "lvgl/lvgl.h"
 #include "lvgl/src/core/lv_global.h"
-#include "lv_simulator_util.h"
+#include "simulator_util.h"
 #include "backends.h"
 
-static char *backend_name = "EVDEV";
+/*********************
+ *      DEFINES
+ *********************/
 
-/* Internal functions */
+/**********************
+ *      TYPEDEFS
+ **********************/
+
+/**********************
+ *  STATIC PROTOTYPES
+ **********************/
+
 static void init_evdev(lv_display_t *display);
 static void indev_deleted_cb(lv_event_t *e);
 static void discovery_cb(lv_indev_t *indev, lv_evdev_type_t type, void *user_data);
 static void set_mouse_cursor_icon(lv_indev_t *indev, lv_display_t *display);
 static lv_indev_t *init_pointer_evdev(lv_display_t *display);
 
+/**********************
+ *  STATIC VARIABLES
+ **********************/
+
+static char *backend_name = "EVDEV";
+
+/**********************
+ *      MACROS
+ **********************/
+
+/**********************
+ *   GLOBAL FUNCTIONS
+ **********************/
+
 /*
- * @brief Initialize the evdev driver
+ * Initialize the evdev driver
+ *
  * @param backend the backend descriptor
  */
-void backend_init_evdev(backend_t *backend)
+int backend_init_evdev(backend_t *backend)
 {
     LV_ASSERT_NULL(backend);
     backend->handle->indev = malloc(sizeof(indev_backend_t));
@@ -44,8 +76,13 @@ void backend_init_evdev(backend_t *backend)
 }
 
 
+/**********************
+ *   STATIC FUNCTIONS
+ **********************/
+
 /*
- * @brief Remove cursor icon
+ * Remove cursor icon
+ *
  * @description When the indev is deleted remove the mouse cursor icon
  * @note called by the LVGL evdev driver
  * @param e the deletion event
@@ -59,7 +96,8 @@ static void indev_deleted_cb(lv_event_t *e)
 
 
 /*
- * @brief Set cursor icon
+ * Set cursor icon
+ *
  * @description Once the input device is discovered set the mouse cursor icon
  * @note called by the LVGL evdev driver
  * @param indev the input device
@@ -82,7 +120,8 @@ static void discovery_cb(lv_indev_t *indev, lv_evdev_type_t type, void *user_dat
 }
 
 /*
- * @brief Set cursor icon
+ * Set cursor icon
+ *
  * @description Enables a pointer (touchscreen/mouse) input device
  * @param display the display on which to create
  * @param indev the input device to set the cursor on
@@ -101,12 +140,14 @@ static void set_mouse_cursor_icon(lv_indev_t *indev, lv_display_t *display)
 }
 
 /*
- * @brief Initialize a mouse pointer device
- * @description Enables a pointer (touchscreen/mouse) input device
+ * Initialize a mouse pointer device
+ *
+ * Enables a pointer (touchscreen/mouse) input device
  * Use 'evtest' to find the correct input device. /dev/input/by-id/ is recommended if possible
  * Use /dev/input/by-id/my-mouse-or-touchscreen or /dev/input/eventX
  *
  * If LV_LINUX_EVDEV_POINTER_DEVICE is not set, automatic evdev disovery will start
+ *
  * @param display the LVGL display
  *
  * @return input device
