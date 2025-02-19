@@ -11,10 +11,6 @@ jobs:
           - { image: "debian:bookworm", dockerfile: "Dockerfile_DEBIAN" }
           - { image: "ubuntu:20.04", dockerfile: "Dockerfile_DEBIAN" }
           - { image: "ubuntu:22.04", dockerfile: "Dockerfile_DEBIAN" }
-          - { image: "rockylinux:8", dockerfile: "Dockerfile_RHEL" }
-          - { image: "rockylinux:9", dockerfile: "Dockerfile_RHEL" }
-          - { image: "oraclelinux:8", dockerfile: "Dockerfile_RHEL" }
-          - { image: "oraclelinux:9", dockerfile: "Dockerfile_RHEL" }
       fail-fast: false
 
     runs-on: ubuntu-latest
