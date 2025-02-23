@@ -110,7 +110,16 @@ static void lv_linux_disp_init(void)
 {
 
     lv_sdl_window_create(window_width, window_height);
+    
+    lv_group_t * g = lv_group_create();
+    lv_group_set_default(g);
 
+    lv_sdl_mouse_create();
+    lv_indev_t * mousewheel = lv_sdl_mousewheel_create();
+    lv_indev_set_group(mousewheel, lv_group_get_default());
+
+    lv_indev_t * keyboard = lv_sdl_keyboard_create();
+    lv_indev_set_group(keyboard, lv_group_get_default());
 }
 #elif LV_USE_WAYLAND
     /* see backend/wayland.c */
