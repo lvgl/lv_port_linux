@@ -1,113 +1,116 @@
 # LVGL on top of Linux graphics stack
 
-Example project to use LVGL on top of Linux graphics stack.
-Currently supported backends are legacy framebuffer
-(fbdev), modern DRM/KMS, Wayland or SDL2.
+This is an example project demonstrating how to use LVGL on
+a GNU/Linux systems and other Unix-like operating systems
 
-By default, legacy framebuffer backend uses `/dev/fb0` device node,
-DRM/KMS backend uses '/dev/dri/card0' card node, SDL2 uses window
-resolution of 800x480.
+LVGL provides drivers for many graphics backends.
+Legacy framebuffer (fbdev), modern DRM/KMS, Wayland, X11, GLFW3 and SDL2.
 
-Check out this blog post for a step by step tutorial:
+Check out this blog post for a step by step tutorial for fbdev
 https://blog.lvgl.io/2018-01-03/linux_fb
-
-## Build dependencies
-Check the [Dockerfiles](docker/) for the build dependencies.  
 
 ## Clone the project
 
-Clone the LVGL Framebuffer Demo project and its related sub modules.
+Clone the project
 
 ```
 git clone https://github.com/lvgl/lv_port_linux.git
 cd lv_port_linux/
+```
+
+LVGL is a submodule of `lv_port_linux`, use the following command
+to fetch it, it will be downloaded to the `lvgl/` directory
+
+```
 git submodule update --init --recursive
 ```
 
-## Select graphics backend
+## Configure drivers and libraries
 
-To use legacy framebuffer (fbdev) support, adjust `lv_conf.h` as follows:
-```
-#define LV_USE_LINUX_FBDEV	1
-#define LV_USE_LINUX_DRM	0
-#define LV_USE_SDL		0
-#define LV_USE_WAYLAND		0
-```
+Adjust `lv_conf.h` to select the drivers and libraries that will be compiled by
+modifying the following definitions, setting them to `1` or `0`
 
-To use modern DRM/KMS support, adjust `lv_conf.h` as follows:
-```
-#define LV_USE_LINUX_FBDEV	0
-#define LV_USE_LINUX_DRM	1
-#define LV_USE_SDL		0
-#define LV_USE_WAYLAND		0
-```
+### Graphics drivers
 
-To use SDL2 support, adjust `lv_conf.h` as follows:
-```
-#define LV_USE_LINUX_FBDEV	0
-#define LV_USE_LINUX_DRM	0
-#define LV_USE_SDL		1
-#define LV_USE_WAYLAND		0
-```
+| Definition         | Description                             |
+| ------------------ | ----------------------------------------|
+| LV_USE_LINUX_FBDEV | Legacy frame buffer (/dev/fb*)          |
+| LV_USE_LINUX_DRM   | DRM/KMS (/dev/dri/*)                    |
+| LV_USE_SDL         | SDL                                     |
+| LV_USE_WAYLAND     | WAYLAND                                 |
+| LV_USE_X11         | X11                                     |
+| LV_USE_OPENGLES    | GLFW3                                   |
 
+### Device drivers
 
-To use wayland, adjust `lv_conf.h` as follows:
-```
-#define LV_USE_LINUX_FBDEV	0
-#define LV_USE_LINUX_DRM	0
-#define LV_USE_SDL		0
-#define LV_USE_WAYLAND		1
-```
+| Definition         | Description                             |
+| ------------------ | ----------------------------------------|
+| LV_USE_EVDEV       | libevdev input devices                  |
 
-## Enable Input
+## Install dependencies
 
-To use EVDEV with fbdev or DRM, adjust `lv_conf.h` as follows:
-```
-#define LV_USE_EVDEV	1
-```
+Be sure to install the required dependencies for the selected drivers by checking
+the documentation for each driver here:
+https://docs.lvgl.io/master/details/integration/driver/
 
+You can also check the [Dockerfiles](docker/) to get the names
+of the packages for various distributions
 
-## cmake
+## Build instructions
 
-1. gcc compiler:
+LVGL supports GNU make and CMake
+
+### CMake
 
 ```
 cmake -B build -S .
 make -C build -j
 ```
-2. Cross compiler:
 
-```
-vim ./user_cross_compile_setup.cmake
-cmake -DCMAKE_TOOLCHAIN_FILE=./user_cross_compile_setup.cmake -B build -S .
-make  -C build -j
-```
-
-## Makefile
+### GNU make
 
 ```
 make -j
 ```
 
-## Command line options
+Cross compilation is supported with CMake, edit the `user_cross_compile_setup.cmake`
+to set the location of the compiler toolchain and build using the commands below
 
-Command line options are used to modify behavior of the demo, they take precedence over environment variables.
+```
+cmake -DCMAKE_TOOLCHAIN_FILE=./user_cross_compile_setup.cmake -B build -S .
+make  -C build -j
+```
 
-### Wayland
+### Installing LVGL
 
-- `-f` - enters fullscreen on startup
-- `-m` - maximizes window on startup
-- `-w <window width>` - set the width of the window
-- `-h <window height>` - set the height of the window
+It is possible to install LVGL to your system however, this is currently only
+supported with cmake.
 
-### SDL2
+```
+cmake --install ./build
+```
 
-- `-w <window width>` - set the width of the window
-- `-h <window height>` - set the height of the window
+## Run the demo application
+
+```
+./build/bin/lvglsim
+```
+This will start the widgets demo
+
+If multiple backends are enabled you can run with a specific backend via the `-b` option
+
+```
+./build/bin/lvglsim -b sdl
+```
+
+To get a list of supported backends use the `-B` option
+
 
 ## Environment variables
 
-Environment variables can be set to modify the behavior of the demo.
+Environment variables can be set to modify the behavior of the driver(s)
+Check the documentation of the drivers for more details
+
 
 ### Legacy framebuffer (fbdev)
 
@@ -124,41 +127,22 @@ Environment variables can be set to modify the behavior of the demo.
 
 - `LV_LINUX_DRM_CARD` - override default (`/dev/dri/card0`) card.
 
-### SDL2
-
-- `LV_SIM_WINDOW_WIDTH` - width of SDL2 surface (default `800`).
-- `LV_SIM_WINDOW_HEIGHT` - height of SDL2 surface (default `480`).
-
-### Wayland
+### Simulator
 
 - `LV_SIM_WINDOW_WIDTH` - width of the window (default `800`).
 - `LV_SIM_WINDOW_HEIGHT` - height of the window (default `480`).
 
 
-## Run the demo application
+## Permissions
 
-### FBDEV
-
-Unpriviledged users don't have access to the framebuffer device `/dev/fb0`
+When using fbdev or DRM, run lvglsim with `sudo` or `su`,
+Usually, unpriviledged users don't have access to the framebuffer device `/dev/fb0`
 `sudo` or `su` must be used.
-
-cmake:
-```
-sudo ./bin/lvglsim
-```
-
-Makefile:
-```
-cd build/bin/
-sudo main
-```
 
 Access to the framebuffer device can be granted by adding the unpriviledged user to the `video` group
 
-cmake:
 ```
 sudo adduser $USER video
 newgrp video
-./bin/lvglsim
+./build/bin/lvglsim
 ```
-

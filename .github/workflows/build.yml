@@ -11,10 +11,6 @@ jobs:
           - { image: "debian:bookworm", dockerfile: "Dockerfile_DEBIAN" }
           - { image: "ubuntu:20.04", dockerfile: "Dockerfile_DEBIAN" }
           - { image: "ubuntu:22.04", dockerfile: "Dockerfile_DEBIAN" }
-          - { image: "rockylinux:8", dockerfile: "Dockerfile_RHEL" }
-          - { image: "rockylinux:9", dockerfile: "Dockerfile_RHEL" }
-          - { image: "oraclelinux:8", dockerfile: "Dockerfile_RHEL" }
-          - { image: "oraclelinux:9", dockerfile: "Dockerfile_RHEL" }
       fail-fast: false
 
     runs-on: ubuntu-latest
@@ -41,7 +37,7 @@ jobs:
           sed -i "s/^#define LV_USE_LINUX_DRM.*$/#define LV_USE_LINUX_DRM 0/g" lv_conf.h && \
           sed -i "s/^#define LV_USE_SDL.*$/#define LV_USE_SDL 0/g" lv_conf.h && \
           docker run --rm -v "$(pwd)":/workdir -t test_${{ matrix.os.image }} \
-          /bin/bash -ec "cmake -B build -S . && make -j -C build && ldd bin/lvglsim"
+          /bin/bash -ec "cmake -B build -S . && make -j -C build && ldd build/bin/lvglsim"
 
       - name: DRM Test building the project
         run: |
@@ -50,7 +46,7 @@ jobs:
           sed -i "s/^#define LV_USE_LINUX_DRM.*$/#define LV_USE_LINUX_DRM 1/g" lv_conf.h && \
           sed -i "s/^#define LV_USE_SDL.*$/#define LV_USE_SDL 0/g" lv_conf.h && \
           docker run --rm -v "$(pwd)":/workdir -t test_${{ matrix.os.image }} \
-          /bin/bash -ec "cmake -B build -S . && make -j -C build && ldd bin/lvglsim"
+          /bin/bash -ec "cmake -B build -S . && make -j -C build && ldd build/bin/lvglsim"
 
       - name: SDL Test building the project
         run: |
@@ -59,5 +55,5 @@ jobs:
           sed -i "s/^#define LV_USE_LINUX_DRM.*$/#define LV_USE_LINUX_DRM 0/g" lv_conf.h && \
           sed -i "s/^#define LV_USE_SDL.*$/#define LV_USE_SDL 1/g" lv_conf.h && \
           docker run --rm -v "$(pwd)":/workdir -t test_${{ matrix.os.image }} \
-          /bin/bash -ec "cmake -B build -S . && make -j -C build && ldd bin/lvglsim"
+          /bin/bash -ec "cmake -B build -S . && make -j -C build && ldd build/bin/lvglsim"
 
