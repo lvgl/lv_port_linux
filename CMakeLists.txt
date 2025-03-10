@@ -5,12 +5,15 @@ project(lvgl)
 set(CONF_PATH "${PROJECT_SOURCE_DIR}/lv_conf.h")
 
 foreach(BACKEND_NAME "SDL" "LINUX_DRM" "LINUX_FBDEV" "X11" "WAYLAND" "OPENGLES" "EVDEV")
-    execute_process(COMMAND "${PROJECT_SOURCE_DIR}/scripts/backend_conf.sh" ${BACKEND_NAME} ${CONF_PATH} OUTPUT_VARIABLE IS_BACKEND_ENABLED)
+
+    execute_process(WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}
+                    COMMAND "scripts/backend_conf.sh" ${BACKEND_NAME} ${CONF_PATH} OUTPUT_VARIABLE IS_BACKEND_ENABLED)
     set("LV_USE_${BACKEND_NAME}" ${IS_BACKEND_ENABLED})
+
 endforeach()
 
 # Uncomment if the program needs debugging
-set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -O0 -ggdb")
+#set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -O0 -ggdb")
 
 set(CMAKE_C_STANDARD 99) # LVGL officially supports C99 and above
 set(CMAKE_CXX_STANDARD 17) #C17

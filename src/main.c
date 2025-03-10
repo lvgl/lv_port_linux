@@ -34,8 +34,6 @@
 
 /* Internal functions */
 static void configure_simulator(int argc, char **argv);
-static int backend_exists(char **supported_backends, char *backend_name);
-static void print_supported_backends(char **supported_backends);
 static void print_lvgl_version(void);
 static void print_usage(void);
 
@@ -46,57 +44,6 @@ static char *selected_backend;
 /* Global simulator settings, defined in lv_linux_backend.c */
 extern simulator_settings_t settings;
 
-
-/**
- * @brief Print supported backends
- * @description Prints a list of supported backends
- *
- * @param supported_backends array of strings containing a list of supported backends
- */
-static void print_supported_backends(char **supported_backends)
-{
-    int i;
-    char *backend;
-
-    backend = *supported_backends++;
-
-    fprintf(stdout, "Default backend: %s\n", backend);
-    fprintf(stdout, "Supported backends: ");
-
-    while (backend != NULL) {
-        fprintf(stdout, "%s ", backend);
-        backend = *supported_backends++;
-    }
-
-    fprintf(stdout, "\n");
-
-}
-
-/**
- * @brief Checks if a backend exists in the available backends list
- * @param supported_backends array of strings containing a list of supported backends
- * @param backend_name the backend name to check
- * @return 1 if exists, 0 if doesn't exist
- */
-static int backend_exists(char **supported_backends, char *backend_name)
-{
-    char *b;
-    char c;
-    char *name = backend_name;
-
-    while ((c = *backend_name) != '\0') {
-        *backend_name = toupper(c);
-        *backend_name++;
-    }
-
-    while ((b = *supported_backends++) != NULL) {
-        if (strcmp(b, name) == 0) {
-            return 1;
-        }
-    }
-
-    return 0;
-}
 
 /**
  * @brief Print LVGL version
@@ -131,14 +78,9 @@ static void configure_simulator(int argc, char **argv)
 {
     int opt = 0;
     char *backend_name;
-    char **supported_backends;
 
+    selected_backend = NULL;
     driver_backends_register();
-    supported_backends = driver_backends_get_supported();
-
-    if (supported_backends == NULL) {
-        die("Failed to retrieve supported backends list\n");
-    }
 
     /* Default values */
     settings.window_width = atoi(getenv("LV_SIM_WINDOW_WIDTH") ? : "800");
@@ -156,11 +98,11 @@ static void configure_simulator(int argc, char **argv)
             exit(EXIT_SUCCESS);
             break;
         case 'B':
-            print_supported_backends(supported_backends);
+            driver_backends_print_supported();
             exit(EXIT_SUCCESS);
             break;
         case 'b':
-            if (backend_exists(supported_backends, optarg) == 0) {
+            if (driver_backends_is_supported(optarg) == 0) {
                 die("error no such backend: %s\n", optarg);
             }
             selected_backend = strdup(optarg);
@@ -180,11 +122,6 @@ static void configure_simulator(int argc, char **argv)
             die("Unknown option -%c.\n", optopt);
         }
     }
-
-    if (selected_backend == NULL) {
-        /* Select the default backend */
-        selected_backend = *supported_backends;
-    }
 }
 
 /**
@@ -201,14 +138,13 @@ int main(int argc, char **argv)
     /* Initialize LVGL. */
     lv_init();
 
-
     /* Initialize the configured backend */
     if (driver_backends_init_backend(selected_backend) == -1) {
         die("Failed to initialize display backend");
     }
 
     /* Enable for EVDEV support */
-#if 0
+#if LV_USE_EVDEV
     if (driver_backends_init_backend("EVDEV") == -1) {
         die("Failed to initialize evdev");
     }

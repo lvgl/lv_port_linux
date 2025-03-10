@@ -55,15 +55,22 @@ void driver_backends_register(void);
  * @param backend_name the name of the backend to initialize FBDEV,DRM etc
  * @return 0 on success, -1 on error
  */
-int driver_backends_init_backend(const char *backend_name);
+int driver_backends_init_backend(char *backend_name);
 
 /**
- * Retrieve a list of supported driver backends
- *
- * @return an array of strings containing the
- * names of all the supported backends
+ * @brief Checks if a backend exists and is supported
+ * @param backend_name the backend name to check
+ * @return 1 is supported, 0 not supported or invalid name
  */
-char **driver_backends_get_supported(void);
+int driver_backends_is_supported(char *backend_name);
+
+/**
+ * @brief Print supported backends
+ * @description Prints a list of supported backends
+ *
+ * @return -1 if an error occurred, 0 on success
+ */
+int driver_backends_print_supported(void);
 
 /**
  * @brief Enter the run loop

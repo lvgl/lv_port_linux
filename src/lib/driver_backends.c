@@ -18,6 +18,7 @@
 #include <stdint.h>
 #include <stdbool.h>
 #include <string.h>
+#include <ctype.h>
 
 #include "lvgl/lvgl.h"
 
@@ -94,7 +95,7 @@ backend_init_t available_backends[] = {
 };
 
 /* Contains the backend descriptors */
-static backend_t *backends[sizeof(available_backends) / sizeof(backend_init_t)];
+static backend_t *backends[sizeof(available_backends) / sizeof(available_backends[0])];
 
 /* Set once the user selects a backend - or it is set to the default backend */
 static backend_t *sel_display_backend = NULL;
@@ -120,26 +121,29 @@ void driver_backends_register(void)
     backend_init_t init_backend;
     backend_t *b;
 
-    cnt = sizeof(available_backends) / sizeof(backend_init_t);
+    i = 0;
+    if (backends[i] != NULL) {
+        /* backends are already registered - leave */
+        return;
+    }
 
-    for (i = 0; i < cnt; i++) {
-        if (available_backends[i] != NULL) {
+    while ((init_backend = available_backends[i]) != NULL) {
 
-            b = malloc(sizeof(backend_t));
-            LV_ASSERT_NULL(b);
+        b = malloc(sizeof(backend_t));
+        LV_ASSERT_NULL(b);
 
-            b->handle = malloc(sizeof(backend_handle_t));
+        b->handle = malloc(sizeof(backend_handle_t));
 
-            init_backend = available_backends[i];
-            LV_ASSERT_NULL(init_backend);
+        init_backend = available_backends[i];
+        LV_ASSERT_NULL(init_backend);
 
-            init_backend(b);
-            backends[i] = b;
-        }
+        init_backend(b);
+        backends[i] = b;
+        i++;
     }
 }
 
-int driver_backends_init_backend(const char *backend_name)
+int driver_backends_init_backend(char *backend_name)
 {
     backend_t *b;
     int i;
@@ -152,7 +156,11 @@ int driver_backends_init_backend(const char *backend_name)
     }
 
     if (backend_name == NULL) {
-        /* set default display backend */
+
+        /*
+         * Set default display backend - which is the first defined
+         * item in available_backends array
+         */
         LV_ASSERT_NULL(backends[0]);
         b = backends[0];
 
@@ -160,6 +168,8 @@ int driver_backends_init_backend(const char *backend_name)
             LV_LOG_ERROR("The default backend: %s is not a display driver backend", b->name);
             return -1;
         }
+
+        backend_name = backends[0]->name;
     }
 
     i = 0;
@@ -213,45 +223,51 @@ int driver_backends_init_backend(const char *backend_name)
     return 0;
 }
 
-char **driver_backends_get_supported(void)
+int driver_backends_print_supported(void)
 {
-
-    backend_t *backend;
-    char *backend_name;
-    char **list;
-    char **supported_backends;
     int i;
-    int cnt;
+    backend_t *b;
 
     i = 0;
-    cnt = sizeof(available_backends) / sizeof(backend_init_t);
-
-    if (backends[0] == NULL) {
+    if (backends[i] == NULL) {
         LV_LOG_ERROR("Please call driver_backends_register first");
-        return NULL;
+        return -1;
     }
 
-    list = supported_backends = malloc(sizeof(char *) * cnt + 1);
-    LV_ASSERT_NULL(list);
+    b = backends[i];
 
-    while ((backend = backends[i]) != NULL) {
+    fprintf(stdout, "Default backend: %s\n", b->name);
+    fprintf(stdout, "Supported backends: ");
 
-        if (backend->type == BACKEND_DISPLAY) {
-            backend_name = malloc(strlen(backend->name));
-            strcpy(backend_name, backend->name);
-
-            *list = backend_name;
-            list++;
-        }
-        i++;
+    while ((b = backends[i++]) != NULL) {
+        fprintf(stdout, "%s ", b->name);
     }
 
-    /* Sentinel - terminate list */
-    *list = NULL;
+    fprintf(stdout, "\n");
+    return 0;
 
-    return supported_backends;
 }
 
+int driver_backends_is_supported(char *backend_name)
+{
+    char c;
+    backend_t *b;
+    char *name = backend_name;
+    int i = 0;
+
+    while ((c = *backend_name) != '\0') {
+        *backend_name = toupper(c);
+        *backend_name++;
+    }
+
+    while ((b = backends[i++]) != NULL) {
+        if (strcmp(b->name, name) == 0) {
+            return 1;
+        }
+    }
+
+    return 0;
+}
 
 void driver_backends_run_loop(void)
 {
