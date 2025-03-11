@@ -11,6 +11,9 @@ then
 	mkdir wl_protocols
 	wayland-scanner client-header "$SDKTARGETSYSROOT/usr/share/wayland-protocols/stable/xdg-shell/xdg-shell.xml" "wl_protocols/wayland_xdg_shell.h"
 	wayland-scanner private-code "$SDKTARGETSYSROOT/usr/share/wayland-protocols/stable/xdg-shell/xdg-shell.xml" "wl_protocols/wayland_xdg_shell.c"
-fi
+	wayland-scanner client-header "$SDKTARGETSYSROOT/usr/share/wayland-protocols/unstable/linux-dmabuf/linux-dmabuf-unstable-v1.xml" "wl_protocols/linux-dmabuf-unstable-v1-client-protocol.h"
+	wayland-scanner private-code "$SDKTARGETSYSROOT/usr/share/wayland-protocols/unstable/linux-dmabuf/linux-dmabuf-unstable-v1.xml" "wl_protocols/linux-dmabuf-unstable-v1-protocol.c"
 
-printf "wl_protocols/wayland_xdg_shell.c"
+	wayland-scanner client-header "$SDKTARGETSYSROOT/usr/share/wayland-protocols/unstable/linux-explicit-synchronization/linux-explicit-synchronization-unstable-v1.xml" "wl_protocols/linux-explicit-synchronization-unstable-v1-client-protocol.h"
+	wayland-scanner private-code "$SDKTARGETSYSROOT/usr/share/wayland-protocols/unstable/linux-explicit-synchronization/linux-explicit-synchronization-unstable-v1.xml" "wl_protocols/linux-explicit-synchronization-unstable-v1-protocol.c"
+fi

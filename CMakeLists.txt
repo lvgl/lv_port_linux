@@ -78,7 +78,9 @@ if (LV_USE_WAYLAND)
     execute_process(COMMAND "scripts/gen_wl_protocols.sh" OUTPUT_VARIABLE WAYLAND_PROTOCOLS_SRC)
 
     list(APPEND PKG_CONFIG_INC "${PROJECT_SOURCE_DIR}/wl_protocols")
-    list(APPEND LV_LINUX_BACKEND_SRC src/lib/display_backends/wayland.c wl_protocols/wayland_xdg_shell.c)
+    list(APPEND LV_LINUX_BACKEND_SRC src/lib/display_backends/wayland.c wl_protocols/wayland_xdg_shell.c
+                                     wl_protocols/linux-dmabuf-unstable-v1-protocol.c
+                                     wl_protocols/linux-explicit-synchronization-unstable-v1-protocol.c)
 
 endif()
 
