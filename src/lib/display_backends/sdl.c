@@ -20,6 +20,7 @@
 #include <stdbool.h>
 
 #include "lvgl/lvgl.h"
+#if LV_USE_SDL
 #include "simulator_util.h"
 #include "simulator_settings.h"
 #include "backends.h"
@@ -113,3 +114,4 @@ static void run_loop_sdl(void)
         usleep(idle_time * 1000);
     }
 }
+#endif /*#if LV_USE_SDL*/

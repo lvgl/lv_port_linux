@@ -22,6 +22,7 @@
 #include <unistd.h>
 
 #include "lvgl/lvgl.h"
+#if LV_USE_EVDEV
 #include "lvgl/src/core/lv_global.h"
 #include "simulator_util.h"
 #include "backends.h"
@@ -172,3 +173,4 @@ static lv_indev_t *init_pointer_evdev(lv_display_t *display)
 
     set_mouse_cursor_icon(indev, display);
 }
+#endif /*#if LV_USE_EVDEV*/

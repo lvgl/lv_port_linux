@@ -20,6 +20,7 @@
 #include <stdlib.h>
 
 #include "lvgl/lvgl.h"
+#if LV_USE_WAYLAND
 #include "simulator_util.h"
 #include "simulator_settings.h"
 #include "backends.h"
@@ -139,3 +140,5 @@ static void run_loop_wayland(void)
         }
     }
 }
+
+#endif /*#if LV_USE_WAYLAND*/

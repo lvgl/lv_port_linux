@@ -19,7 +19,9 @@
 #include <unistd.h>
 #include <stdlib.h>
 #include <stdbool.h>
+
 #include "lvgl/lvgl.h"
+#if LV_USE_OPENGLES
 #include "simulator_util.h"
 #include "simulator_settings.h"
 #include "backends.h"
@@ -138,3 +140,5 @@ void run_loop_glfw3(void)
         usleep(idle_time * 1000);
     }
 }
+
+#endif /*#if LV_USE_OPENGLES*/

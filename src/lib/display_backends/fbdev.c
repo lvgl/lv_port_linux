@@ -20,6 +20,7 @@
 #include <stdbool.h>
 
 #include "lvgl/lvgl.h"
+#if LV_USE_FBDEV
 #include "simulator_util.h"
 #include "backends.h"
 
@@ -111,3 +112,5 @@ static void run_loop_fbdev(void)
         usleep(idle_time * 1000);
     }
 }
+
+#endif /*LV_USE_FBDEV*/

@@ -21,6 +21,7 @@
 #include <stdbool.h>
 
 #include "lvgl/lvgl.h"
+#if LV_USE_DRM
 #include "simulator_util.h"
 #include "simulator_settings.h"
 #include "backends.h"
@@ -112,3 +113,5 @@ static void run_loop_drm(void)
         usleep(idle_time * 1000);
     }
 }
+
+#endif /*#if LV_USE_DRM*/

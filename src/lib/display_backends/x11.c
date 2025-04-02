@@ -21,6 +21,7 @@
 #include <stdbool.h>
 
 #include "lvgl/lvgl.h"
+#if LV_USE_X11
 #include "simulator_util.h"
 #include "simulator_settings.h"
 #include "backends.h"
@@ -119,3 +120,5 @@ void run_loop_x11(void)
         usleep(idle_time * 1000);
     }
 }
+
+#endif /*#if LV_USE_X11*/
