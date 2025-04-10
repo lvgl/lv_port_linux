@@ -1180,6 +1180,7 @@
     #define LV_LINUX_FBDEV_RENDER_MODE   LV_DISPLAY_RENDER_MODE_PARTIAL
     #define LV_LINUX_FBDEV_BUFFER_COUNT  2
     #define LV_LINUX_FBDEV_BUFFER_SIZE   1080
+    #define LV_LINUX_FBDEV_MMAP          1
 #endif
 
 /** Use Nuttx to open window and handle touchscreen */
