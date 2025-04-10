@@ -28,9 +28,9 @@
 #include "lvgl/lvgl.h"
 #include "lvgl/demos/lv_demos.h"
 
-#include "driver_backends.h"
-#include "simulator_util.h"
-#include "simulator_settings.h"
+#include "src/lib/driver_backends.h"
+#include "src/lib/simulator_util.h"
+#include "src/lib/simulator_settings.h"
 
 /* Internal functions */
 static void configure_simulator(int argc, char **argv);
