@@ -23,7 +23,7 @@ jobs:
 
       - name: Install prerequisites
         run: |
-          run: ./lvgl/scripts/install-prerequisites.sh
+          ./lvgl/scripts/install-prerequisites.sh
         
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
