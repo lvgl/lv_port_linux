@@ -20,9 +20,9 @@
 #include <stdbool.h>
 
 #include "lvgl/lvgl.h"
-#if LV_USE_FBDEV
-#include "simulator_util.h"
-#include "backends.h"
+#if LV_USE_LINUX_FBDEV
+#include "../simulator_util.h"
+#include "../backends.h"
 
 /*********************
  *      DEFINES
@@ -113,4 +113,4 @@ static void run_loop_fbdev(void)
     }
 }
 
-#endif /*LV_USE_FBDEV*/
+#endif /*LV_USE_LINUX_FBDEV*/

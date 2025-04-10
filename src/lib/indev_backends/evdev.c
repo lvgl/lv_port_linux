@@ -24,8 +24,8 @@
 #include "lvgl/lvgl.h"
 #if LV_USE_EVDEV
 #include "lvgl/src/core/lv_global.h"
-#include "simulator_util.h"
-#include "backends.h"
+#include "../simulator_util.h"
+#include "../backends.h"
 
 /*********************
  *      DEFINES

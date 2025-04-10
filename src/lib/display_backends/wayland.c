@@ -21,9 +21,9 @@
 
 #include "lvgl/lvgl.h"
 #if LV_USE_WAYLAND
-#include "simulator_util.h"
-#include "simulator_settings.h"
-#include "backends.h"
+#include "../simulator_util.h"
+#include "../simulator_settings.h"
+#include "../backends.h"
 
 /*********************
  *      DEFINES
