@@ -13,7 +13,7 @@ jobs:
           - { image: "ubuntu:22.04", dockerfile: "Dockerfile_DEBIAN" }
       fail-fast: false
 
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
 
     steps:
       - name: Checkout repository
