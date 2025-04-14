@@ -21,7 +21,7 @@
 #include <stdbool.h>
 
 #include "lvgl/lvgl.h"
-#if LV_USE_DRM
+#if LV_USE_LINUX_DRM
 #include "../simulator_util.h"
 #include "../simulator_settings.h"
 #include "../backends.h"
@@ -114,4 +114,4 @@ static void run_loop_drm(void)
     }
 }
 
-#endif /*#if LV_USE_DRM*/
+#endif /*#if LV_USE_LINUX_DRM*/
