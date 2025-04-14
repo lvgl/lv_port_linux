@@ -24,7 +24,7 @@ jobs:
       - name: Install prerequisites
         run: |
           ./lvgl/scripts/install-prerequisites.sh
-          sudo apt install python3-venv
+          sudo apt install python3.11-venv
         
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
