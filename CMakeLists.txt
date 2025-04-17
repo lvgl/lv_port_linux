@@ -1,26 +1,20 @@
 cmake_minimum_required(VERSION 3.10)
 project(lvgl)
 
-
-set(CONF_PATH "${PROJECT_SOURCE_DIR}/lv_conf.h")
-
-foreach(BACKEND_NAME "SDL" "LINUX_DRM" "LINUX_FBDEV" "X11" "WAYLAND" "OPENGLES" "EVDEV")
-
-    execute_process(WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}
-                    COMMAND "scripts/backend_conf.sh" ${BACKEND_NAME} ${CONF_PATH} OUTPUT_VARIABLE IS_BACKEND_ENABLED)
-    set("LV_USE_${BACKEND_NAME}" ${IS_BACKEND_ENABLED})
-
-endforeach()
-
 # Uncomment if the program needs debugging
-#set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -O0 -ggdb")
+#set(CMAKE_BUILD_TYPE Debug)
 
 set(CMAKE_C_STANDARD 99) # LVGL officially supports C99 and above
 set(CMAKE_CXX_STANDARD 17) #C17
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(EXECUTABLE_OUTPUT_PATH ${CMAKE_BINARY_DIR}/bin)
 
-if (LV_USE_EVDEV)
+set(LV_CMAKE_CREATE_CONF_VARS ON CACHE BOOL
+    "create CMAKE variables from lv_conf_internal.h" FORCE)
+
+add_subdirectory(lvgl)
+
+if (CONFIG_LV_USE_EVDEV)
     message("Including EVDEV support")
     find_package(PkgConfig REQUIRED)
     pkg_check_modules(EVDEV REQUIRED libevdev)
@@ -31,8 +25,7 @@ if (LV_USE_EVDEV)
 
 endif()
 
-# Configuration
-if (LV_USE_LINUX_DRM)
+if (CONFIG_LV_USE_LINUX_DRM)
 
     message("Including DRM support")
     find_package(PkgConfig REQUIRED)
@@ -44,7 +37,7 @@ if (LV_USE_LINUX_DRM)
 
 endif()
 
-if (LV_USE_SDL)
+if (CONFIG_LV_USE_SDL)
 
     message("Including SDL2 support")
     find_package(PkgConfig REQUIRED)
@@ -58,7 +51,7 @@ if (LV_USE_SDL)
 endif()
 
 
-if (LV_USE_WAYLAND)
+if (CONFIG_LV_USE_WAYLAND)
 
     message("Including Wayland support")
 
@@ -82,7 +75,7 @@ if (LV_USE_WAYLAND)
 
 endif()
 
-if (LV_USE_X11)
+if (CONFIG_LV_USE_X11)
 
     find_package(PkgConfig REQUIRED)
     pkg_check_modules(X11 REQUIRED x11)
@@ -95,7 +88,7 @@ if (LV_USE_X11)
 
 endif()
 
-if (LV_USE_LINUX_FBDEV)
+if (CONFIG_LV_USE_LINUX_FBDEV)
 
     # FBDEV has no dependencies
     message("Including FBDEV support")
@@ -103,7 +96,7 @@ if (LV_USE_LINUX_FBDEV)
 
 endif()
 
-if (LV_USE_OPENGLES)
+if (CONFIG_LV_USE_OPENGLES)
 
     message("Including OPENGLES support")
     find_package(PkgConfig REQUIRED)
@@ -125,7 +118,6 @@ string(APPEND LVGL_PKG_CONFIG_LIB "-llvgl_linux")
 file(GLOB LV_LINUX_SRC src/lib/*.c)
 set(LV_LINUX_INC src/lib)
 
-add_subdirectory(lvgl)
 target_include_directories(lvgl PUBLIC ${PROJECT_SOURCE_DIR} ${PROJECT_SOURCE_DIR}/src/lib ${PKG_CONFIG_INC})
 add_library(lvgl_linux STATIC ${LV_LINUX_SRC} ${LV_LINUX_BACKEND_SRC})
 target_include_directories(lvgl_linux PRIVATE ${LV_LINUX_INC} ${PROJECT_SOURCE_DIR})
