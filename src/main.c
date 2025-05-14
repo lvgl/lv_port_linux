@@ -28,6 +28,11 @@
 #include "lvgl/lvgl.h"
 #include "lvgl/demos/lv_demos.h"
 
+#include "lvgl/examples/lv_examples.h"
+#include "smiths_fg.c"
+#include "smiths_bg.c"
+#include "gauge.c"
+
 #include "src/lib/driver_backends.h"
 #include "src/lib/simulator_util.h"
 #include "src/lib/simulator_settings.h"
@@ -44,6 +49,67 @@ static char *selected_backend;
 /* Global simulator settings, defined in lv_linux_backend.c */
 extern simulator_settings_t settings;
 
+void draw_line(void)
+{
+    /*Create an array for the points of the line*/
+    // static lv_point_precise_t line_points[] = { {5, 5}, {70, 70}, {120, 10}, {180, 60}, {240, 10} };
+    static lv_point_precise_t line_points[] = { {5, 5}, {90, 90} };
+
+    /*Create style*/
+    static lv_style_t style_line;
+    lv_style_init(&style_line);
+    lv_style_set_line_width(&style_line, 8);
+    lv_style_set_line_color(&style_line, lv_color_white());
+    lv_style_set_line_rounded(&style_line, true);
+
+    /*Create a line and apply the new style*/
+    lv_obj_t * line1;
+    line1 = lv_line_create(lv_scr_act());
+    lv_line_set_points(line1, line_points, 2);     /*Set the points*/
+    lv_obj_add_style(line1, &style_line, 0);
+    // lv_obj_center(line1);
+    lv_obj_align(line1, LV_ALIGN_TOP_LEFT, 250, 200);
+}
+
+LV_IMG_DECLARE(gauge);
+lv_obj_t * draw_gauge_orig(lv_obj_t * parent){
+    lv_obj_t * img_src = lv_image_create(parent); /*Crate an image object*/
+    lv_image_set_src(img_src, &gauge);
+    lv_image_set_inner_align(img_src, LV_IMAGE_ALIGN_CENTER);
+    lv_obj_align(img_src, LV_ALIGN_TOP_LEFT, 30, 20);
+    lv_image_set_scale(img_src, 245);
+    return img_src;
+}
+
+
+//50,228
+LV_IMG_DECLARE(smiths_bg);
+lv_obj_t * draw_gauge_bg(lv_obj_t * parent){
+    lv_obj_t * img_src = lv_image_create(parent); /*Crate an image object*/
+    lv_image_set_src(img_src, &smiths_bg);
+    lv_image_set_inner_align(img_src, LV_IMAGE_ALIGN_CENTER);
+    lv_obj_align(img_src, LV_ALIGN_TOP_LEFT, 50, 228);
+    // lv_image_set_scale(img_src, 170);
+    return img_src;
+}
+
+LV_IMG_DECLARE(smiths_fg);
+lv_obj_t * draw_gauge(void){
+    lv_obj_t * img_src = lv_image_create(lv_scr_act()); /*Crate an image object*/
+    lv_image_set_src(img_src, &smiths_fg);
+    lv_image_set_inner_align(img_src, LV_IMAGE_ALIGN_CENTER);
+    lv_obj_align(img_src, LV_ALIGN_TOP_LEFT, 0, 0);
+    // lv_image_set_scale(img_src, 170);
+    return img_src;
+}
+
+void say_hello(){
+    /*Create a white label, set its text and align it to the center*/
+    lv_obj_t * label = lv_label_create(lv_screen_active());
+    lv_label_set_text(label, "Hello world");
+    lv_obj_set_style_text_color(label, lv_color_hex(0xffffff), LV_PART_MAIN);
+    lv_obj_align(label, LV_ALIGN_LEFT_MID, 80, 0);
+}
 
 /**
  * @brief Print LVGL version
@@ -150,9 +216,25 @@ int main(int argc, char **argv)
     }
 #endif
 
+
+   /*Change the active screen's background color*/
+    lv_obj_set_style_bg_color(lv_screen_active(), lv_color_hex(0x003a57), LV_PART_MAIN);
+
+
     /*Create a Demo*/
-    lv_demo_widgets();
-    lv_demo_widgets_start_slideshow();
+    // lv_demo_widgets();
+    // lv_demo_widgets_start_slideshow();
+    // lv_example_scale_3();
+    // lv_example_scale_6();
+
+    // say_hello();
+    draw_line();
+    lv_obj_t * guage_obj = draw_gauge();
+    lv_obj_t * guage_obj_bg = draw_gauge_orig(lv_screen_active());
+    // lv_obj_t * guage_obj_bg = draw_gauge_bg(lv_screen_active());
+    lv_obj_move_background(guage_obj_bg);
+    // lv_example_canvas_5();
+    // lv_example_scale_3(guage_obj);
 
     /* Enter the run loop of the selected backend */
     driver_backends_run_loop();
