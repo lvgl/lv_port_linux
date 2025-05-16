@@ -4,7 +4,7 @@ project(lvgl)
 
 set(CONF_PATH "${PROJECT_SOURCE_DIR}/lv_conf.h")
 
-foreach(BACKEND_NAME "SDL" "LINUX_DRM" "LINUX_FBDEV" "X11" "WAYLAND" "OPENGLES" "EVDEV")
+foreach(BACKEND_NAME "SDL" "LINUX_DRM" "LINUX_FBDEV" "X11" "WAYLAND" "OPENGLES" "EVDEV" "DRAW_G2D")
 
     execute_process(WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}
                     COMMAND "scripts/backend_conf.sh" ${BACKEND_NAME} ${CONF_PATH} OUTPUT_VARIABLE IS_BACKEND_ENABLED)
@@ -78,7 +78,9 @@ if (LV_USE_WAYLAND)
     execute_process(COMMAND "scripts/gen_wl_protocols.sh" OUTPUT_VARIABLE WAYLAND_PROTOCOLS_SRC)
 
     list(APPEND PKG_CONFIG_INC "${PROJECT_SOURCE_DIR}/wl_protocols")
-    list(APPEND LV_LINUX_BACKEND_SRC src/lib/display_backends/wayland.c wl_protocols/wayland_xdg_shell.c)
+    list(APPEND LV_LINUX_BACKEND_SRC src/lib/display_backends/wayland.c wl_protocols/wayland_xdg_shell.c
+                                     wl_protocols/linux-dmabuf-unstable-v1-protocol.c
+                                     wl_protocols/linux-explicit-synchronization-unstable-v1-protocol.c)
 
 endif()
 
@@ -132,6 +134,9 @@ target_include_directories(lvgl_linux PRIVATE ${LV_LINUX_INC} ${PROJECT_SOURCE_D
 
 add_executable(lvglsim src/main.c ${LV_LINUX_SRC} ${LV_LINUX_BACKEND_SRC})
 target_link_libraries(lvglsim lvgl_linux lvgl lvgl::examples lvgl::demos lvgl::thorvg m pthread ${PKG_CONFIG_LIB})
+if(LV_USE_DRAW_G2D)
+    target_link_libraries(lvglsim g2d)
+endif()
 
 # Install the lvgl_linux library and its headers
 install(DIRECTORY src/lib/
