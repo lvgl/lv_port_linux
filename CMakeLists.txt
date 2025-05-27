@@ -75,10 +75,14 @@ if (LV_USE_WAYLAND)
     pkg_check_modules(WAYLAND_PROTOCOLS REQUIRED wayland-protocols>=1.25)
     pkg_get_variable(WAYLAND_PROTOCOLS_BASE wayland-protocols pkgdatadir)
 
-    execute_process(COMMAND "scripts/gen_wl_protocols.sh" OUTPUT_VARIABLE WAYLAND_PROTOCOLS_SRC)
+    execute_process(WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}
+                    COMMAND "scripts/gen_wl_protocols.sh" "${CMAKE_CURRENT_BINARY_DIR}/protocols"
+                    OUTPUT_VARIABLE WAYLAND_PROTOCOLS_SRC
+                    OUTPUT_STRIP_TRAILING_WHITESPACE)
+    string(REPLACE "\n" ";" WAYLAND_PROTOCOLS_SRC "${WAYLAND_PROTOCOLS_SRC}")
 
-    list(APPEND PKG_CONFIG_INC "${PROJECT_SOURCE_DIR}/wl_protocols")
-    list(APPEND LV_LINUX_BACKEND_SRC src/lib/display_backends/wayland.c wl_protocols/wayland_xdg_shell.c)
+    list(APPEND PKG_CONFIG_INC "${CMAKE_CURRENT_BINARY_DIR}/protocols")
+    list(APPEND LV_LINUX_BACKEND_SRC src/lib/display_backends/wayland.c "${WAYLAND_PROTOCOLS_SRC}")
 
 endif()
 

@@ -1,16 +1,21 @@
 #!/bin/sh
 # Generate wayland xdg shell protocol
 
-if ! test -d /usr/share/wayland-protocols
+OUTPUT_DIR="$1"
+PROTOCOL_ROOT="${SYSROOT:-}/usr/share/wayland-protocols"
+
+if ! test -d $PROTOCOL_ROOT
 then
+	echo "Error: Wayland protocols not found at $PROTOCOL_ROOT" >&2
+	echo "For cross-compilation, set SYSROOT environment variable" >&2
 	exit 1
 fi
 
-if ! test -d wl_protocols
+if ! test -d $OUTPUT_DIR
 then
-	mkdir wl_protocols
-	wayland-scanner client-header "/usr/share/wayland-protocols/stable/xdg-shell/xdg-shell.xml" "wl_protocols/wayland_xdg_shell.h"
-	wayland-scanner private-code "/usr/share/wayland-protocols/stable/xdg-shell/xdg-shell.xml" "wl_protocols/wayland_xdg_shell.c"
+	mkdir $OUTPUT_DIR
+	wayland-scanner client-header "$PROTOCOL_ROOT/stable/xdg-shell/xdg-shell.xml" "$OUTPUT_DIR/wayland_xdg_shell.h"
+	wayland-scanner private-code  "$PROTOCOL_ROOT/stable/xdg-shell/xdg-shell.xml" "$OUTPUT_DIR/wayland_xdg_shell.c"
 fi
 
-printf "wl_protocols/wayland_xdg_shell.c"
+echo "$OUTPUT_DIR/wayland_xdg_shell.c"
