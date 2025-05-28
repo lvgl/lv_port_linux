@@ -113,7 +113,6 @@ simulator_settings_t settings;
 void driver_backends_register(void)
 {
     int i;
-    int cnt;
     backend_init_t init_backend;
     backend_t *b;
 
