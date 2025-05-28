@@ -72,6 +72,7 @@ int backend_init_evdev(backend_t *backend)
 
     backend->name = backend_name;
     backend->type = BACKEND_INDEV;
+    return 0;
 }
 
 
@@ -170,5 +171,6 @@ static lv_indev_t *init_pointer_evdev(lv_display_t *display)
     lv_indev_set_display(indev, display);
 
     set_mouse_cursor_icon(indev, display);
+    return indev;
 }
 #endif /*#if LV_USE_EVDEV*/
