@@ -252,7 +252,7 @@ int driver_backends_is_supported(char *backend_name)
 
     while ((c = *backend_name) != '\0') {
         *backend_name = toupper(c);
-        *backend_name++;
+        backend_name++;
     }
 
     while ((b = backends[i++]) != NULL) {
@@ -281,3 +281,4 @@ void driver_backends_run_loop(void)
 /**********************
  *   STATIC FUNCTIONS
  **********************/
+
