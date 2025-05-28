@@ -51,9 +51,6 @@
  *  STATIC PROTOTYPES
  **********************/
 
-/* Internal functions */
-static void register_backends(void);
-
 /**********************
  *  STATIC VARIABLES
  **********************/
@@ -286,4 +283,3 @@ void driver_backends_run_loop(void)
 /**********************
  *   STATIC FUNCTIONS
  **********************/
-

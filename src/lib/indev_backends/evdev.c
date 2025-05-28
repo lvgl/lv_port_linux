@@ -39,7 +39,6 @@
  *  STATIC PROTOTYPES
  **********************/
 
-static void init_evdev(lv_display_t *display);
 static void indev_deleted_cb(lv_event_t *e);
 static void discovery_cb(lv_indev_t *indev, lv_evdev_type_t type, void *user_data);
 static void set_mouse_cursor_icon(lv_indev_t *indev, lv_display_t *display);
