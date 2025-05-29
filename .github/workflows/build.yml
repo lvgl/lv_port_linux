@@ -9,8 +9,8 @@ jobs:
         os:
           - { image: "debian:bullseye", dockerfile: "Dockerfile_DEBIAN" }
           - { image: "debian:bookworm", dockerfile: "Dockerfile_DEBIAN" }
-          - { image: "ubuntu:20.04", dockerfile: "Dockerfile_DEBIAN" }
           - { image: "ubuntu:22.04", dockerfile: "Dockerfile_DEBIAN" }
+          - { image: "ubuntu:24.04", dockerfile: "Dockerfile_DEBIAN" }
       fail-fast: false
 
     runs-on: ubuntu-24.04
