@@ -1,19 +1,16 @@
 cmake_minimum_required(VERSION 3.10)
 project(lvgl)
 
+# Set policy to allow to run the target_link_libraries cmd on targets that are build
+# in another directory.
+# Currently, the linking is not handled by env_support/cmake/os.cmake
+# This means that if a driver is enabled and it requires linking an external library
+# it needs to be handled in the top-level project.
 
-set(CONF_PATH "${PROJECT_SOURCE_DIR}/lv_conf.h")
-
-foreach(BACKEND_NAME "SDL" "LINUX_DRM" "LINUX_FBDEV" "X11" "WAYLAND" "OPENGLES" "EVDEV")
-
-    execute_process(WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}
-                    COMMAND "scripts/backend_conf.sh" ${BACKEND_NAME} ${CONF_PATH} OUTPUT_VARIABLE IS_BACKEND_ENABLED)
-    set("LV_USE_${BACKEND_NAME}" ${IS_BACKEND_ENABLED})
-
-endforeach()
+cmake_policy(SET CMP0079 NEW)
 
 # Uncomment if the program needs debugging
-#set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -O0 -ggdb")
+#set(CMAKE_BUILD_TYPE Debug)
 
 set(CMAKE_C_STANDARD 99) # LVGL officially supports C99 and above
 set(CMAKE_CXX_STANDARD 17) #C17
@@ -21,7 +18,12 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(EXECUTABLE_OUTPUT_PATH ${CMAKE_BINARY_DIR}/bin)
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall -Wextra -Wpedantic")
 
-if (LV_USE_EVDEV)
+set(LV_BUILD_SET_CONFIG_OPTS ON CACHE BOOL
+    "create CMAKE variables from lv_conf_internal.h" FORCE)
+
+add_subdirectory(lvgl)
+
+if (CONFIG_LV_USE_EVDEV)
     message("Including EVDEV support")
     find_package(PkgConfig REQUIRED)
     pkg_check_modules(EVDEV REQUIRED libevdev)
@@ -32,8 +34,7 @@ if (LV_USE_EVDEV)
 
 endif()
 
-# Configuration
-if (LV_USE_LINUX_DRM)
+if (CONFIG_LV_USE_LINUX_DRM)
 
     message("Including DRM support")
     find_package(PkgConfig REQUIRED)
@@ -45,7 +46,41 @@ if (LV_USE_LINUX_DRM)
 
 endif()
 
-if (LV_USE_SDL)
+if (CONFIG_LV_USE_LINUX_DRM_GBM_BUFFERS)
+
+    message("Including GBM support")
+
+    find_package(PkgConfig REQUIRED)
+    pkg_check_modules(LIBGBM REQUIRED gbm)
+
+    list(APPEND PKG_CONFIG_LIB ${LIBGBM_LIBRARIES})
+    list(APPEND PKG_CONFIG_INC ${LIBGBM_INCLUDE_DIRS})
+
+endif()
+
+if (CONFIG_LV_USE_LIBINPUT)
+    message("Including libinput support")
+
+    find_package(PkgConfig REQUIRED)
+    pkg_check_modules(LIBINPUT REQUIRED libinput)
+
+    list(APPEND PKG_CONFIG_LIB ${LIBINPUT_LIBRARIES})
+    list(APPEND PKG_CONFIG_INC ${LIBINPUT_INCLUDE_DIRS})
+
+endif()
+
+if (CONFIG_LV_USE_FREETYPE)
+    message("Including Freetype support")
+
+    find_package(PkgConfig REQUIRED)
+    pkg_check_modules(LIBFREETYPE REQUIRED freetype2)
+
+    list(APPEND PKG_CONFIG_LIB ${LIBFREETYPE_LIBRARIES})
+    list(APPEND PKG_CONFIG_INC ${LIBFREETYPE_INCLUDE_DIRS})
+
+endif()
+
+if (CONFIG_LV_USE_SDL)
 
     message("Including SDL2 support")
     find_package(PkgConfig REQUIRED)
@@ -59,7 +94,7 @@ if (LV_USE_SDL)
 endif()
 
 
-if (LV_USE_WAYLAND)
+if (CONFIG_LV_USE_WAYLAND)
 
     message("Including Wayland support")
 
@@ -87,7 +122,7 @@ if (LV_USE_WAYLAND)
 
 endif()
 
-if (LV_USE_X11)
+if (CONFIG_LV_USE_X11)
 
     find_package(PkgConfig REQUIRED)
     pkg_check_modules(X11 REQUIRED x11)
@@ -100,7 +135,7 @@ if (LV_USE_X11)
 
 endif()
 
-if (LV_USE_LINUX_FBDEV)
+if (CONFIG_LV_USE_LINUX_FBDEV)
 
     # FBDEV has no dependencies
     message("Including FBDEV support")
@@ -108,7 +143,7 @@ if (LV_USE_LINUX_FBDEV)
 
 endif()
 
-if (LV_USE_OPENGLES)
+if (CONFIG_LV_USE_OPENGLES)
 
     message("Including OPENGLES support")
     find_package(PkgConfig REQUIRED)
@@ -121,22 +156,25 @@ if (LV_USE_OPENGLES)
 
 endif()
 
-foreach(arg ${PKG_CONFIG_LIB})
-    string(APPEND LVGL_PKG_CONFIG_EXT_LIB " -l${arg}")
-endforeach()
-
-string(APPEND LVGL_PKG_CONFIG_LIB "-llvgl_linux")
-
 file(GLOB LV_LINUX_SRC src/lib/*.c)
 set(LV_LINUX_INC src/lib)
 
-add_subdirectory(lvgl)
-target_include_directories(lvgl PUBLIC ${PROJECT_SOURCE_DIR} ${PROJECT_SOURCE_DIR}/src/lib ${PKG_CONFIG_INC})
+target_include_directories(lvgl PUBLIC ${PKG_CONFIG_INC})
+
 add_library(lvgl_linux STATIC ${LV_LINUX_SRC} ${LV_LINUX_BACKEND_SRC})
-target_include_directories(lvgl_linux PRIVATE ${LV_LINUX_INC} ${PROJECT_SOURCE_DIR})
+
+# If LVGL is configured to use LV_CONF_PATH or Kconfig
+# Set the exactly the same definitions on the lvgl_linux target
+set_target_properties(lvgl_linux PROPERTIES COMPILE_DEFINITIONS "${LVGL_COMPILER_DEFINES}")
+target_include_directories(lvgl_linux PUBLIC
+    ${LV_LINUX_INC} ${CMAKE_CURRENT_SOURCE_DIR}
+    ${PROJECT_SOURCE_DIR}/src/lib ${LVGL_CONF_INC_DIR})
+
+# Link LVGL with external dependencies - Modern CMake/CMP0079 allows this
+target_link_libraries(lvgl PUBLIC ${PKG_CONFIG_LIB} m pthread)
 
 add_executable(lvglsim src/main.c ${LV_LINUX_SRC} ${LV_LINUX_BACKEND_SRC})
-target_link_libraries(lvglsim lvgl_linux lvgl lvgl::examples lvgl::demos lvgl::thorvg m pthread ${PKG_CONFIG_LIB})
+target_link_libraries(lvglsim lvgl_linux lvgl)
 
 # Install the lvgl_linux library and its headers
 install(DIRECTORY src/lib/
@@ -149,4 +187,4 @@ install(TARGETS lvgl_linux
     ARCHIVE DESTINATION lib
 )
 
-add_custom_target (run COMMAND ${EXECUTABLE_OUTPUT_PATH}/lvglsim DEPENDS lvglsim)
+add_custom_target(run COMMAND ${EXECUTABLE_OUTPUT_PATH}/lvglsim DEPENDS lvglsim)
