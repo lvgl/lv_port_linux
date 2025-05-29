@@ -19,11 +19,9 @@
  ******************************************************************/
 #include <unistd.h>
 #include <pthread.h>
-#include <time.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <ctype.h>
 
 #include "lvgl/lvgl.h"
 #include "lvgl/demos/lv_demos.h"
@@ -77,14 +75,15 @@ static void print_usage(void)
 static void configure_simulator(int argc, char **argv)
 {
     int opt = 0;
-    char *backend_name;
 
     selected_backend = NULL;
     driver_backends_register();
 
+    const char* env_w = getenv("LV_SIM_WINDOW_WIDTH");
+    const char* env_h = getenv("LV_SIM_WINDOW_HEIGHT");
     /* Default values */
-    settings.window_width = atoi(getenv("LV_SIM_WINDOW_WIDTH") ? : "800");
-    settings.window_height = atoi(getenv("LV_SIM_WINDOW_HEIGHT") ? : "480");
+    settings.window_width = atoi(env_w ? env_w : "800");
+    settings.window_height = atoi(env_h ? env_h : "480");
 
     /* Parse the command-line options. */
     while ((opt = getopt (argc, argv, "b:fmW:H:BVh")) != -1) {

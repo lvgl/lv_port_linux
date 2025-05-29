@@ -12,7 +12,6 @@
 
 #include <unistd.h>
 #include <pthread.h>
-#include <time.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdint.h>
@@ -50,9 +49,6 @@
 /**********************
  *  STATIC PROTOTYPES
  **********************/
-
-/* Internal functions */
-static void register_backends(void);
 
 /**********************
  *  STATIC VARIABLES
@@ -117,7 +113,6 @@ simulator_settings_t settings;
 void driver_backends_register(void)
 {
     int i;
-    int cnt;
     backend_init_t init_backend;
     backend_t *b;
 
@@ -257,7 +252,7 @@ int driver_backends_is_supported(char *backend_name)
 
     while ((c = *backend_name) != '\0') {
         *backend_name = toupper(c);
-        *backend_name++;
+        backend_name++;
     }
 
     while ((b = backends[i++]) != NULL) {
