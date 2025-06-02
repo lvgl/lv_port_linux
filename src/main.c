@@ -79,8 +79,8 @@ static void configure_simulator(int argc, char **argv)
     selected_backend = NULL;
     driver_backends_register();
 
-    const char* env_w = getenv("LV_SIM_WINDOW_WIDTH");
-    const char* env_h = getenv("LV_SIM_WINDOW_HEIGHT");
+    const char *env_w = getenv("LV_SIM_WINDOW_WIDTH");
+    const char *env_h = getenv("LV_SIM_WINDOW_HEIGHT");
     /* Default values */
     settings.window_width = atoi(env_w ? env_w : "800");
     settings.window_height = atoi(env_h ? env_h : "480");
