@@ -130,7 +130,7 @@ static void run_loop_wayland(void)
         idle_time = lv_wayland_timer_handler();
 
         if(idle_time != 0) {
-            usleep(idle_time);
+            usleep(idle_time * 1000);
         }
 
         /* Run until the last window closes */
