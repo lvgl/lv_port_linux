@@ -176,6 +176,10 @@ target_link_libraries(lvgl PUBLIC ${PKG_CONFIG_LIB} m pthread)
 add_executable(lvglsim src/main.c ${LV_LINUX_SRC} ${LV_LINUX_BACKEND_SRC})
 target_link_libraries(lvglsim lvgl_linux lvgl)
 
+if (CONFIG_LV_USE_DRAW_G2D)
+    target_link_libraries(lvglsim g2d)
+endif()
+
 # Install the lvgl_linux library and its headers
 install(DIRECTORY src/lib/
     DESTINATION include/lvgl
