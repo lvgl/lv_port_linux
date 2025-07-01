@@ -2,7 +2,20 @@
 # Generate wayland xdg shell protocol
 
 OUTPUT_DIR="$1"
-PROTOCOL_ROOT="${SDKTARGETSYSROOT:-}/usr/share/wayland-protocols"
+
+if [ -n "$SDKTARGETSYSROOT" ] && [ -n "$SYSROOT" ]; then
+	echo "Error: Both SDKTARGETSYSROOT and SYSROOT are set. Please set only one."
+	exit 1
+fi
+
+if [ -n "$SDKTARGETSYSROOT" ]; then
+	PROTOCOL_ROOT="${SDKTARGETSYSROOT}/usr/share/wayland-protocols"
+elif [ -n "$SYSROOT" ]; then
+	PROTOCOL_ROOT="${SYSROOT}/usr/share/wayland-protocols"
+else
+	echo "Error: Neither SDKTARGETSYSROOT nor SYSROOT is set."
+	exit 1
+fi
 
 if ! test -d $PROTOCOL_ROOT
 then
