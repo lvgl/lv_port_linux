@@ -2,7 +2,20 @@
 # Generate wayland xdg shell protocol
 
 OUTPUT_DIR="$1"
-PROTOCOL_ROOT="${SYSROOT:-}/usr/share/wayland-protocols"
+
+if [ -n "$SDKTARGETSYSROOT" ] && [ -n "$SYSROOT" ]; then
+	echo "Error: Both SDKTARGETSYSROOT and SYSROOT are set. Please set only one."
+	exit 1
+fi
+
+if [ -n "$SDKTARGETSYSROOT" ]; then
+	PROTOCOL_ROOT="${SDKTARGETSYSROOT}/usr/share/wayland-protocols"
+elif [ -n "$SYSROOT" ]; then
+	PROTOCOL_ROOT="${SYSROOT}/usr/share/wayland-protocols"
+else
+	echo "Error: Neither SDKTARGETSYSROOT nor SYSROOT is set."
+	exit 1
+fi
 
 if ! test -d $PROTOCOL_ROOT
 then
@@ -16,6 +29,9 @@ then
 	mkdir $OUTPUT_DIR
 	wayland-scanner client-header "$PROTOCOL_ROOT/stable/xdg-shell/xdg-shell.xml" "$OUTPUT_DIR/wayland_xdg_shell.h"
 	wayland-scanner private-code  "$PROTOCOL_ROOT/stable/xdg-shell/xdg-shell.xml" "$OUTPUT_DIR/wayland_xdg_shell.c"
+	wayland-scanner client-header "$PROTOCOL_ROOT/stable/linux-dmabuf/linux-dmabuf-v1.xml" "$OUTPUT_DIR/wayland_linux_dmabuf.h"
+	wayland-scanner private-code "$PROTOCOL_ROOT/stable/linux-dmabuf/linux-dmabuf-v1.xml" "$OUTPUT_DIR/wayland_linux_dmabuf.c"
 fi
 
 echo "$OUTPUT_DIR/wayland_xdg_shell.c"
+echo "$OUTPUT_DIR/wayland_linux_dmabuf.c"
