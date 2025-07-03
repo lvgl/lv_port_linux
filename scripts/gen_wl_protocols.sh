@@ -9,13 +9,12 @@ if [ -n "$SDKTARGETSYSROOT" ] && [ -n "$SYSROOT" ]; then
 fi
 
 if [ -n "$SDKTARGETSYSROOT" ]; then
-	PROTOCOL_ROOT="${SDKTARGETSYSROOT}/usr/share/wayland-protocols"
+	PROTOCOL_ROOT=$SDKTARGETSYSROOT
 elif [ -n "$SYSROOT" ]; then
-	PROTOCOL_ROOT="${SYSROOT}/usr/share/wayland-protocols"
-else
-	echo "Error: Neither SDKTARGETSYSROOT nor SYSROOT is set."
-	exit 1
+	PROTOCOL_ROOT=$SYSROOT
 fi
+
+PROTOCOL_ROOT="${PROTOCOL_ROOT}/usr/share/wayland-protocols"
 
 if ! test -d $PROTOCOL_ROOT
 then
