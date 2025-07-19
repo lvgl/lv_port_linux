@@ -176,6 +176,7 @@ target_link_libraries(lvgl PUBLIC ${PKG_CONFIG_LIB} m pthread)
 add_executable(lvglsim
     src/main.c
     src/time_date_display.c
+    src/lv_font_my_montserrat_20.c
     ${LV_LINUX_SRC}
     ${LV_LINUX_BACKEND_SRC}
 )
