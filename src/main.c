@@ -115,7 +115,6 @@ static void minute_tick(lv_timer_t* timer)
     if (t->tm_sec == 0) // Trigger only when seconds are 0
     {
         update_time_and_date_display();
-        update_progress_bar();
     }
 }
 
@@ -147,7 +146,7 @@ int main(int argc, char **argv)
 
     // Initialize UI components
     init_time_and_date_display();
-    
+
     // Create minute timer (check every second for minute change)
     minute_timer = lv_timer_create(minute_tick, 1000, NULL);
 
