@@ -178,7 +178,8 @@ add_executable(lvglsim
     src/time_date_display.c
     ${LV_LINUX_SRC}
     ${LV_LINUX_BACKEND_SRC}
-)target_link_libraries(lvglsim lvgl_linux lvgl)
+)
+target_link_libraries(lvglsim lvgl_linux lvgl)
 
 if (CONFIG_LV_USE_DRAW_G2D)
     target_link_libraries(lvglsim g2d)
