@@ -5,11 +5,14 @@
 #include <string.h>
 
 #include "lvgl/lvgl.h"
-#include "lvgl/demos/lv_demos.h"
+// #include "lvgl/demos/lv_demos.h"
 
 #include "src/lib/driver_backends.h"
 #include "src/lib/simulator_util.h"
 #include "src/lib/simulator_settings.h"
+
+#include "time_date_display.h"
+#include <time.h>
 
 /* Internal functions */
 static void configure_simulator(int argc, char **argv);
@@ -22,7 +25,6 @@ static char *selected_backend;
 
 /* Global simulator settings, defined in lv_linux_backend.c */
 extern simulator_settings_t settings;
-
 
 /**
  * @brief Print LVGL version
@@ -104,6 +106,19 @@ static void configure_simulator(int argc, char **argv)
     }
 }
 
+static lv_timer_t* minute_timer;
+
+static void minute_tick(lv_timer_t* timer)
+{
+    time_t now = time(NULL);
+    struct tm* t = localtime(&now);
+    if (t->tm_sec == 0) // Trigger only when seconds are 0
+    {
+        update_time_and_date_display();
+        update_progress_bar();
+    }
+}
+
 /**
  * @brief entry point
  * @description start a demo
@@ -130,8 +145,14 @@ int main(int argc, char **argv)
     }
 #endif
 
-    lv_demo_widgets();
-    lv_demo_widgets_start_slideshow();
+    // Initialize UI components
+    init_time_and_date_display();
+    
+    // Create minute timer (check every second for minute change)
+    minute_timer = lv_timer_create(minute_tick, 1000, NULL);
+
+    // lv_demo_widgets();
+    // lv_demo_widgets_start_slideshow();
 
     /* Enter the run loop of the selected backend */
     driver_backends_run_loop();
