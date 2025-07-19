@@ -1,6 +1,8 @@
 ﻿#ifndef SCHEDULE_DATA_H
 #define SCHEDULE_DATA_H
 
+struct tm;
+
 /**
  * Structure representing a single lesson in the schedule.
  * Contains information about the lesson type, subject, teacher, and time.

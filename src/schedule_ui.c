@@ -3,6 +3,7 @@
 #include <lvgl/lvgl.h>
 #include <stdio.h>
 #include <time.h>
+#include <string.h>
 
 #define MAX_NUMBER_OF_LESSONS 16
 
@@ -24,7 +25,7 @@ static const TypeColor type_colors[] = {
     {"Лабораторные занятия", 0x3e8470},
     {NULL, 0xCCCCCC}
 };
-#define TYPE_COLOR_COUNT (sizeof(type_colors) / sizeof(TypeColor) - 1)
+#define TYPE_COLOR_COUNT ((int)sizeof(type_colors) / sizeof(TypeColor) - 1)
 
 static lv_obj_t* list_container;
 static lv_obj_t* progress_bars[MAX_NUMBER_OF_LESSONS]; // Store lessons progress bars
@@ -205,7 +206,7 @@ void update_schedule_display(struct tm* display_date)
         lv_obj_set_style_pad_bottom(subject_label, 10, 0);
 
         // Dashed line
-        static lv_point_t line_points[] = { {0, 0}, {600, 0} };
+        static lv_point_precise_t line_points[] = { {0, 0}, {600, 0} };
         lv_obj_t* line = lv_line_create(block);
         lv_line_set_points(line, line_points, 2);
         lv_obj_set_style_line_color(line, lv_color_hex(0x000000), 0);
