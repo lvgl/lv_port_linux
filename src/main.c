@@ -1,22 +1,3 @@
-/*******************************************************************
- *
- * main.c - LVGL simulator for GNU/Linux
- *
- * Based on the original file from the repository
- *
- * @note eventually this file won't contain a main function and will
- * become a library supporting all major operating systems
- *
- * To see how each driver is initialized check the
- * 'src/lib/display_backends' directory
- *
- * - Clean up
- * - Support for multiple backends at once
- *   2025 EDGEMTech Ltd.
- *
- * Author: EDGEMTech Ltd, Erik Tagirov (erik.tagirov@edgemtech.ch)
- *
- ******************************************************************/
 #include <unistd.h>
 #include <pthread.h>
 #include <stdio.h>
