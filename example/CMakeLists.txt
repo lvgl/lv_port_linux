@@ -12,10 +12,13 @@ set(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin)
 set(CMAKE_BUILD_TYPE Debug)
 
 find_package(PkgConfig REQUIRED)
-pkg_check_modules(LVGL REQUIRED lvgl)
+pkg_check_modules(LVGL REQUIRED lvgl_linux lvgl_demos lvgl lvgl_thorvg)
+
+find_package(PkgConfig REQUIRED)
+pkg_check_modules(X11 REQUIRED x11)
 
 add_executable(main main.c)
 target_include_directories(main PUBLIC ${LVGL_INCLUDE_DIRS})
-target_link_libraries(main PUBLIC ${LVGL_LIBRARIES} m)
+target_link_libraries(main PUBLIC ${LVGL_LIBRARIES} ${X11_LIBRARIES} stdc++ m)
 
 add_custom_target (run COMMAND ${EXECUTABLE_OUTPUT_PATH}/main DEPENDS main)
