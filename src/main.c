@@ -108,7 +108,7 @@ static void configure_simulator(int argc, char **argv)
 
 static lv_timer_t* minute_timer;
 
-static void minute_tick(lv_timer_t* timer)
+static void minute_tick(lv_timer_t* timer __attribute__((unused)))
 {
     time_t now = time(NULL);
     struct tm* t = localtime(&now);
