@@ -25,7 +25,6 @@ static const TypeColor type_colors[] = {
     {"Лабораторные занятия", 0x3e8470},
     {NULL, 0xCCCCCC}
 };
-#define TYPE_COLOR_COUNT ((int)sizeof(type_colors) / sizeof(TypeColor) - 1)
 
 static lv_obj_t* list_container;
 static lv_obj_t* progress_bars[MAX_NUMBER_OF_LESSONS]; // Store lessons progress bars
@@ -184,7 +183,7 @@ void update_schedule_display(struct tm* display_date)
         //lv_obj_set_style_radius(type_label, 4, 0);
         
         uint32_t bg_color = 0xCCCCCC; // Default color
-        for (int j = 0; j < TYPE_COLOR_COUNT; j++)
+        for (size_t j = 0; type_colors[j].type != NULL; j++)
         {
             if (strcmp(lesson.type, type_colors[j].type) == 0)
             {
