@@ -130,7 +130,6 @@ int main(int argc, char **argv)
     }
 #endif
 
-    /*Create a Demo*/
     lv_demo_widgets();
     lv_demo_widgets_start_slideshow();
 
