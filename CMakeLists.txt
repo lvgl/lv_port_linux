@@ -143,17 +143,19 @@ if (CONFIG_LV_USE_WAYLAND)
     endif()
     list(APPEND WAYLAND_PROTOCOLS_SRC ${XDG_SHELL_SOURCE})
     
-    # Generate dmabuf protocol
-    set(DMABUF_XML "${PROTOCOL_ROOT}/stable/linux-dmabuf/linux-dmabuf-v1.xml")
-    set(DMABUF_HEADER "${PROTOCOLS_DIR}/wayland_linux_dmabuf.h")
-    set(DMABUF_SOURCE "${PROTOCOLS_DIR}/wayland_linux_dmabuf.c")
-    
-    if(NOT EXISTS ${DMABUF_HEADER} OR NOT EXISTS ${DMABUF_SOURCE})
-        execute_process(COMMAND wayland-scanner client-header ${DMABUF_XML} ${DMABUF_HEADER})
-        execute_process(COMMAND wayland-scanner private-code ${DMABUF_XML} ${DMABUF_SOURCE})
+    # Generate dmabuf protocol (if config is set)
+    if(CONFIG_LV_WAYLAND_USE_DMABUF)
+        set(DMABUF_XML "${PROTOCOL_ROOT}/stable/linux-dmabuf/linux-dmabuf-v1.xml")
+        set(DMABUF_HEADER "${PROTOCOLS_DIR}/wayland_linux_dmabuf.h")
+        set(DMABUF_SOURCE "${PROTOCOLS_DIR}/wayland_linux_dmabuf.c")
+        
+        if(NOT EXISTS ${DMABUF_HEADER} OR NOT EXISTS ${DMABUF_SOURCE})
+            execute_process(COMMAND wayland-scanner client-header ${DMABUF_XML} ${DMABUF_HEADER})
+            execute_process(COMMAND wayland-scanner private-code ${DMABUF_XML} ${DMABUF_SOURCE})
+        endif()
+        list(APPEND WAYLAND_PROTOCOLS_SRC ${DMABUF_SOURCE})
     endif()
-    list(APPEND WAYLAND_PROTOCOLS_SRC ${DMABUF_SOURCE})
-
+    
     list(APPEND PKG_CONFIG_INC ${PROTOCOLS_DIR})
     list(APPEND LV_LINUX_BACKEND_SRC src/lib/display_backends/wayland.c ${WAYLAND_PROTOCOLS_SRC})
 
