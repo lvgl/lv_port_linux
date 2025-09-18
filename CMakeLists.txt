@@ -195,6 +195,12 @@ if (CONFIG_LV_USE_OPENGLES)
 
 endif()
 
+if (CONFIG_LV_USE_DRAW_G2D)
+    message("Including G2D support")
+    find_library(G2D_LIBRARY NAMES g2d)
+    list(APPEND PKG_CONFIG_LIB ${G2D_LIBRARY})
+endif()
+
 file(GLOB LV_LINUX_SRC src/lib/*.c)
 set(LV_LINUX_INC src/lib)
 
@@ -215,9 +221,7 @@ target_link_libraries(lvgl PUBLIC ${PKG_CONFIG_LIB} m pthread)
 add_executable(lvglsim src/main.c ${LV_LINUX_SRC} ${LV_LINUX_BACKEND_SRC})
 target_link_libraries(lvglsim lvgl_linux lvgl)
 
-if (CONFIG_LV_USE_DRAW_G2D)
-    target_link_libraries(lvglsim g2d)
-endif()
+
 
 # Install the lvgl_linux library and its headers
 install(DIRECTORY src/lib/
