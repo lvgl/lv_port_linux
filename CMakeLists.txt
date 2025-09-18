@@ -80,7 +80,7 @@ if (CONFIG_LV_USE_FREETYPE)
 
 endif()
 
-if (CONFIG_LV_USE_SDL)
+if (CONFIG_LV_USE_SDL OR CONFIG_LV_USE_DRAW_SDL)
 
     message("Including SDL2 support")
     find_package(PkgConfig REQUIRED)
