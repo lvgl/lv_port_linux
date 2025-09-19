@@ -60,8 +60,9 @@ static void print_lvgl_version(void)
  */
 static void print_usage(void)
 {
-    fprintf(stdout, "\nlvglsim [-V] [-B] [-b backend_name] [-W window_width] [-H window_height]\n\n");
+    fprintf(stdout, "\nlvglsim [-V] [-F] [-B] [-b backend_name] [-W window_width] [-H window_height]\n\n");
     fprintf(stdout, "-V print LVGL version\n");
+    fprintf(stdout, "-F fullscreen\n");
     fprintf(stdout, "-B list supported backends\n");
 }
 
@@ -86,12 +87,15 @@ static void configure_simulator(int argc, char **argv)
     settings.window_height = atoi(env_h ? env_h : "480");
 
     /* Parse the command-line options. */
-    while ((opt = getopt (argc, argv, "b:fmW:H:BVh")) != -1) {
+    while ((opt = getopt (argc, argv, "b:fmW:H:BVFh")) != -1) {
         switch (opt) {
         case 'h':
             print_usage();
             exit(EXIT_SUCCESS);
             break;
+		case 'F':
+			settings.fullscreen = true;
+			break;
         case 'V':
             print_lvgl_version();
             exit(EXIT_SUCCESS);
@@ -150,8 +154,7 @@ int main(int argc, char **argv)
 #endif
 
     /*Create a Demo*/
-    lv_demo_widgets();
-    lv_demo_widgets_start_slideshow();
+    lv_demo_benchmark();
 
     /* Enter the run loop of the selected backend */
     driver_backends_run_loop();
