@@ -258,6 +258,19 @@ if (CONFIG_LV_USE_GLTF)
     list(APPEND PKG_CONFIG_LIB fastgltf webp)
 endif()
 
+if (CONFIG_LV_USE_GSTREAMER)
+
+    message("Including GSTREAMER support")
+    find_package(PkgConfig REQUIRED)
+
+    pkg_check_modules(GSTREAMER REQUIRED gstreamer-1.0)
+    pkg_check_modules(GSTREAMER_VIDEO REQUIRED gstreamer-video-1.0)
+    pkg_check_modules(GSTREAMER_APP REQUIRED gstreamer-app-1.0)
+
+    list(APPEND PKG_CONFIG_LIB ${GSTREAMER_VIDEO_LIBRARIES} ${GSTREAMER_APP_LIBRARIES})
+    list(APPEND PKG_CONFIG_INC ${GSTREAMER_VIDEO_INCLUDE_DIRS} ${GSTREAMER_APP_INCLUDE_DIRS})
+endif()
+
 
 file(GLOB LV_LINUX_SRC src/lib/*.c)
 set(LV_LINUX_INC src/lib)
