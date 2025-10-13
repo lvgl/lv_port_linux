@@ -66,11 +66,6 @@ LVGL supports GNU make and CMake
 cmake -B build -S .
 make -C build -j
 ```
-
-### GNU make
-
-```
-make -j
 ```
 
 Cross compilation is supported with CMake, edit the `user_cross_compile_setup.cmake`
@@ -83,8 +78,7 @@ make  -C build -j
 
 ### Installing LVGL
 
-It is possible to install LVGL to your system however, this is currently only
-supported with cmake.
+It is possible to install LVGL to your system using cmake:
 
 ```
 cmake --install ./build
@@ -95,6 +89,7 @@ cmake --install ./build
 ```
 ./build/bin/lvglsim
 ```
+
 This will start the widgets demo
 
 If multiple backends are enabled you can run with a specific backend via the `-b` option
