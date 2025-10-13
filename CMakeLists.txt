@@ -182,6 +182,63 @@ if (CONFIG_LV_USE_LINUX_FBDEV)
 
 endif()
 
+if (CONFIG_LV_USE_GLTF)
+  message(STATUS "Including with GLTF support")
+  include(FetchContent)
+
+  FetchContent_Declare(
+    fastgltf
+    GIT_REPOSITORY https://github.com/spnda/fastgltf
+    GIT_TAG 4e2261350888bae7c35a1f39991f6233d57795f5)
+
+  set(FASTGLTF_ENABLE_DEPRECATED_EXT
+      ON
+      CACHE BOOL "" FORCE)
+
+  set(FASTGLTF_DIFFUSE_TRANSMISSION_SUPPORT
+      ON
+      CACHE BOOL "" FORCE)
+
+  FetchContent_MakeAvailable(fastgltf)
+
+  set(WEBP_BUILD_ANIM_UTILS
+      OFF
+      CACHE BOOL "" FORCE)
+  set(WEBP_BUILD_CWEBP
+      OFF
+      CACHE BOOL "" FORCE)
+  set(WEBP_BUILD_DWEBP
+      OFF
+      CACHE BOOL "" FORCE)
+  set(WEBP_BUILD_GIF2WEBP
+      OFF
+      CACHE BOOL "" FORCE)
+  set(WEBP_BUILD_IMG2WEBP
+      OFF
+      CACHE BOOL "" FORCE)
+  set(WEBP_BUILD_VWEBP
+      OFF
+      CACHE BOOL "" FORCE)
+  set(WEBP_BUILD_WEBPINFO
+      OFF
+      CACHE BOOL "" FORCE)
+  set(WEBP_BUILD_WEBPMUX
+      OFF
+      CACHE BOOL "" FORCE)
+  set(WEBP_BUILD_EXTRAS
+      OFF
+      CACHE BOOL "" FORCE)
+
+  FetchContent_Declare(
+    webp
+    GIT_REPOSITORY https://github.com/webmproject/libwebp
+    GIT_TAG fa6f56496a442eed59b103250021e4b14ebf1427)
+
+  FetchContent_MakeAvailable(webp)
+
+  list(APPEND PKG_CONFIG_LIB fastgltf webp)
+endif()
+
 if (CONFIG_LV_USE_GLFW)
 
     message("Including GLFW support")
