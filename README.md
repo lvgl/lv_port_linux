@@ -130,13 +130,10 @@ Check the documentation of the drivers for more details
 
 ## Permissions
 
-When using fbdev or DRM, run lvglsim with `sudo` or `su`,
-Usually, unpriviledged users don't have access to the framebuffer device `/dev/fb0`
-`sudo` or `su` must be used.
+By default, unpriviledged users don't have access to the framebuffer device `/dev/fb0`. In such cases, you can either run the application
+with `sudo` privileges or you can grant access to the `video` group.
 
-Access to the framebuffer device can be granted by adding the unpriviledged user to the `video` group
-
-```
+```bash
 sudo adduser $USER video
 newgrp video
 ./build/bin/lvglsim
