@@ -64,17 +64,16 @@ LVGL supports GNU make and CMake
 ### CMake
 
 ```
-cmake -B build -S .
-make -C build -j
-```
+cmake -B build
+cmake --build build -j$(nproc)
 ```
 
 Cross compilation is supported with CMake, edit the `user_cross_compile_setup.cmake`
 to set the location of the compiler toolchain and build using the commands below
 
 ```
-cmake -DCMAKE_TOOLCHAIN_FILE=./user_cross_compile_setup.cmake -B build -S .
-make  -C build -j
+cmake -B build -DCMAKE_TOOLCHAIN_FILE=./user_cross_compile_setup.cmake 
+cmake --build build -j$(nproc)
 ```
 
 ### Installing LVGL
