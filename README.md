@@ -27,7 +27,7 @@ git submodule update --init --recursive
 
 ## Configure drivers and libraries
 
-Adjust `lv_conf.h` to select the drivers and libraries that will be compiled by
+Adjust `lv_conf.defaults` to select the drivers and libraries that will be compiled by
 modifying the following definitions, setting them to `1` or `0`
 
 ### Graphics drivers
@@ -46,6 +46,7 @@ modifying the following definitions, setting them to `1` or `0`
 | Definition         | Description                             |
 | ------------------ | ----------------------------------------|
 | LV_USE_EVDEV       | libevdev input devices                  |
+| LV_USE_LIBINPUT    | libinput input devices                  |
 
 ## Install dependencies
 
