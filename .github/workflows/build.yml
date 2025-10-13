@@ -33,27 +33,27 @@ jobs:
 
       - name: FBDEV Test building the project
         run: |
-          sed -i "s/^#define LV_USE_LINUX_FBDEV.*$/#define LV_USE_LINUX_FBDEV 1/g" lv_conf.h && \
-          sed -i "s/^#define LV_USE_LINUX_DRM.*$/#define LV_USE_LINUX_DRM 0/g" lv_conf.h && \
-          sed -i "s/^#define LV_USE_SDL.*$/#define LV_USE_SDL 0/g" lv_conf.h && \
+          sed -i "s/LV_USE_LINUX_FBDEV.*$/LV_USE_LINUX_FBDEV 1/g" lv_conf.defaults && \
+          sed -i "s/LV_USE_LINUX_DRM.*$/LV_USE_LINUX_DRM 0/g" lv_conf.defaults && \
+          sed -i "s/LV_USE_SDL.*$/LV_USE_SDL 0/g" lv_conf.defaults && \
           docker run --rm -v "$(pwd)":/workdir -t test_${{ matrix.os.image }} \
           /bin/bash -ec "cmake -DCMAKE_C_FLAGS=-Werror -B build -S . && make -j -C build && ldd build/bin/lvglsim"
 
       - name: DRM Test building the project
         run: |
           sudo rm -Rf build/ bin/ && \
-          sed -i "s/^#define LV_USE_LINUX_FBDEV.*$/#define LV_USE_LINUX_FBDEV 0/g" lv_conf.h && \
-          sed -i "s/^#define LV_USE_LINUX_DRM.*$/#define LV_USE_LINUX_DRM 1/g" lv_conf.h && \
-          sed -i "s/^#define LV_USE_SDL.*$/#define LV_USE_SDL 0/g" lv_conf.h && \
+          sed -i "s/LV_USE_LINUX_FBDEV.*$/LV_USE_LINUX_FBDEV 0/g" lv_conf.defaults && \
+          sed -i "s/LV_USE_LINUX_DRM.*$/LV_USE_LINUX_DRM 1/g" lv_conf.defaults && \
+          sed -i "s/LV_USE_SDL.*$/LV_USE_SDL 0/g" lv_conf.defaults && \
           docker run --rm -v "$(pwd)":/workdir -t test_${{ matrix.os.image }} \
           /bin/bash -ec "cmake -DCMAKE_C_FLAGS=-Werror -B build -S . && make -j -C build && ldd build/bin/lvglsim"
 
       - name: SDL Test building the project
         run: |
           sudo rm -Rf build/ bin/ && \
-          sed -i "s/^#define LV_USE_LINUX_FBDEV.*$/#define LV_USE_LINUX_FBDEV 0/g" lv_conf.h && \
-          sed -i "s/^#define LV_USE_LINUX_DRM.*$/#define LV_USE_LINUX_DRM 0/g" lv_conf.h && \
-          sed -i "s/^#define LV_USE_SDL.*$/#define LV_USE_SDL 1/g" lv_conf.h && \
+          sed -i "s/LV_USE_LINUX_FBDEV.*$/LV_USE_LINUX_FBDEV 0/g" lv_conf.defaults && \
+          sed -i "s/LV_USE_LINUX_DRM.*$/LV_USE_LINUX_DRM 0/g" lv_conf.defaults && \
+          sed -i "s/LV_USE_SDL.*$/LV_USE_SDL 1/g" lv_conf.defaults && \
           docker run --rm -v "$(pwd)":/workdir -t test_${{ matrix.os.image }} \
           /bin/bash -ec "cmake -DCMAKE_C_FLAGS=-Werror -B build -S . && make -j -C build && ldd build/bin/lvglsim"
 
