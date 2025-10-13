@@ -182,9 +182,9 @@ if (CONFIG_LV_USE_LINUX_FBDEV)
 
 endif()
 
-if (CONFIG_LV_USE_OPENGLES)
+if (CONFIG_LV_USE_GLFW)
 
-    message("Including OPENGLES support")
+    message("Including GLFW support")
     find_package(PkgConfig REQUIRED)
     pkg_check_modules(GLFW3 REQUIRED glfw3)
     pkg_check_modules(GLEW REQUIRED glew)

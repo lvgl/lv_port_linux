@@ -39,7 +39,7 @@ modifying the following definitions, setting them to `1` or `0`
 | LV_USE_SDL         | SDL                                     |
 | LV_USE_WAYLAND     | WAYLAND                                 |
 | LV_USE_X11         | X11                                     |
-| LV_USE_OPENGLES    | GLFW3                                   |
+| LV_USE_GLFW        | GLFW3                                   |
 
 ### Device drivers
 

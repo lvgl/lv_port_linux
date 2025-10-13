@@ -21,7 +21,7 @@
 #include <stdbool.h>
 
 #include "lvgl/lvgl.h"
-#if LV_USE_OPENGLES
+#if LV_USE_GLFW
 #include "../simulator_util.h"
 #include "../simulator_settings.h"
 #include "../backends.h"
@@ -141,4 +141,4 @@ void run_loop_glfw3(void)
     }
 }
 
-#endif /*#if LV_USE_OPENGLES*/
+#endif /*#if LV_USE_GLFW*/

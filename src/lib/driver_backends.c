@@ -35,7 +35,7 @@
 #if LV_USE_SDL == 0 && \
     LV_USE_WAYLAND == 0 && \
     LV_USE_LINUX_DRM == 0 && \
-    LV_USE_OPENGLES == 0 && \
+    LV_USE_GLFW == 0 && \
     LV_USE_X11 == 0 && \
     LV_USE_LINUX_FBDEV == 0
 
@@ -80,7 +80,7 @@ backend_init_t available_backends[] = {
     backend_init_x11,
 #endif
 
-#if LV_USE_OPENGLES
+#if LV_USE_GLFW
     backend_init_glfw3,
 #endif
 
