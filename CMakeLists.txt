@@ -264,6 +264,7 @@ set(LV_LINUX_INC src/lib)
 target_include_directories(lvgl PUBLIC ${PKG_CONFIG_INC})
 
 add_library(lvgl_linux STATIC ${LV_LINUX_SRC} ${LV_LINUX_BACKEND_SRC})
+target_include_directories(lvgl_linux PUBLIC ${PKG_CONFIG_INC})
 
 # If LVGL is configured to use LV_CONF_PATH or Kconfig
 # Set the exactly the same definitions on the lvgl_linux target
