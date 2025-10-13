@@ -1,23 +1,105 @@
+# This file gets converted into a `lv_conf.h` at compile time
+# A list of all configuration options can be found inside `lvgl/lv_conf_template.h`
+
 LV_COLOR_DEPTH	    16
 
+# Draw units
+# A draw unit is responsible for how the LVGL UI is rendered to the draw buffer
+LV_USE_DRAW_SW_COMPLEX_GRADIENTS 1
+# tip: LV_DRAW_SW_ASM_NEON if your MPU supports NEON
+LV_USE_DRAW_SW_ASM LV_DRAW_SW_ASM_NONE 
+
+# Opengl
+LV_USE_DRAW_OPENGLES 0
+
+# G2D
+LV_USE_DRAW_G2D 0
+
+# SDL
+LV_USE_DRAW_SDL 0
+
+# Display drivers
+# A display driver is responsible for how the draw buffer is rendered to the screen
+
+# Simple framebuffer device
+LV_USE_LINUX_FBDEV      1
+LV_LINUX_FBDEV_RENDER_MODE   LV_DISPLAY_RENDER_MODE_DIRECT
+LV_LINUX_FBDEV_BUFFER_COUNT  2
+
+# DRM Support
+LV_USE_LINUX_DRM        0
+LV_USE_LINUX_DRM_GBM_BUFFERS 0
+# Also enable LV_USE_OPENGLES
+LV_LINUX_DRM_USE_EGL 0
+
+# SDL2
+LV_USE_SDL              0
+LV_SDL_RENDER_MODE      LV_DISPLAY_RENDER_MODE_DIRECT 
+LV_SDL_BUF_COUNT        1
+LV_SDL_ACCELERATED      1
+LV_SDL_FULLSCREEN       0
+LV_SDL_DIRECT_EXIT      1
+LV_SDL_MOUSEWHEEL_MODE  LV_SDL_MOUSEWHEEL_MODE_ENCODER 
+
+# Wayland
+LV_USE_WAYLAND          0
+LV_WAYLAND_BUF_COUNT            1
+LV_WAYLAND_RENDER_MODE          LV_DISPLAY_RENDER_MODE_PARTIAL
+LV_WAYLAND_WINDOW_DECORATIONS   0
+LV_WAYLAND_USE_DMABUF           0 
+
+# GLFW
+# Also enable LV_USE_OPENGLES
+LV_USE_GLFW 0
+
+# Input support (enable when using FBDEV or DRM)
+LV_USE_EVDEV    1
+LV_USE_LIBINPUT 0
+
+# Auxiliary drivers
+# Enable OPENGLES when using GLFW or EGL
+LV_USE_OPENGLES 0 
+
+# Examples
+LV_BUILD_EXAMPLES
+
+# Demos
+LV_BUILD_DEMOS 1
+
+LV_USE_DEMO_GLTF 0 
+
+LV_USE_DEMO_WIDGETS         1
+LV_USE_DEMO_KEYPAD_AND_ENCODER 1
+LV_USE_DEMO_BENCHMARK       1
+LV_USE_DEMO_RENDER          1
+LV_USE_DEMO_STRESS          1
+LV_USE_DEMO_MUSIC           1
+ 
+LV_USE_DEMO_HIGH_RES        0
+LV_USE_DEMO_SCROLL          0
+LV_USE_DEMO_TRANSFORM       0
+LV_USE_DEMO_MULTILANG       0
+LV_USE_DEMO_FLEX_LAYOUT     0
+
+# Always use CLIB on Linux devices
 LV_USE_STDLIB_MALLOC LV_STDLIB_CLIB
 LV_USE_STDLIB_STRING LV_STDLIB_CLIB
 LV_USE_STDLIB_SPRINTF LV_STDLIB_CLIB
 
-# LV_USE_OS                 LV_OS_PTHREAD
-# LV_DRAW_SW_DRAW_UNIT_CNT  2
-# LV_DRAW_THREAD_STACK_SIZE    (32 * 1024)
+# Logging
+LV_USE_LOG 1
+LV_LOG_PRINTF 1
 
-LV_USE_SYSMON       0
-LV_USE_PERF_MONITOR 0
 
-LV_USE_DRAW_SW_COMPLEX_GRADIENTS 1
-LV_OBJ_STYLE_CACHE      1
-LV_USE_LOG	        1
-LV_LOG_PRINTF	    1
-LV_USE_ASSERT_MEM_INTEGRITY	1
-LV_USE_ASSERT_OBJ	1
-LV_USE_ASSERT_STYLE	1
+# Monitor your CPU usage, render time, flush time and FPS
+LV_USE_SYSMON 0
+
+LV_USE_PERF_MONITOR 1
+# LVGL provides a way to monitor the process specific CPU usage on linux
+LV_SYSMON_PROC_IDLE_AVAILABLE 1
+
+
+# Enable fonts
 LV_FONT_MONTSERRAT_12	1
 LV_FONT_MONTSERRAT_14	1
 LV_FONT_MONTSERRAT_16	1
@@ -43,48 +125,39 @@ LV_FONT_SOURCE_HAN_SANS_SC_16_CJK	1
 LV_FONT_UNSCII_8	1
 LV_FONT_FMT_TXT_LARGE       1
 
+# TTF decoder
+LV_USE_TINY_TTF         1
+
+# Support using images as font in label or span widgets 
+LV_USE_IMGFONT          1
+
+# FS support
 LV_USE_FS_STDIO         1
 LV_FS_DEFAULT_DRIVER_LETTER 'A'
 LV_FS_STDIO_LETTER      'A'
 
+LV_OBJ_STYLE_CACHE      1
+
+# Vector graphics
+LV_USE_FLOAT            1
+LV_USE_MATRIX           1
 LV_USE_VECTOR_GRAPHIC   1
 LV_USE_THORVG_INTERNAL  1 
-LV_USE_MATRIX           1
-LV_USE_FLOAT            1
 LV_USE_LOTTIE           1
-LV_USE_IMGFONT          1
-LV_USE_LZ4_INTERNAL     1
-LV_USE_TINY_TTF         1
-LV_USE_BARCODE          1
-LV_USE_QRCODE           1
-LV_USE_RLE              1
+
+# Image decoding
 LV_BIN_DECODER_RAM_LOAD 1
 LV_USE_TJPGD            1
-LV_USE_BMP              1
 LV_USE_LODEPNG          1
+LV_USE_BMP              1
 
-LV_USE_LINUX_FBDEV      1
-LV_LINUX_FBDEV_RENDER_MODE   LV_DISPLAY_RENDER_MODE_PARTIAL
-LV_LINUX_FBDEV_BUFFER_COUNT  2
-LV_LINUX_FBDEV_BUFFER_SIZE   1080
+# Compression
+LV_USE_LZ4_INTERNAL     1
+LV_USE_RLE              1
 
-LV_USE_LINUX_DRM        0
+# Misc
+LV_USE_BARCODE          1
+LV_USE_QRCODE           1
 
-LV_USE_SDL              0
-
-LV_USE_WAYLAND          0
-
-LV_USE_EVDEV            1
-
-LV_USE_DEMO_WIDGETS         1
-LV_USE_DEMO_KEYPAD_AND_ENCODER 1
-LV_USE_DEMO_BENCHMARK       1
-LV_USE_DEMO_RENDER          1
-LV_USE_DEMO_STRESS          1
-LV_USE_DEMO_MUSIC           1
-LV_USE_DEMO_FLEX_LAYOUT     1
-LV_USE_DEMO_MULTILANG       1
-LV_USE_DEMO_TRANSFORM       1
-LV_USE_DEMO_SCROLL          1
-LV_USE_DEMO_HIGH_RES        1
- 
+# Performance
+LV_DRAW_LAYER_SIMPLE_BUF_SIZE  (256 * 1024)

@@ -21,6 +21,36 @@ set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall -Wextra -Wpedantic")
 set(LV_BUILD_SET_CONFIG_OPTS ON CACHE BOOL
     "create CMAKE variables from lv_conf_internal.h" FORCE)
 
+set(LV_BUILD_CONF_PATH
+    "${CMAKE_BINARY_DIR}/lv_conf.h"
+    CACHE PATH "path to lv_conf.h" FORCE)
+
+set(LVGL_TEMPLATE_PATH "${CMAKE_SOURCE_DIR}/lvgl/lv_conf_template.h")
+set(LV_CONF_DEFAULTS_PATH "${CMAKE_SOURCE_DIR}/lv_conf.defaults")
+set(GENERATE_SCRIPT_PATH "${CMAKE_SOURCE_DIR}/lvgl/scripts/generate_lv_conf.py")
+
+configure_file(${LVGL_TEMPLATE_PATH} ${CMAKE_BINARY_DIR}/lv_conf_template.h
+               COPYONLY)
+configure_file(${LV_CONF_DEFAULTS_PATH} ${CMAKE_BINARY_DIR}/lv_conf.defaults
+               COPYONLY)
+configure_file(${GENERATE_SCRIPT_PATH} ${CMAKE_BINARY_DIR}/generate_lv_conf.py
+               COPYONLY)
+
+execute_process(
+  COMMAND
+    ${Python3_EXECUTABLE} ${GENERATE_SCRIPT_PATH} --template
+    ${LVGL_TEMPLATE_PATH} --defaults ${LV_CONF_DEFAULTS_PATH} --config
+    ${LV_BUILD_CONF_PATH}
+  RESULT_VARIABLE config_result
+  OUTPUT_VARIABLE config_output
+  ERROR_VARIABLE config_error)
+
+if(NOT config_result EQUAL 0)
+  message(FATAL_ERROR "Failed to generate lv_conf.h: ${config_error}")
+endif()
+
+message(STATUS "${LV_BUILD_CONF_PATH} generated successfully")
+
 add_subdirectory(lvgl)
 
 if (CONFIG_LV_USE_EVDEV)
