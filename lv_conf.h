@@ -269,14 +269,20 @@
 #endif
 
 /** Use NXP's G2D on MPU platforms. */
-#define LV_USE_DRAW_G2D 0
+#define LV_USE_G2D 0
 
-#if LV_USE_DRAW_G2D
+#if LV_USE_G2D
+    /** Use G2D for drawing. **/
+    #define LV_USE_DRAW_G2D 1
+
+    /** Use G2D to rotate display. **/
+    #define LV_USE_ROTATE_G2D 0
+
     /** Maximum number of buffers that can be stored for G2D draw unit.
      *  Includes the frame buffers and assets. */
     #define LV_G2D_HASH_TABLE_SIZE 50
 
-    #if LV_USE_OS
+    #if LV_USE_DRAW_G2D && LV_USE_OS
         /** Use additional draw thread for G2D processing.*/
         #define LV_USE_G2D_DRAW_THREAD 1
     #endif
@@ -387,6 +393,9 @@
 #if LV_USE_DRAW_EVE
     /* EVE_GEN value: 2, 3, or 4 */
     #define LV_DRAW_EVE_EVE_GENERATION 4
+
+    /* the maximum number of bytes to buffer before a single SPI transmission */
+    #define LV_DRAW_EVE_WRITE_BUFFER_SIZE 2048
 #endif
 
 /*=======================
@@ -1331,8 +1340,9 @@
 #define LV_USE_ST7796        0
 #define LV_USE_ILI9341       0
 #define LV_USE_FT81X         0
+#define LV_USE_NV3007        0
 
-#if (LV_USE_ST7735 | LV_USE_ST7789 | LV_USE_ST7796 | LV_USE_ILI9341)
+#if (LV_USE_ST7735 | LV_USE_ST7789 | LV_USE_ST7796 | LV_USE_ILI9341 | LV_USE_NV3007)
     #define LV_USE_GENERIC_MIPI 1
 #else
     #define LV_USE_GENERIC_MIPI 0
