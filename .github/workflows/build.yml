@@ -40,7 +40,7 @@ jobs:
           sudo rm -rf build/ bin/
           docker run --rm -v "$(pwd)":/workdir -t test_${{ matrix.os.image }} \
           /bin/bash -ec "
-            cmake -DCMAKE_C_FLAGS=-Werror -DCONFIG=${{ matrix.config }} -B build && \
+            cmake -DWERROR=ON -DCONFIG=${{ matrix.config }} -B build && \
             cmake --build build -j\$(nproc) && \
             ldd build/bin/lvglsim
           "

@@ -1,6 +1,8 @@
 cmake_minimum_required(VERSION 3.11)
 project(lvgl)
 
+option(WERROR "Treat warnings as errors for LVGL targets" OFF)
+
 # Set policy to allow to run the target_link_libraries cmd on targets that are build
 # in another directory.
 # Currently, the linking is not handled by env_support/cmake/os.cmake
@@ -379,6 +381,11 @@ target_link_libraries(lvgl PUBLIC ${PKG_CONFIG_LIB} m pthread)
 add_executable(lvglsim src/main.c ${LV_LINUX_SRC} ${LV_LINUX_BACKEND_SRC})
 target_link_libraries(lvglsim lvgl_linux lvgl)
 
+if(WERROR)
+    target_compile_options(lvglsim PRIVATE -Werror)
+    target_compile_options(lvgl PRIVATE -Werror)
+    target_compile_options(lvgl_linux PRIVATE -Werror)
+endif()
 
 
 # Install the lvgl_linux library and its headers
