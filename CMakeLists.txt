@@ -271,6 +271,28 @@ if (CONFIG_LV_USE_GSTREAMER)
     list(APPEND PKG_CONFIG_INC ${GSTREAMER_VIDEO_INCLUDE_DIRS} ${GSTREAMER_APP_INCLUDE_DIRS})
 endif()
 
+# Check for external demos
+if(CONFIG_LV_USE_DEMO_FLEX_LAYOUT
+   OR CONFIG_LV_USE_DEMO_MULTILANG
+   OR CONFIG_LV_USE_DEMO_TRANSFORM
+   OR CONFIG_LV_USE_DEMO_SCROLL
+   OR CONFIG_LV_USE_DEMO_EBIKE
+   OR CONFIG_LV_USE_DEMO_HIGH_RES
+   OR CONFIG_LV_USE_DEMO_SMARTWATCH)
+
+    set(USE_EXTERNAL_DEMOS ON)
+else()
+    set(USE_EXTERNAL_DEMOS OFF)
+endif()
+
+if(USE_EXTERNAL_DEMOS)
+    message("Including external demos")
+    include(FetchContent)
+    FetchContent_Declare(lv_demos_ext GIT_REPOSITORY https://github.com/lvgl/lv_demos)
+    FetchContent_MakeAvailable(lv_demos_ext)
+    list(APPEND PKG_CONFIG_LIB lv_demos_ext)
+endif()
+
 
 file(GLOB LV_LINUX_SRC src/lib/*.c)
 set(LV_LINUX_INC src/lib)
