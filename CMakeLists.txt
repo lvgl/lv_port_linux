@@ -43,10 +43,10 @@ execute_process(
     ${LV_BUILD_CONF_PATH}
   RESULT_VARIABLE config_result
   OUTPUT_VARIABLE config_output
-  ERROR_VARIABLE config_error)
+  ERROR_VARIABLE config_output)
 
 if(NOT config_result EQUAL 0)
-  message(FATAL_ERROR "Failed to generate lv_conf.h: ${config_error}")
+  message(FATAL_ERROR "Failed to generate lv_conf.h: ${config_output}")
 endif()
 
 message(STATUS "${LV_BUILD_CONF_PATH} generated successfully")
