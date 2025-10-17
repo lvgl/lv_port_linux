@@ -4,7 +4,7 @@ FROM "$BASE_OS"
 RUN DEBIAN_FRONTEND="noninteractive" apt-get update
 
 # Build tools
-RUN DEBIAN_FRONTEND="noninteractive" apt-get install -y make cmake build-essential python3-venv
+RUN DEBIAN_FRONTEND="noninteractive" apt-get install -y make cmake build-essential python3-venv git
 
 # Required for LV_USE_SDL
 RUN DEBIAN_FRONTEND="noninteractive" apt-get install -y libsdl2-dev libsdl2-image-dev
