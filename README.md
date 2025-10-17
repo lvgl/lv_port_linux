@@ -27,7 +27,7 @@ git submodule update --init --recursive
 
 ## Configure drivers and libraries
 
-Adjust `lv_conf.h` to select the drivers and libraries that will be compiled by
+Adjust `lv_conf.defaults` to select the drivers and libraries that will be compiled by
 modifying the following definitions, setting them to `1` or `0`
 
 ### Graphics drivers
@@ -46,6 +46,7 @@ modifying the following definitions, setting them to `1` or `0`
 | Definition         | Description                             |
 | ------------------ | ----------------------------------------|
 | LV_USE_EVDEV       | libevdev input devices                  |
+| LV_USE_LIBINPUT    | libinput input devices                  |
 
 ## Install dependencies
 
@@ -63,28 +64,21 @@ LVGL supports GNU make and CMake
 ### CMake
 
 ```
-cmake -B build -S .
-make -C build -j
-```
-
-### GNU make
-
-```
-make -j
+cmake -B build
+cmake --build build -j$(nproc)
 ```
 
 Cross compilation is supported with CMake, edit the `user_cross_compile_setup.cmake`
 to set the location of the compiler toolchain and build using the commands below
 
 ```
-cmake -DCMAKE_TOOLCHAIN_FILE=./user_cross_compile_setup.cmake -B build -S .
-make  -C build -j
+cmake -B build -DCMAKE_TOOLCHAIN_FILE=./user_cross_compile_setup.cmake 
+cmake --build build -j$(nproc)
 ```
 
 ### Installing LVGL
 
-It is possible to install LVGL to your system however, this is currently only
-supported with cmake.
+It is possible to install LVGL to your system using cmake:
 
 ```
 cmake --install ./build
@@ -95,6 +89,7 @@ cmake --install ./build
 ```
 ./build/bin/lvglsim
 ```
+
 This will start the widgets demo
 
 If multiple backends are enabled you can run with a specific backend via the `-b` option
@@ -135,13 +130,10 @@ Check the documentation of the drivers for more details
 
 ## Permissions
 
-When using fbdev or DRM, run lvglsim with `sudo` or `su`,
-Usually, unpriviledged users don't have access to the framebuffer device `/dev/fb0`
-`sudo` or `su` must be used.
+By default, unpriviledged users don't have access to the framebuffer device `/dev/fb0`. In such cases, you can either run the application
+with `sudo` privileges or you can grant access to the `video` group.
 
-Access to the framebuffer device can be granted by adding the unpriviledged user to the `video` group
-
-```
+```bash
 sudo adduser $USER video
 newgrp video
 ./build/bin/lvglsim
