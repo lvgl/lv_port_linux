@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.10)
+cmake_minimum_required(VERSION 3.11)
 project(lvgl)
 
 # Set policy to allow to run the target_link_libraries cmd on targets that are build
