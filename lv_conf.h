@@ -1,6 +1,6 @@
 /**
  * @file lv_conf.h
- * Configuration file for v9.4.0-dev
+ * Configuration file for v9.4.0
  */
 
 /*
@@ -394,7 +394,9 @@
     /* EVE_GEN value: 2, 3, or 4 */
     #define LV_DRAW_EVE_EVE_GENERATION 4
 
-    /* the maximum number of bytes to buffer before a single SPI transmission */
+    /* The maximum number of bytes to buffer before a single SPI transmission.
+     * Set it to 0 to disable write buffering.
+     */
     #define LV_DRAW_EVE_WRITE_BUFFER_SIZE 2048
 #endif
 
@@ -1003,9 +1005,6 @@
 
 /** Enable ThorVG by assuming that its installed and linked to the project
  *  Requires LV_USE_VECTOR_GRAPHIC */
-#define LV_USE_THORVG_EXTERNAL 0
-
-/** Enable ThorVG by assuming that its installed and linked to the project */
 #define LV_USE_THORVG_EXTERNAL 0
 
 /** Use lvgl built-in LZ4 lib */
