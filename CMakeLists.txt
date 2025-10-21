@@ -22,7 +22,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(EXECUTABLE_OUTPUT_PATH ${CMAKE_BINARY_DIR}/bin)
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall -Wextra -Wpedantic")
 
-set(CONFIG "default" CACHE STRING "Config name to use. Leave empty for default `lv_conf.defaults`")
+option(CONFIG "Config to use leave empty for `lv_conf.defaults`" "default")
 
 set(LV_CONF_DEFAULTS_PATH "${CMAKE_SOURCE_DIR}/lv_conf.defaults")
 set(LV_CONF_DEFAULTS_OLD_PATH "${CMAKE_SOURCE_DIR}/lv_conf.defaults.old")
