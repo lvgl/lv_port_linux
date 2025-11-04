@@ -40,9 +40,9 @@
             ],
             "actions": [
                 {
-                    "toReplace": "#define LV_COLOR_DEPTH \\d+",
-                    "newContent": "#define LV_COLOR_DEPTH {value}",
-                    "filePath": "lv_conf.h"
+                    "toReplace": "LV_COLOR_DEPTH \\d+",
+                    "newContent": "LV_COLOR_DEPTH {value}",
+                    "filePath": "lv_conf.defaults"
                 }
             ]
         },
@@ -62,9 +62,9 @@
             ],
             "actions": [
                 {
-                    "toReplace": "#define LV_USE_PERF_MONITOR .*",
-                    "newContent": "#define LV_USE_PERF_MONITOR {value}",
-                    "filePath": "lv_conf.h"
+                    "toReplace": "LV_USE_PERF_MONITOR .*",
+                    "newContent": "LV_USE_PERF_MONITOR {value}",
+                    "filePath": "lv_conf.defaults"
                 }
             ]
         },
@@ -85,25 +85,35 @@
                     "name": "SDL",
                     "value": "2"
                 }
+                {
+                    "name": "Wayland",
+                    "value": "3"
+                }
             ],
             "actions": [
                 {
                     "ifValue": "0",
-                    "toReplace": "#define LV_USE_LINUX_FBDEV +\\d+",
-                    "newContent": "#define LV_USE_LINUX_FBDEV 1",
-                    "filePath": "lv_conf.h"
+                    "toReplace": "LV_USE_LINUX_FBDEV +\\d+",
+                    "newContent": "LV_USE_LINUX_FBDEV 1",
+                    "filePath": "lv_conf.defaults"
                 },
                 {
                     "ifValue": "1",
-                    "toReplace": "#define LV_USE_LINUX_DRM +\\d+",
-                    "newContent": "#define LV_USE_LINUX_DRM 1",
-                    "filePath": "lv_conf.h"
+                    "toReplace": "LV_USE_LINUX_DRM +\\d+",
+                    "newContent": "LV_USE_LINUX_DRM 1",
+                    "filePath": "lv_conf.defaults"
                 },
                 {
                     "ifValue": "2",
-                    "toReplace": "#define LV_USE_SDL +\\d+",
-                    "newContent": "#define LV_USE_SDL 1",
-                    "filePath": "lv_conf.h"
+                    "toReplace": "LV_USE_SDL +\\d+",
+                    "newContent": "LV_USE_SDL 1",
+                    "filePath": "lv_conf.defaults"
+                }
+                {
+                    "ifValue": "3",
+                    "toReplace": "LV_USE_WAYLAND +\\d+",
+                    "newContent": "LV_USE_WAYLAND 1",
+                    "filePath": "lv_conf.defaults"
                 }
             ]
         }
