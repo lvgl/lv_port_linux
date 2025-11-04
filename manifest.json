@@ -108,7 +108,7 @@
                     "toReplace": "LV_USE_SDL +\\d+",
                     "newContent": "LV_USE_SDL 1",
                     "filePath": "lv_conf.defaults"
-                }
+                },
                 {
                     "ifValue": "3",
                     "toReplace": "LV_USE_WAYLAND +\\d+",
