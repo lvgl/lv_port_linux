@@ -197,7 +197,14 @@ if (CONFIG_LV_USE_WAYLAND)
     file(MAKE_DIRECTORY ${PROTOCOLS_DIR})
     
     set(WAYLAND_PROTOCOLS_SRC "")
-    
+
+    # Use public-code for shared libs, private-code for static libs
+    if(BUILD_SHARED_LIBS)
+        set(WAYLAND_SCANNER_CODE_MODE "public-code")
+    else()
+        set(WAYLAND_SCANNER_CODE_MODE "private-code")
+    endif()
+
     # Generate xdg-shell protocol (always)
     set(XDG_SHELL_XML "${PROTOCOL_ROOT}/stable/xdg-shell/xdg-shell.xml")
     set(XDG_SHELL_HEADER "${PROTOCOLS_DIR}/wayland_xdg_shell.h")
@@ -205,7 +212,7 @@ if (CONFIG_LV_USE_WAYLAND)
     
     if(NOT EXISTS ${XDG_SHELL_HEADER} OR NOT EXISTS ${XDG_SHELL_SOURCE})
         execute_process(COMMAND wayland-scanner client-header ${XDG_SHELL_XML} ${XDG_SHELL_HEADER})
-        execute_process(COMMAND wayland-scanner private-code ${XDG_SHELL_XML} ${XDG_SHELL_SOURCE})
+        execute_process(COMMAND wayland-scanner ${WAYLAND_SCANNER_CODE_MODE} ${XDG_SHELL_XML} ${XDG_SHELL_SOURCE})
     endif()
     list(APPEND WAYLAND_PROTOCOLS_SRC ${XDG_SHELL_SOURCE})
     
@@ -217,7 +224,7 @@ if (CONFIG_LV_USE_WAYLAND)
         
         if(NOT EXISTS ${DMABUF_HEADER} OR NOT EXISTS ${DMABUF_SOURCE})
             execute_process(COMMAND wayland-scanner client-header ${DMABUF_XML} ${DMABUF_HEADER})
-            execute_process(COMMAND wayland-scanner private-code ${DMABUF_XML} ${DMABUF_SOURCE})
+            execute_process(COMMAND wayland-scanner ${WAYLAND_SCANNER_CODE_MODE} ${DMABUF_XML} ${DMABUF_SOURCE})
         endif()
         list(APPEND WAYLAND_PROTOCOLS_SRC ${DMABUF_SOURCE})
     endif()
@@ -365,7 +372,8 @@ set(LV_LINUX_INC src/lib)
 
 target_include_directories(lvgl PUBLIC ${PKG_CONFIG_INC})
 
-add_library(lvgl_linux STATIC ${LV_LINUX_SRC} ${LV_LINUX_BACKEND_SRC})
+# Library type is determined by BUILD_SHARED_LIBS (shared if ON, static if OFF)
+add_library(lvgl_linux ${LV_LINUX_SRC} ${LV_LINUX_BACKEND_SRC})
 target_include_directories(lvgl_linux PUBLIC ${PKG_CONFIG_INC})
 
 # If LVGL is configured to use LV_CONF_PATH or Kconfig
@@ -378,8 +386,10 @@ target_include_directories(lvgl_linux PUBLIC
 # Link LVGL with external dependencies - Modern CMake/CMP0079 allows this
 target_link_libraries(lvgl PUBLIC ${PKG_CONFIG_LIB} m pthread)
 
-add_executable(lvglsim src/main.c ${LV_LINUX_SRC} ${LV_LINUX_BACKEND_SRC})
-target_link_libraries(lvglsim lvgl_linux lvgl)
+add_executable(lvglsim src/main.c)
+
+# Repeat lvgl_linux to resolve circular dependency with lvgl
+target_link_libraries(lvglsim lvgl_linux lvgl lvgl_linux)
 
 if(WERROR)
     target_compile_options(lvglsim PRIVATE -Werror)
@@ -396,6 +406,7 @@ install(DIRECTORY src/lib/
     PATTERN "*.h")
 
 install(TARGETS lvgl_linux
+    LIBRARY DESTINATION lib
     ARCHIVE DESTINATION lib
 )
 
