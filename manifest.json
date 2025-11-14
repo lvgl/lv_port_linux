@@ -84,7 +84,7 @@
                 {
                     "name": "SDL",
                     "value": "2"
-                }
+                },
                 {
                     "name": "Wayland",
                     "value": "3"
