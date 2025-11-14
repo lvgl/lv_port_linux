@@ -61,9 +61,8 @@ With `<config_name>` the name of the config without the `.defaults` extension, e
 
 ## Install dependencies
 
-Be sure to install the required dependencies for the selected drivers by checking
-the documentation for each driver here:
-https://docs.lvgl.io/master/details/integration/driver/
+Install the required dependencies for the selected drivers by checking 
+the documentation for each driver [here](https://docs.lvgl.io/master/details/integration/embedded_linux/drivers/index.html)
 
 You can also check the [Dockerfiles](docker/) to get the names
 of the packages for various distributions
