@@ -86,7 +86,7 @@ int backend_init_drm(backend_t *backend)
  */
 static lv_display_t *init_drm(void)
 {
-    const char *device = getenv_default("LV_LINUX_DRM_CARD", "/dev/dri/card0");
+    const char *device = getenv_default("LV_LINUX_DRM_CARD", lv_linux_drm_find_device_path());
     lv_display_t * disp = lv_linux_drm_create();
 
     if (disp == NULL) {
