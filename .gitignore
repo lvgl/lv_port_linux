@@ -56,3 +56,7 @@ Mkfile.old
 dkms.conf
 /Debug/
 .cache
+
+# IDE Project files
+/.settings/
+.*project
