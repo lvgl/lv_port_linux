@@ -123,6 +123,11 @@ static void configure_simulator(int argc, char **argv)
     }
 }
 
+void on_benchmark_end(const lv_demo_benchmark_summary_t *summary)
+{
+    lv_demo_benchmark_summary_display(summary);
+    exit(0);
+}
 /**
  * @brief entry point
  * @description start a demo
@@ -151,6 +156,7 @@ int main(int argc, char **argv)
 
     /*Create a Demo*/
     lv_demo_benchmark();
+    lv_demo_benchmark_set_end_cb(on_benchmark_end);
 
     /* Enter the run loop of the selected backend */
     driver_backends_run_loop();
