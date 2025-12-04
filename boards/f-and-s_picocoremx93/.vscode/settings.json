@@ -1,0 +1,20 @@
+{
+    "FUS": {
+        // Target FuS Board
+        "BOARD_IP":"192.168.1.150",
+        "BOARD_ARCH":"arm64",
+        "BOARD_USER":"root",
+        "BOARD_PATH":"/tmp",
+
+        // Project Settings
+        "APP_NAME":"lvglsim",
+
+        // Cross Compile SDK
+        "SDK_SETUP_SCRIPT":"/opt/fus-imx-wayland/5.0/environment-setup-cortexa55-fslc-linux",
+
+        // Debug Settings
+        "MIMODE":"gdb",
+        "DEBUGGER_ARGS":"",
+        "DEBUG_PORT":"3000",
+    }
+}

@@ -1,0 +1,30 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Debug on FuS Board",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "build/bin/${config:FUS.APP_NAME}",
+            "args": [],
+            "cwd": "${workspaceFolder}",
+            "environment": [],
+            "targetArchitecture": "${config:FUS.BOARD_ARCH}",
+            "preLaunchTask": "fus_debug-on-board",
+            "externalConsole":false,
+            "MIMode": "${config:FUS.MIMODE}",
+            "miDebuggerPath": "${workspaceFolder}/.vscode/gdb_with_sdk.sh",
+            // pass the path to the env setup script as the last argument to the gdb launch script
+            "miDebuggerArgs":"${config:FUS.DEBUGGER_ARGS} ${config:FUS.SDK_SETUP_SCRIPT}",
+            "miDebuggerServerAddress": "${config:FUS.BOARD_IP}:${config:FUS.DEBUG_PORT}",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ],
+            "stopAtEntry": true,
+        },
+    ]
+}
