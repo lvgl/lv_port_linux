@@ -1,7 +1,7 @@
 # This file gets converted into a `lv_conf.h` at compile time
 # A list of all configuration options can be found inside `lvgl/lv_conf_template.h`
 # You can also start from a vast list of configs inside the configs folder. 
-# Use cmake to copy it into your workspace:
+# To use one of those configs directly, set the `CONFIG` CMake variable:
 # eg: `cmake -B build -DCONFIG=drm-egl-2d` for `configs/drm-egl-2d.defaults`
 
 LV_COLOR_DEPTH	    16
