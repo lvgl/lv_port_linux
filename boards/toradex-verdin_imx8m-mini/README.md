@@ -8,7 +8,7 @@ This guide provides steps to setup the Verdin imx8m Mini and run a cross-compile
 
 This guide is done with Verdin imx8m Mini Quad 2GB IT on Yavia carrier board.
 
-![]("./toradex-imx8m.webp")
+![](./toradex-imx8m.webp)
 
 ## Buy
 

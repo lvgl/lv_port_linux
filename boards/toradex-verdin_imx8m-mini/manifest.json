@@ -21,11 +21,11 @@
     "https://raw.githubusercontent.com/lvgl/project-creator/master/meta/images/nxp/logo.svg",
     "https://raw.githubusercontent.com/lvgl/project-creator/master/meta/images/toradex/logo.svg"
   ],
-  "image": "https://raw.githubusercontent.com/lvgl/lv_port_toradex_verdin_imx8m_mini/master/board_images/toradex-imx8mm.webp",
+  "image": "https://raw.githubusercontent.com/lvgl/lv_port_linux/master/boards/toradex-verdin_imx8m-mini/toradex-imx8m.webp",
   "buy_now_links": [
     "https://www.toradex.com/computer-on-modules/verdin-arm-family/nxp-imx-8m-mini-nano"
   ],
   "branches": ["release/v9.2"],
-  "getStartedInstructions": "1. Open the project folder and update the submodules: `git submodule update --init --recursive` \n2. Follow the guide in the [README](https://github.com/lvgl/lv_port_toradex_verdin_imx8m_mini/blob/master/README.md#getting-started)",
+  "getStartedInstructions": "1. Open the project folder and update the submodules: `git submodule update --init --recursive` \n2. Follow the guide in the [README](https://github.com/lvgl/lv_port_linux/blob/master/boards/toradex-verdin_imx8m-mini/README.md#getting-started)",
   "settings": []
 }

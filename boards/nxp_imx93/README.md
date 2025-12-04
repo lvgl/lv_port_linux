@@ -298,6 +298,7 @@ sudo picocom -b 115200 /dev/ttyUSB0
 ## Then inside the console, log as "root", no password required
 ## Then retrieve the ip of the board
 ip a
+```
 
 -   Then transfer the executable on the board:
 

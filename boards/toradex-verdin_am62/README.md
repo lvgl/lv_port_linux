@@ -9,7 +9,7 @@ This guide provides steps to setup the Verdin am62 and run a cross-compiled LVGL
 
 This guide is done with Verdin AM62 Dual 1GB WB IT on Yavia carrier board.
 
-![]("./toradex-verdin-am62.webp")
+![](./toradex-verdin-am62.webp)
 
 ## Buy
 
