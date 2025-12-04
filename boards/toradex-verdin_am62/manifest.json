@@ -1,0 +1,31 @@
+{
+  "name": "Toradex Verdin AM62",
+  "maintainer": "LVGL",
+  "hostOperatingsystem": ["Linux"],
+  "environment": ["Torizon", "Yocto"],
+  "hardware": {
+    "chipVendor": "Texas Instruments",
+    "manufacturer": "Toradex",
+    "specs": {
+      "MPU": "2 64-bit Arm® Cortex®-A53 @1.4GHz",
+      "MCU": "Arm® Cortex®-M4F MCU @400MHz",
+      "RAM": "1 GB 16-Bit data bus with inline ECC (1600 MT/s)",
+      "Flash": "8GB eMMC Flash",
+      "GPU": "PowerVR Rogue AXE-1-16M"
+    }
+  },
+  "description": "The Verdin AM62 is a cost-effective Computer on Module (CoM) based on the TI Sitara AM62x processor, offering up to four Cortex-A53 cores. It provides an attractive entry point into the Verdin ecosystem, with scalability through pin-compatibility with the Verdin iMX8M Mini and Plus modules. Featuring integrated Wi-Fi 4 and Bluetooth 5.2, or optional Wi-Fi 6 and Bluetooth 5.3 for custom configurations, it supports Torizon’s OTA updates, device monitoring, and remote access. Designed for power-constrained applications, the Verdin AM62 includes advanced power management and hardware-based security for secure boot and cryptographic acceleration.",
+  "shortDescription": "Powerful Cortex®-A53 based device for embedded Linux.",
+  "urlToClone": "https://github.com/lvgl/lv_port_linux.git",
+  "logos": [
+    "https://raw.githubusercontent.com/lvgl/project-creator/master/meta/images/texas_instruments/logo.svg",
+    "https://raw.githubusercontent.com/lvgl/project-creator/master/meta/images/toradex/logo.svg"
+  ],
+  "image": "https://raw.githubusercontent.com/lvgl/lv_port_linux/master/boards/toradex-verdin_am62/toradex-verdin-am62.webp",
+  "buy_now_links": [
+    "https://www.toradex.com/computer-on-modules/verdin-arm-family/ti-am62#buynow"
+  ],
+  "branches": ["release/v9.2"],
+  "getStartedInstructions": "1. Open the project folder and update the submodules: `git submodule update --init --recursive` \n2. Follow the guide in the [README](https://github.com/lvgl/lv_port_linux/blob/master/boards/toradex-verdin_am62/README.md#getting-started)",
+  "settings": []
+}

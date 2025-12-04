@@ -1,0 +1,27 @@
+{
+  "name": "Texas Instruments TMDS62LEVM",
+  "maintainer": "LVGL",
+  "hostOperatingsystem": ["Linux"],
+  "environment": ["Yocto", "Buildroot"],
+  "hardware": {
+    "chipVendor": "Texas Instruments",
+    "manufacturer": "Texas Instruments",
+    "specs": {
+      "MPU": "AM62L with Dual 64-bit Arm® Cortex®-A53 @1.25GHz",
+      "RAM": "2 GB DDR4 16-Bit data bus (1600 MT/s)",
+      "Flash": "Micro SD Card",
+      "GPU": "No GPU"
+    }
+  },
+  "description": "The Texas Instruments TMDS62LEVM evaluation module (EVM) is a stand-alone test and development platform built around the AM62L system-on-a-chip (SoC). AM62L processor is comprised of a dual-core 64-bit Arm®-Cortex®-A53 microprocessor. It features an HDMI port for up to 2K 60fps displays and two ethernet ports. It has no GPU yet is fast with LVGL software rendering.",
+  "shortDescription": "Powerful Texas Instruments Cortex®-A53 based device for embedded Linux.",
+  "urlToClone": "https://github.com/lvgl/lv_port_linux.git",
+  "logos": [
+    "https://raw.githubusercontent.com/lvgl/project-creator/master/meta/images/texas_instruments/logo.svg"
+  ],
+  "image": "https://raw.githubusercontent.com/lvgl/lv_port_linux/master/boards/texas-instruments_sk-am62l/ti-sk-am62l.webp",
+  "buy_now_links": ["https://www.ti.com/tool/TMDS62LEVM"],
+  "branches": ["release/v9.2"],
+  "getStartedInstructions": "1. Open the project folder and update the submodules: `git submodule update --init --recursive` \n2. Follow the guide in the [README](https://github.com/lvgl/lv_port_linux/tree/master/boards/texas-instruments_sk-am62l/README.md#getting-started)",
+  "settings": []
+}

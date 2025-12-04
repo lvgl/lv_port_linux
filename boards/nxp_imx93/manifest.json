@@ -1,0 +1,30 @@
+{
+  "name": "i.MX 93 Evaluation Kit",
+  "maintainer": "LVGL",
+  "hostOperatingsystem": ["Linux"],
+  "environment": ["Yocto"],
+  "hardware": {
+    "chipVendor": "NXP",
+    "manufacturer": "NXP",
+    "specs": {
+      "MPU": "Dual Cortex-A55 @1.7GHz",
+      "MCU": "Cortex-M33 @250MHz",
+      "RAM": "2 GB LPDDR4X / LPDDR4 16-Bit data bus with inline ECC (3.7 GT/s)",
+      "Flash": "16 GB eMMC5.1 Micro SD Card",
+      "GPU": "PowerVR"
+    }
+  },
+  "description": "The i.MX 93 applications processors are the first in the i.MX portfolio to integrate the scalable Arm Cortex-A55 core, bringing performance and energy efficiency to Linux®-based edge applications and the Arm Ethos™-U65 microNPU, enabling developers to create more capable, cost-effective and energy-efficient ML applications. The i.MX 93 EVK for 11x11mm sample provides a platform for comprehensive evaluation of the i.MX 93 applications processors and also includes the ability to measure power consumption on the power rails. ",
+  "shortDescription": "Powerful NXP Cortex®-A55 based device for embedded Linux.",
+  "urlToClone": "https://github.com/lvgl/lv_port_linux.git",
+  "logos": [
+    "https://raw.githubusercontent.com/lvgl/project-creator/master/meta/images/nxp/logo.svg"
+  ],
+  "image": "https://raw.githubusercontent.com/lvgl/lv_port_linux/master/boards/nxp_imx93/NXP-imx-93-evaluation-kit.webp",
+  "buy_now_links": [
+    "https://www.nxp.com/design/design-center/development-boards-and-designs/i-mx-evaluation-and-development-boards/i-mx-93-evaluation-kit:i.MX93EVK"
+  ],
+  "branches": ["release/v9.2"],
+  "getStartedInstructions": "1. Open the project folder and update the submodules: `git submodule update --init --recursive` \n2. Follow the guide in the [README](https://github.com/lvgl/lv_port_linux/tree/master/boards/nxp_imx93/README.md)",
+  "settings": []
+}

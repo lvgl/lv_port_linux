@@ -1,0 +1,68 @@
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+
+    // Run a single task by opening the Command Palette (Ctrl+Shift+P), type "Run Task" and select one of the tasks
+    "version": "2.0.0",
+    "tasks": [
+        {
+            // Shortcut to fus_cross-compile (Ctrl+Shift+B)
+            "label": "build",
+            "dependsOn": "fus_cross-compile",
+            "problemMatcher": []
+        },
+        {
+            // Will compile for your FuS board
+            "label": "fus_cross-compile",
+            "type": "shell",
+            "dependsOn": "",
+            "command": [
+                "source ${config:FUS.SDK_SETUP_SCRIPT};",
+                "cmake -B build -S . && make -C build -j$(nproc) ${config:FUS.APP_NAME};"
+            ],
+            "problemMatcher": []
+        },
+        {
+            // Compiles a new build, then pushes the binary to your FuS board
+            "label": "fus_deploy-to-board",
+            "type": "shell",
+            "dependsOn": "fus_cross-compile",
+            "command": [
+                "ssh ${config:FUS.BOARD_USER}@${config:FUS.BOARD_IP} 'sh -c \"/usr/bin/killall -q gdbserver; /usr/bin/killall -q ${config:FUS.APP_NAME}\"';",
+                "scp build/bin/${config:FUS.APP_NAME} ${config:FUS.BOARD_USER}@${config:FUS.BOARD_IP}:${config:FUS.BOARD_PATH}/${config:FUS.APP_NAME};"
+            ],
+            "problemMatcher": []
+        },
+        {
+            // Deploys a new build to your FuS board, then runs the app
+            "label": "fus_launch-on-board",
+            "type": "shell",
+            "dependsOn": "fus_deploy-to-board",
+            "command": [
+                "ssh -t ${config:FUS.BOARD_USER}@${config:FUS.BOARD_IP} sh -c",
+                "'${config:FUS.BOARD_PATH}/${config:FUS.APP_NAME}'"
+            ],
+            "problemMatcher": []
+        },
+        {
+            // Deploys a new build to your FuS board, starts Debugger
+            "label": "fus_debug-on-board",
+            "hide": true,
+            "type": "shell",
+            "dependsOn": "fus_deploy-to-board",
+            "command": [
+                "ssh -t ${config:FUS.BOARD_USER}@${config:FUS.BOARD_IP} sh -c",
+                "'cd ${config:FUS.BOARD_PATH}; gdbserver localhost:${config:FUS.DEBUG_PORT} ${config:FUS.BOARD_PATH}/${config:FUS.APP_NAME}';"
+            ],
+            "problemMatcher": {
+                "base": "$gcc",
+                "background": {
+                    "activeOnStart": true,
+                    "beginsPattern": "${config:FUS.APP_NAME}",
+                    "endsPattern": "Listening on port [0-9]{4}"
+                }
+            },
+            "isBackground": true
+        }
+    ]
+}

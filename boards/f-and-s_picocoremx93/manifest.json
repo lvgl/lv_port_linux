@@ -1,0 +1,30 @@
+{
+  "name": "F&S PicoCore™MX93",
+  "maintainer": "LVGL",
+  "hostOperatingsystem": ["Linux"],
+  "environment": ["Yocto"],
+  "hardware": {
+    "chipVendor": "NXP",
+    "manufacturer": "F&S",
+    "specs": {
+      "MPU": "Dual Cortex-A55 @1.7GHz",
+      "MCU": "Cortex-M33 @250MHz",
+      "RAM": "2 GB LPDDR4",
+      "Flash": "64GB eMMC",
+      "GPU": "PXP"
+    }
+  },
+  "description": "The F&S PicoCore™MX93 is a highly capable dual core compact SoM MPU (System-on-Module) which exposes abundant IO through its board-to-board mezzanine connectors. The processor is a dual-core 64-bit ARM Cortex-A55. The evaluation kit comes with a 1024x600 capacitive touch display and an evaluation board for the SoM which breaks-out some common interfaces like USB, Ethernet, serial, GPIO, SD Card, and more.",
+  "shortDescription": "Powerful NXP Cortex\u00ae-A55 based device for embedded Linux.",
+  "urlToClone": "https://github.com/lvgl/lv_port_linux.git",
+  "logos": [
+    "https://raw.githubusercontent.com/lvgl/project-creator/master/meta/images/f_and_s/logo.svg"
+  ],
+  "image": "https://raw.githubusercontent.com/lvgl/lv_port_f-and-s_picocoremx93/master/board_images/FS-PicoCore-MX93.png",
+  "buy_now_links": [
+    "https://www.fs-net.de/en/embedded-modules/computer-on-module-picocore/picocoremx93-with-nxp-imx93-cpu"
+  ],
+  "branches": ["release/v9.3"],
+  "getStartedInstructions": "Follow the guide in the [README](https://github.com/lvgl/lv_port_linux/tree/master/boards/f-and-s_picocoremx93/README.md)",
+  "settings": []
+}

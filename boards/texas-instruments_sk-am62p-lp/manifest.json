@@ -1,0 +1,28 @@
+{
+  "name": "Texas Instruments SK-AM62P-LP",
+  "maintainer": "LVGL",
+  "hostOperatingsystem": ["Linux"],
+  "environment": ["Yocto", "Buildroot"],
+  "hardware": {
+    "chipVendor": "Texas Instruments",
+    "manufacturer": "Texas Instruments",
+    "specs": {
+      "MPU": "AM625P with Quad 64-bit Arm® Cortex®-A53 @1.4GHz",
+      "MCU": "two ARM® Cortex®-R5F single core up to 800MHz",
+      "RAM": "8 GB LPDDR4 32-Bit data bus with inline ECC (3200 MT/s)",
+      "Flash": "Micro SD Card",
+      "GPU": "PowerVR"
+    }
+  },
+  "description": "The Texas Instruments SK-AM62P-LP starter kit (SK) evaluation module (EVM) is built around the AM62P display processor, which includes scalable Arm® Cortex®-A53 performance and embedded features, such as high-performance 3D-GPU, 4K video acceleration, and extensive peripherals. SK-AM62P-LP is for those looking to develop automotive and industrial applications, including automotive digital instrumentation, automotive displays, industrial HMI and more. It features an HDMI port for up to 4K 60fps displays, two ethernet ports, an M.2 expansion port for wireless connectivity or storage, and many other peripherals.",
+  "shortDescription": "Powerful Texas Instruments Cortex®-A53 based device for embedded Linux.",
+  "urlToClone": "https://github.com/lvgl/lv_port_linux.git",
+  "logos": [
+    "https://raw.githubusercontent.com/lvgl/project-creator/master/meta/images/texas_instruments/logo.svg"
+  ],
+  "image": "https://raw.githubusercontent.com/lvgl/lv_port_texas_sk-am62p-lp/master/board_images/ti-sk-am62p-lp.webp",
+  "buy_now_links": ["https://www.ti.com/tool/SK-AM62P-LP"],
+  "branches": ["release/v9.2"],
+  "getStartedInstructions": "1. Open the project folder and update the submodules: `git submodule update --init --recursive` \n2. Follow the guide in the [README](https://github.com/lvgl/lv_port_linux/blob/master/boards/texas-instruments_sk-am62p-lp/README.md#getting-started)",
+  "settings": []
+}

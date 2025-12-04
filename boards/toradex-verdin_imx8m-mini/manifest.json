@@ -1,0 +1,31 @@
+{
+  "name": "Toradex Verdin imx8mm",
+  "maintainer": "LVGL",
+  "hostOperatingsystem": ["Linux"],
+  "environment": ["Torizon", "Yocto"],
+  "hardware": {
+    "chipVendor": "NXP",
+    "manufacturer": "Toradex",
+    "specs": {
+      "MPU": "4 64-bit Arm® Cortex®-A53 @1.8GHz",
+      "MCU": "Arm® Cortex®-M4 MCU @400MHz",
+      "RAM": "2 GB LPDDR4 32-Bit data bus with inline ECC (1500 MT/s)",
+      "Flash": "16GB eMMC Flash",
+      "GPU": "2D: Vivante GC320, 3D: Vivante GCNanoUltra"
+    }
+  },
+  "description": "The Verdin imx8m mini is a cost-effective Computer on Module (CoM) based on the NXP imx8m mini processor, offering up to four Cortex-A53 cores. It features integrated Wi-Fi 5 and Bluetooth 5.3, Torizon’s OTA updates, device monitoring, and remote access. Designed for power-constrained applications, the Verdin imx8m mini includes advanced power management and hardware-based security for secure boot and cryptographic acceleration.",
+  "shortDescription": "Powerful Cortex®-A53 based device for embedded Linux.",
+  "urlToClone": "https://github.com/lvgl/lv_port_linux.git",
+  "logos": [
+    "https://raw.githubusercontent.com/lvgl/project-creator/master/meta/images/nxp/logo.svg",
+    "https://raw.githubusercontent.com/lvgl/project-creator/master/meta/images/toradex/logo.svg"
+  ],
+  "image": "https://raw.githubusercontent.com/lvgl/lv_port_linux/master/boards/toradex-verdin_imx8m-mini/toradex-imx8m.webp",
+  "buy_now_links": [
+    "https://www.toradex.com/computer-on-modules/verdin-arm-family/nxp-imx-8m-mini-nano"
+  ],
+  "branches": ["release/v9.2"],
+  "getStartedInstructions": "1. Open the project folder and update the submodules: `git submodule update --init --recursive` \n2. Follow the guide in the [README](https://github.com/lvgl/lv_port_linux/blob/master/boards/toradex-verdin_imx8m-mini/README.md#getting-started)",
+  "settings": []
+}

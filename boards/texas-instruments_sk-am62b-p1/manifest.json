@@ -1,0 +1,28 @@
+{
+  "name": "Texas Instruments SK-AM62B-P1",
+  "maintainer": "LVGL",
+  "hostOperatingsystem": ["Linux"],
+  "environment": ["Yocto", "Buildroot"],
+  "hardware": {
+    "chipVendor": "Texas Instruments",
+    "manufacturer": "Texas Instruments",
+    "specs": {
+      "MPU": "AM625 with Quad 64-bit Arm® Cortex®-A53 @1.4GHz",
+      "MCU": "Arm® Cortex®-M4F MCU",
+      "RAM": "2 GB DDR4 16-Bit data bus with inline ECC (1600 MT/s)",
+      "Flash": "Micro SD Card",
+      "GPU": "PowerVR"
+    }
+  },
+  "description": "The Texas Instruments SK-AM62B-P1 starter kit (SK) evaluation module (EVM) is a stand-alone test and development platform built around the AM62x system-on-a-chip (SoC). AM62x processors are comprised of a quad-core 64-bit Arm®-Cortex®-A53 microprocessor and single-core Arm Cortex-M4F MCU. It features an HDMI port for up to 2K 60fps displays and two ethernet ports. It has an embedded PowerVR GPU",
+  "shortDescription": "Powerful Texas Instruments Cortex®-A53 based device for embedded Linux.",
+  "urlToClone": "https://github.com/lvgl/lv_port_linux.git",
+  "logos": [
+    "https://raw.githubusercontent.com/lvgl/project-creator/master/meta/images/texas_instruments/logo.svg"
+  ],
+  "image": "https://raw.githubusercontent.com/lvgl/lv_port_linux/master/boards/texas-instruments_sk-am62b-p1/ti-sk-am62b-p1.webp",
+  "buy_now_links": ["https://www.ti.com/tool/SK-AM62B-P1"],
+  "branches": ["release/v9.2"],
+  "getStartedInstructions": "1. Open the project folder and update the submodules: `git submodule update --init --recursive` \n2. Follow the guide in the [README](https://github.com/lvgl/lv_port_linux/tree/master/boards/texas-instruments_sk-am62b-p1/README.md#getting-started)",
+  "settings": []
+}

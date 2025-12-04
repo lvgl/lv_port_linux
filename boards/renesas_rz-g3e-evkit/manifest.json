@@ -1,0 +1,30 @@
+{
+  "name": "Renesas RZ/G3E-EVKIT",
+  "maintainer": "LVGL",
+  "hostOperatingsystem": ["Linux"],
+  "environment": ["Yocto", "CMake"],
+  "hardware": {
+    "chipVendor": "Renesas",
+    "manufacturer": "Renesas",
+    "specs": {
+      "MPU": "Quad Cortex-A55 @1.8GHz",
+      "MCU": "Cortex-M33 @200MHz",
+      "RAM": "4 GB LPDDR4",
+      "Flash": "Micro SD Card + 64GB eMMC",
+      "GPU": "Mali-G52"
+    }
+  },
+  "description": "The RZ/G3E-EVKIT is a development kit for the RZ/G3E MPU. It's a SMARC v2.1 System-on-Module (SOM) with a carrier board. It is one of the more powerful MPU boards available and has some specialized applications in mind for use with GStreamer and electrical current measurement.",
+  "shortDescription": "High performance Renesas Cortex\u00ae-A55 based SMARC SoM.",
+  "urlToClone": "https://github.com/lvgl/lv_port_linux.git",
+  "logos": [
+    "https://raw.githubusercontent.com/lvgl/project-creator/master/meta/images/renesas/logo.svg"
+  ],
+  "buy_now_links": [
+    "https://www.renesas.com/en/design-resources/boards-kits/rz-g3e-evkit"
+  ],
+  "image": "https://raw.githubusercontent.com/lvgl/lv_port_linux/master/boards/renesas_rz-g3e-evkit/renesas_rz-g3e-evkit.webp",
+  "branches": ["release/v9.4"],
+  "getStartedInstructions": "1. Open the project folder and update the submodules: `git submodule update --init --recursive` \n2. Follow the guide in the [README](https://github.com/lvgl/lv_port_linux/tree/master/boards/renesas_rz-g3e-evkit/README.md)",
+  "settings": []
+}
