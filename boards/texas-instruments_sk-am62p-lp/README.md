@@ -4,7 +4,7 @@
 
 ## Overview
 
-This guide provides steps to setup the SK-AM62P-LP starter kit and to cross-compile an LVGL application to run it the target.
+This guide provides steps to setup the SK-AM62P-LP starter kit and to cross-compile an LVGL application to run it on the target.
 
 ## Buy
 
@@ -83,7 +83,7 @@ Any of these buffering strategies can be used with multiple threads to render th
 -   **MCU**: AM625P with Quad 64-bit Arm Cortex-A53 up to 1.4GHz, two ARM Cortex R5F single core up to 800MHz
 -   **RAM**: 8GB LPDDR4
 
-    -   32-bits data bus with inline EEC
+    -   32-bits data bus with inline ECC
     -   Supports speeds up to 3200 MT/s
 
 -   **Flash**: 32GB SD

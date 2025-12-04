@@ -108,28 +108,6 @@ Any of these buffering strategies can be used with multiple threads to render th
 
 Coming soon.
 
-
-### Software setup
-
-This guide was tested on Ubuntu 20.04 host.
-
-#### Install docker
-
--   Follow this [tutorial (Ubuntu 22.04)](https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-on-ubuntu-22-04) [(Ubuntu 20.04)](https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-on-ubuntu-20-04) to install and setup docker on your system.
-
--   Support to run arm64 docker containers on the host:
-
-    ```bash
-    sudo apt-get install qemu-user-static
-    docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
-    ```
-
-#### Install utilities
-
-```bash
-sudo apt install picocom nmap
-```
-
 ### Software setup
 
 This guide was tested on Ubuntu 22.04 host.

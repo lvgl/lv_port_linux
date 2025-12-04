@@ -5,7 +5,7 @@
 
 ## Overview
 
-This guide provides steps to setup the i.MX 93 Evaluation Kit and to cross-compile an LVGL application to run it the target.
+This guide provides steps to setup the i.MX 93 Evaluation Kit and to cross-compile an LVGL application to run it on the target.
 
 ## Buy
 
@@ -85,7 +85,7 @@ Check out i.MX 93 Evaluation Kit in action, running LVGL's benchmark demo:
     -   EdgeLock® Secure Enclave
 -   **RAM**: 2 GB LPDDR4X / LPDDR4
 
-    -   16 bits data bus with inline EEC
+    -   16 bits data bus with inline ECC
     -   3.7 GT/s
 
 -   **Flash**:
@@ -123,7 +123,7 @@ Check out i.MX 93 Evaluation Kit in action, running LVGL's benchmark demo:
 
 This [document](https://www.nxp.com/docs/en/user-guide/IMX_YOCTO_PROJECT_USERS_GUIDE.pdf) from NXP provides detailed information for the hardware setup. The following guide is inspired from this.
 
-The display used in this guide is the lvds pannel, with a resolution of 1280x800.
+The display used in this guide is the LVDS panel, with a resolution of 1280x800.
 
 ### Prepare the board
 
@@ -142,7 +142,7 @@ The EMMC on the board should come flashed with an image.
 
     <p align="center"><img src="./docs/img/imx93_board_setup.jpg"></p>
 
-    -   Connect the screen to the
+    -   Connect the screen to the LVDS connector
     -   Connect RJ45 on any ethernet port. The board must be connected on the same LAN than the host.
     -   Connect USB-C power (black USB - J301)
     -   (Optional) Connect USB-C debug (gray - J401)
@@ -218,7 +218,7 @@ This modification can also be applied using the file manager.
 sudo apt install picocom
 ```
 
-#### Prepare the application environnement
+#### Prepare the application environment
 
 Clone the repository:
 

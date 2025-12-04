@@ -116,11 +116,12 @@ will be able to run on the board.
   have been set as mentioned above. Run
   `. /opt/rz-vlp/5.0.8/environment-setup-cortexa55-poky-linux`.
 - We recommend using `drm-egl-2d` config for this board. Select it by running
-  The SDK includes `cmake` and `ninja` so you don't need to install them.
 
   ```shell
     cmake -B build -DCONFIG=drm-egl-2d -GNinja
   ```
+  The SDK includes `cmake` and `ninja` so you don't need to install them.
+
 - Edit `src/main.c` if you want to change the default demo.
 - Build the project. 
   ```shell

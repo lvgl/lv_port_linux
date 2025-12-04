@@ -27,7 +27,7 @@ You can find the differences between these SOMs on the Verdin AM62 Datasheet [he
 This is a SoM (System on Module) that can be tested with a carrier board. Toradex recommends ordering one of the following carrier boards for your first-time order:
 
 -   [Dahlia Carrier Board](https://developer.toradex.com/hardware/verdin-som-family/carrier-boards/dahlia-carrier-board/)
--   [Yavia](https://developer.toradex.com/hardware/verdin-som-family/carrier-boards/verdin-development-board/)
+-   [Yavia](https://developer.toradex.com/hardware/verdin-som-family/carrier-boards/yavia/)
 -   [Verdin Development Board](https://developer.toradex.com/hardware/verdin-som-family/carrier-boards/verdin-development-board/)
 
 ## Benchmark
@@ -312,7 +312,7 @@ export XDG_RUNTIME_DIR=/run/user/1000
 CMake may have troubles with CMakeLists.txt changes with some variables setup. If there is any problem building, try to clean the build folder:
 
 ```bash
-rm -rf lv_port_linux/build-arm64
+rm -rf lv_port_linux/build
 ```
 
 ## Contribution and Support

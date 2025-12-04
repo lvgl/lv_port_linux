@@ -159,7 +159,7 @@ can then flash with Etcher (or similar) like it's an SD Card.
    ends to enter the U-Boot prompt.
 4. At the `u-boot=>` prompt, enter the command `ums 0 mmc 0`.
 5. Find the block device exported by the board on your PC (likely staring with `/dev/sd*`). It will likely show two
-   existing partitions: "boot" and "root. Unmount both so that the block device has
+   existing partitions: "boot" and "root". Unmount both so that the block device has
    no mounted partitions.
 6. Use Etcher or any other method like `dd` (which can take longer) to write the built
    Yocto image to the exposed block device. The image is located at
@@ -225,7 +225,7 @@ Press ctrl+shift+p and choose "Tasks: Run Task". The tasks do the following
 
 If you cannot proceed during deploy/launch/debug due to
 `WARNING: REMOTE HOST IDENTIFICATION HAS CHANGED!`, one solution is to delete `~/.ssh/known_hosts`.
-I.e., `rm ~/.ssh/known_hosts`.
+I.e., `ssh-keygen -R <board_ip_address>`.
 
 There is also a pre-built `lvglsim` binary in the release artifacts of this repo on GitHub. You
 can upload that to the board and run it directly.

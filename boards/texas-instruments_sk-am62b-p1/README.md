@@ -5,7 +5,7 @@
 
 ## Overview
 
-This guide provides steps to setup the SK-AM62B-P1 and to cross-compile an LVGL application to run it the target.
+This guide provides steps to setup the SK-AM62B-P1 and to cross-compile an LVGL application to run it on the target.
 
 ## Buy
 
@@ -85,7 +85,7 @@ Any of these buffering strategies can be used with multiple threads to render th
 
 -   **RAM**: 2GB DDR4
 
-    -   16-bits data bus with inline EEC
+    -   16-bits data bus with inline ECC
     -   Supports speeds up to 1600 MT/s
 
 -   **Flash**: 32GB SD
@@ -312,7 +312,7 @@ export XDG_RUNTIME_DIR=/run/user/1000
 CMake may have troubles with CMakeLists.txt changes with some variables setup. If there is any problem building, try to clean the build folder:
 
 ```bash
-rm -rf lv_port_linux/build-arm64
+rm -rf lv_port_linux/build
 ```
 
 ## Contribution and Support
