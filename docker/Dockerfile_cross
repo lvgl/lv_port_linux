@@ -26,5 +26,3 @@ RUN apt-get update && \
 RUN gcc --version && g++ --version && cmake --version
 
 WORKDIR app
-
-CMD ["./scripts/build_app.sh"]

@@ -130,43 +130,75 @@ This guide was tested on Ubuntu 20.04 host.
 sudo apt install picocom nmap
 ```
 
-### Run the default project
+### Software setup
 
-Clone the repository:
+This guide was tested on Ubuntu 22.04 host.
+
+#### Install docker
+
+-   Follow this [tutorial](https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-on-ubuntu-22-04) to install and setup docker on your system.
+
+-   Support to run arm64 docker containers on the host:
+    ```bash
+    sudo apt-get install qemu-user-static
+    docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
+    ```
+
+#### Install utilities
 
 ```bash
-git clone --recurse-submodules https://github.com/lvgl/lv_port_texas_sk-am62l.git
+sudo apt install picocom nmap
+```
+
+### Build the default project
+
+Clone the repository: 
+
+```bash
+git clone --recurse-submodules https://github.com/lvgl/lv_port_linux.git
 ```
 
 **IMPORTANT**: 
 
 - default application from lv_port_linux runs the widget demo. To run the benchmark demo, modify `lv_port_linux/main.c` : 
 
-  ```c
-  /*Create a Demo*/
-  // lv_demo_widgets();
-  // lv_demo_widgets_start_slideshow();
-  lv_demo_benchmark();
-  ```
-
-- The default lv_conf.h might not be the best configuration for the board. Feel free to replace the default lv_conf.h with one generated from one of the .defaults files in in `lv_conf_example` folder.
-
-  ```bash
-  cd lv_port_linux
-  python3 lvgl/scripts/generate_lv_conf.py --defaults ../lv_conf_example/lv_conf_fb_2_threads.defaults
-  ```
+```c
+/*Create a Demo*/
+// lv_demo_widgets();
+// lv_demo_widgets_start_slideshow();
+lv_demo_benchmark();
+```
 
 Build the docker image and the lvgl benchmark application:
 
 ```bash
-cd lv_port_texas_sk-am62l
-./native_build/scripts/docker_setup.sh --create-image
-./native_build/scripts/docker_setup.sh --build-app
+cd lv_port_linux
+# Build the docker image
+docker build --platform linux/arm64/v8 -t lvgl-build-arm64-image -f docker/Dockerfile_cross .
+# Start the docker image
+docker run -it --rm --platform linux/arm64/v8 -v $(pwd):/app lvgl-build-arm64-image
+
+cmake -B build -DCONFIG=default
+cmake --build build -j$(nproc)
 ```
 
-Note: Use the same commands `./arm_build/scripts/docker_setup.sh` to build the app on an simulated Arm environment. It's required to use DRM or Wayland. 
+#### Modifying the default config
 
-Run the executable on the target:
+Adjust `lv_conf.defaults` to select the drivers and libraries that will be compiled by
+modifying the following definitions, setting them to `1` or `0`
+
+You can also start with a default config based on the drivers you want to use,
+you can find a default config for each graphic driver inside the configs folder.
+
+You can replace `lv_conf.defaults` manually or use CMake to build another config:
+
+```bash
+cmake -B build -DCONFIG=<config_name> 
+```
+
+With `<config_name>` the name of the config without the `.defaults` extension, eg: `configs/wayland.defaults` becomes `wayland`.
+
+### Run the project 
 
 -   Get the IP of the target board:
 
@@ -185,7 +217,7 @@ Run the executable on the target:
         ## Find the IP of the board. You need to know your ip (ifconfig or ip a)
         ## HOST_IP should be built like this :
         ## If the ip is 192.168.1.86, in the following command HOST_IP = 192.168.1.0/24
-        nmap -sn <HOST_IP>/24 | grep am62xx
+        nmap -sn <HOST_IP>/24 | grep verdin-am62
         ```
 
 -   Then transfer the executable on the board:
@@ -199,23 +231,14 @@ Run the executable on the target:
     ```bash
     ssh root@<BOARD_IP>
     
-    export LV_LINUX_FBDEV_DEVICE=/dev/fb1
+    ######################################
+    ## WARNING: do not stop these services if using wayland demo
+    systemctl stop weston.socket
+    systemctl stop weston.service
+    ######################################
     
     ./lvglsim
     ```
-
-### Change configuration
-
-Some configurations are provided in the folder `lvgl_conf_example` .
-
-The default configuration used is lv_conf_fb_1_thread.defaults. To change the configuration, modify the `lv_port_linux/lv_conf.h` file with the desired configuration.
-
-You can also edit any of the .defaults files and generate a new lv_conf.h based on it.
-
-```bash
-cd lv_port_linux
-python3 lvgl/scripts/generate_lv_conf.py --defaults ../lv_conf_example/lv_conf_fb_1_thread.defaults
-```
 
 ### Start with your own application
 
@@ -224,7 +247,7 @@ The folder `lv_port_linux` is an example of an application using LVGL.
 LVGL is integrated as a submodule in the folder. To change the version of the library:
 
 ```bash
-cd lv_port_linux
+cd lvgl
 git checkout <branch_name_or_commit_hash>
 ```
 
@@ -284,7 +307,7 @@ export XDG_RUNTIME_DIR=/run/user/1000
 CMake may have troubles with CMakeLists.txt changes with some variables setup. If there is any problem building, try to clean the build folder:
 
 ```bash
-rm -rf lv_port_linux/build-arm64* lv_port_linux/bin
+rm -rf lv_port_linux/build
 ```
 
 ## Contribution and Support

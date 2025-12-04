@@ -258,33 +258,42 @@ git clone --recurse-submodules https://github.com/lvgl/lv_port_linux.git
     cmake --build build -j$(nproc)
     ```
 
-#### Build using Docker
-
--   Follow this [tutorial](https:/www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-on-ubuntu-22-04) to install and setup docker on your system.
-
--   Support to run arm64 docker containers on the host:
-
-    ```bash
-    sudo apt-get install qemu-user-static
-    docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
-    ```
-
+#### Build using docker
 
 Build the docker image and the lvgl benchmark application:
 
 ```bash
-cd lv_port_nxp_imx93
-./scripts/docker_setup.sh --create-image
-./scripts/docker_setup.sh --build-app
+cd lv_port_linux
+# Build the docker image
+docker build --platform linux/arm64/v8 -t lvgl-build-arm64-image -f docker/Dockerfile_cross .
+# Start the docker image
+docker run -it --rm --platform linux/arm64/v8 -v $(pwd):/app lvgl-build-arm64-image
+
+cmake -B build -DCONFIG=default
+cmake --build build -j$(nproc)
 ```
 
-#### Run on the target board 
+#### Modifying the default config
 
-Run the executable on the target:
+Adjust `lv_conf.defaults` to select the drivers and libraries that will be compiled by
+modifying the following definitions, setting them to `1` or `0`
 
--   The board got an IP from DHCP. Both devices (the board and the host) should on the same network. Get the IP of the target board.
+You can also start with a default config based on the drivers you want to use,
+you can find a default config for each graphic driver inside the configs folder.
 
-    -   **Option 1:** from the UART, on the board:
+You can replace `lv_conf.defaults` manually or use CMake to build another config:
+
+```bash
+cmake -B build -DCONFIG=<config_name> 
+```
+
+With `<config_name>` the name of the config without the `.defaults` extension, eg: `configs/wayland.defaults` becomes `wayland`.
+
+### Run the project 
+
+-   Get the IP of the target board:
+
+    -   <u>Option 1</u>: from the UART, on the board:
 
         ```bash
         sudo picocom -b 115200 /dev/ttyUSB0
@@ -293,18 +302,18 @@ Run the executable on the target:
         ip a
         ```
 
-    -   **Option 2:** Get the IP from your host with nmap.
+    -   <u>Option 2</u>: Get the IP from your host with nmap
 
         ```bash
         ## Find the IP of the board. You need to know your ip (ifconfig or ip a)
         ## HOST_IP should be built like this :
         ## If the ip is 192.168.1.86, in the following command HOST_IP = 192.168.1.0/24
-        nmap -sn <HOST_IP>/24 | grep imx93-11x11-lpddr4x-evk
+        nmap -sn <HOST_IP>/24 | grep verdin-am62
         ```
 
 -   Then transfer the executable on the board:
 
-    ```
+    ```bash
     scp lv_port_linux/bin/lvglsim root@<BOARD_IP>:/root
     ```
 
@@ -320,12 +329,6 @@ Run the executable on the target:
     ./lvglsim
     ```
 
-### Change configuration
-
-Some configurations are provided in the folder `lvgl_conf_example` .
-
-The default configuration used is lv_conf_fb_4_threads.h. To change the configuration, modify the `lv_port_linux/lv_conf.h` file with the desired configuration.
-
 ### Start with your own application
 
 The folder `lv_port_linux` is an example of an application using LVGL.
@@ -333,7 +336,7 @@ The folder `lv_port_linux` is an example of an application using LVGL.
 LVGL is integrated as a submodule in the folder. To change the version of the library:
 
 ```bash
-cd lv_port_linux
+cd lvgl
 git checkout <branch_name_or_commit_hash>
 ```
 
@@ -341,11 +344,11 @@ The file `main.c` is the default application provided and is configured to run t
 
 The main steps to create your own application are:
 
--   Modify `main.c` (see [LVGL examples](https://docs.lvgl.io/master/examples.html#get-started))
+-   Modify `main.c`
 -   Add any folders and files to extend the functionalities
 -   Update `Dockerfile` to add any package
 -   Modify `CMakeLists.txt` provided file to ensure all the required files are compiled and linked
--   Use the docker scripts provided to build the application for ARM64 architecture
+-   Use the docker scripts provided to build the application for ARM64 architecture.
 
 ## TroubleShooting
 
@@ -393,7 +396,7 @@ export XDG_RUNTIME_DIR=/run/user/1000
 CMake may have troubles with CMakeLists.txt changes with some variables setup. If there is any problem building, try to clean the build folder:
 
 ```bash
-rm -rf lv_port_linux/build-arm64
+rm -rf lv_port_linux/build
 ```
 
 ## Contribution and Support
