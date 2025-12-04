@@ -14,9 +14,12 @@ You can purchase RZ/G3E-EVKIT from https://www.renesas.com/en/design-resources/b
 
 ## Benchmark
 
-<!-- <a href="https://www.youtube.com/watch?v=XXXXXXXXXXXXXXXXXXXXXXX">
-    <img src="https://github.com/user-attachments/assets/87c1f2e5-0260-4772-b711-13fdab467474" width="75%">
-</a> -->
+Check out the RZ/G3E in action, running LVGL's benchmark demo:
+
+<a href="https://www.youtube.com/watch?v=0vzvV9nKW4Q">
+    <img src="https://github.com/user-attachments/assets/7b16be1b-5452-4482-a757-99336d641266" width="75%">
+</a>
+
 
 Here are the results of the benchmark with multi-threaded software rendering to an OpenGLES EGL display,
 with a 16 ms refresh period (60 FPS target).

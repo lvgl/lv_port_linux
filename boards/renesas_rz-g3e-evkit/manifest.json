@@ -23,6 +23,7 @@
   "buy_now_links": [
     "https://www.renesas.com/en/design-resources/boards-kits/rz-g3e-evkit"
   ],
+  "image": "https://raw.githubusercontent.com/lvgl/lv_port_linux/master/boards/renesas_rz-g3e-evkit/renesas_rz-g3e-evkit.webp",
   "branches": ["release/v9.4"],
   "getStartedInstructions": "1. Open the project folder and update the submodules: `git submodule update --init --recursive` \n2. Follow the guide in the [README](https://github.com/lvgl/lv_port_linux/tree/master/boards/renesas_rz-g3e-evkit/README.md)",
   "settings": []
