@@ -92,7 +92,7 @@ With the above supplies and the contents of the evaluation kit:
 
 ### Software setup
 
-There are releases with build artifacts maintained in this repo on GitHub.
+There are releases with build artifacts maintained [in this repo on GitHub](https://github.com/lvgl/lv_port_f-and-s_picocoremx93).
 You can skip building everything with Yocto and simply download the release
 artifacts which were created ahead of time and can be reproduced.
 
