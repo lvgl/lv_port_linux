@@ -24,18 +24,6 @@
     "https://www.renesas.com/en/design-resources/boards-kits/rz-g3e-evkit"
   ],
   "branches": ["release/v9.4"],
-  "getStartedInstructions": "Follow the guide in the [README](https://github.com/lvgl/lv_port_linux/tree/master/boards/renesas_rz-g3e-evkit/README.md)",
-  "settings": [
-    {
-      "type": "always",
-      "label": "set default config",
-      "actions": [
-        {
-          "toReplace": "set(LV_CONF_DEFAULTS_PATH \"${CMAKE_SOURCE_DIR}/lv_conf.defaults\")",
-          "newContent": "set(LV_CONF_DEFAULTS_PATH \"${CMAKE_SOURCE_DIR}/configs/drm-egl-2d.defaults\")",
-          "filePath": "CMakeLists.txt"
-        }
-      ]
-    }
-  ]
+  "getStartedInstructions": "1. Open the project folder and update the submodules: `git submodule update --init --recursive` \n2. Follow the guide in the [README](https://github.com/lvgl/lv_port_linux/tree/master/boards/renesas_rz-g3e-evkit/README.md)",
+  "settings": []
 }

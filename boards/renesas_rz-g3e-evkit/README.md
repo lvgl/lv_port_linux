@@ -1,5 +1,7 @@
 # LVGL ported to RZ/G3E-EVKIT
 
+**:rocket: This repository is available in the [LVGL Project Creator](https://lvgl.io/tools/project-creator), making it easy to create and customize a new project in just a few clicks.**
+
 ## Overview
 
 The RZ/G3E-EVKIT is a development kit for the RZ/G3E MPU. It's a SMARC v2.1 System-on-Module (SOM)

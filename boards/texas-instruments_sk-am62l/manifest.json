@@ -15,7 +15,7 @@
   },
   "description": "The Texas Instruments TMDS62LEVM evaluation module (EVM) is a stand-alone test and development platform built around the AM62L system-on-a-chip (SoC). AM62L processor is comprised of a dual-core 64-bit Arm®-Cortex®-A53 microprocessor. It features an HDMI port for up to 2K 60fps displays and two ethernet ports. It has no GPU yet is fast with LVGL software rendering.",
   "shortDescription": "Powerful Texas Instruments Cortex®-A53 based device for embedded Linux.",
-  "urlToClone": "https://github.com/lvgl/lv_port_texas_sk-am62l.git",
+  "urlToClone": "https://github.com/lvgl/lv_port_linux.git",
   "logos": [
     "https://raw.githubusercontent.com/lvgl/project-creator/master/meta/images/texas_instruments/logo.svg"
   ],

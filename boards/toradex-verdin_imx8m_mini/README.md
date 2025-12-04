@@ -1,12 +1,14 @@
 # LVGL ported to verdin imx8mm
 
-
+**:rocket: This repository is available in the [LVGL Project Creator](https://lvgl.io/tools/project-creator), making it easy to create and customize a new project in just a few clicks.**
 
 ## Overview
 
 This guide provides steps to setup the Verdin imx8m Mini and run a cross-compiled LVGL application on the target.
 
 This guide is done with Verdin imx8m Mini Quad 2GB IT on Yavia carrier board.
+
+![]("./toradex-imx8m.webp")
 
 ## Buy
 
@@ -125,7 +127,7 @@ As mentioned, this is required if you want to flash again the SoM to start with 
 
 The following steps come from [Tezi documentation](https://developer.toradex.com/easy-installer/toradex-easy-installer/loading-toradex-easy-installer). For this guide, we will use  the USB OTG approach.
 
-- Download Tezi [here](https://developer.toradex.com/easy-installer/toradex-easy-installer/download-tezi/). Download the lastest release, version 6 for Verdin iMX8M Mini.
+- Download Tezi [here](https://developer.toradex.com/easy-installer/toradex-easy-installer/download-tezi/). Download the latest release, version 6 for Verdin iMX8M Mini.
 
 - Then put the SoM in recovery mode: 
 
@@ -159,7 +161,7 @@ This guide was tested on Ubuntu 22.04 host.
 
 #### Install docker
 
-- Follow this [tutorial](/https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-on-ubuntu-22-04) to install and setup docker on your system.
+- Follow this [tutorial](https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-on-ubuntu-22-04) to install and setup docker on your system.
 
 - Support to run arm64 docker containers on the host: 
 

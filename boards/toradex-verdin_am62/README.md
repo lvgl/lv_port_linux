@@ -1,4 +1,3 @@
-
 # LVGL ported to verdin am62
 
 **:rocket: This repository is available in the [LVGL Project Creator](https://lvgl.io/tools/project-creator), making it easy to create and customize a new project in just a few clicks.**
@@ -9,6 +8,8 @@
 This guide provides steps to setup the Verdin am62 and run a cross-compiled LVGL application on the target.
 
 This guide is done with Verdin AM62 Dual 1GB WB IT on Yavia carrier board.
+
+![]("./toradex-verdin-am62.webp")
 
 ## Buy
 
@@ -105,7 +106,7 @@ As mentioned, this is required if you want to flash again the SoM to start with 
 
 The following steps come from [Tezi documentation](https://developer.toradex.com/easy-installer/toradex-easy-installer/loading-toradex-easy-installer). For this guide, we will use the USB OTG approach.
 
--   Download Tezi [here](https://developer.toradex.com/easy-installer/toradex-easy-installer/download-tezi/). Download the lastest release, version 6 for Verdin AM62.
+-   Download Tezi [here](https://developer.toradex.com/easy-installer/toradex-easy-installer/download-tezi/). Download the latest release, version 6 for Verdin AM62.
 
 -   Then put the SoM in recovery mode:
 
@@ -139,7 +140,7 @@ This guide was tested on Ubuntu 22.04 host.
 
 #### Install docker
 
--   Follow this [tutorial](/https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-on-ubuntu-22-04) to install and setup docker on your system.
+-   Follow this [tutorial](https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-on-ubuntu-22-04) to install and setup docker on your system.
 
 -   Support to run arm64 docker containers on the host:
 
@@ -221,7 +222,7 @@ With `<config_name>` the name of the config without the `.defaults` extension, e
         ## Find the IP of the board. You need to know your ip (ifconfig or ip a)
         ## HOST_IP should be built like this :
         ## If the ip is 192.168.1.86, in the following command HOST_IP = 192.168.1.0/24
-        nmap -sn <HOST_IP>/24 | grep verdin-am62
+        nmap -sn <HOST_IP>/24 | grep am62
         ```
 
 -   Then transfer the executable on the board:

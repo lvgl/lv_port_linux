@@ -79,7 +79,7 @@ evaluation kit. You will need:
 - a null modem serial port on your PC. You may use a serial port to
   USB adapter. This is necessary to get started.
 
-With the above supplies and the contents of the evaluation kti:
+With the above supplies and the contents of the evaluation kit:
 
 - Connect the two pairs of banana plugs to a power supply outputting 5V.
 - Connect the other ends of the banana plug cables into both the display
@@ -94,7 +94,7 @@ With the above supplies and the contents of the evaluation kti:
 
 There are releases with build artifacts maintained in this repo on GitHub.
 You can skip building everything with Yocto and simply download the release
-artifacts where were created ahead of time and can be reproduced.
+artifacts which were created ahead of time and can be reproduced.
 
 The artifacts in the release are:
 

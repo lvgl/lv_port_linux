@@ -215,7 +215,7 @@ This modification can also be applied using the file manager.
 #### Install utilities
 
 ```bash
-sudo apt install picocom nmap
+sudo apt install picocom
 ```
 
 #### Prepare the application environnement
@@ -293,23 +293,11 @@ With `<config_name>` the name of the config without the `.defaults` extension, e
 
 -   Get the IP of the target board:
 
-    -   <u>Option 1</u>: from the UART, on the board:
-
-        ```bash
-        sudo picocom -b 115200 /dev/ttyUSB0
-        ## Then inside the console, log as "root", no password required
-        ## Then retrieve the ip of the board
-        ip a
-        ```
-
-    -   <u>Option 2</u>: Get the IP from your host with nmap
-
-        ```bash
-        ## Find the IP of the board. You need to know your ip (ifconfig or ip a)
-        ## HOST_IP should be built like this :
-        ## If the ip is 192.168.1.86, in the following command HOST_IP = 192.168.1.0/24
-        nmap -sn <HOST_IP>/24 | grep verdin-am62
-        ```
+```bash
+sudo picocom -b 115200 /dev/ttyUSB0
+## Then inside the console, log as "root", no password required
+## Then retrieve the ip of the board
+ip a
 
 -   Then transfer the executable on the board:
 

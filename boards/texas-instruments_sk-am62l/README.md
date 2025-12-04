@@ -217,7 +217,7 @@ With `<config_name>` the name of the config without the `.defaults` extension, e
         ## Find the IP of the board. You need to know your ip (ifconfig or ip a)
         ## HOST_IP should be built like this :
         ## If the ip is 192.168.1.86, in the following command HOST_IP = 192.168.1.0/24
-        nmap -sn <HOST_IP>/24 | grep verdin-am62
+        nmap -sn <HOST_IP>/24 | grep am62
         ```
 
 -   Then transfer the executable on the board:
