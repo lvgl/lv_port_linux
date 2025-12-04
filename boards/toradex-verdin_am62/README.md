@@ -227,7 +227,7 @@ With `<config_name>` the name of the config without the `.defaults` extension, e
 -   Then transfer the executable on the board:
 
     ```bash
-    scp lv_port_linux/bin/lvglsim root@<BOARD_IP>:/root
+    scp lv_port_linux/build/bin/lvglsim root@<BOARD_IP>:/root
     ```
 
 -   Start the application

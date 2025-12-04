@@ -77,7 +77,7 @@ Any of these buffering strategies can be used with multiple threads to render th
 
 -   **MCU**:
 
-    -   AM625 with Dual 64-bit Arm Cortex-A53 up to 1.25GHz
+    -   AM62Lx with Dual 64-bit Arm Cortex-A53 up to 1.25GHz
 
 -   **RAM**: 2GB DDR4
 
@@ -201,7 +201,7 @@ With `<config_name>` the name of the config without the `.defaults` extension, e
 -   Then transfer the executable on the board:
 
     ```bash
-    scp lv_port_linux/bin/lvglsim root@<BOARD_IP>:/root
+    scp lv_port_linux/build/bin/lvglsim root@<BOARD_IP>:/root
     ```
 
 -   Start the application

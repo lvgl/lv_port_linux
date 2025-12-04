@@ -198,8 +198,10 @@ There are two options:
 After downloading or building the image, flash it on the SD card:
 
 ```bash
-zstdcat imx-image-multimedia-imx93-11x11-lpddr4x-evk.rootfs-20240918104911.wic.zst | sudo dd of=/dev/sda bs=1M conv=fsync status=progress
+zstdcat imx-image-multimedia-imx93-11x11-lpddr4x-evk.rootfs-20240918104911.wic.zst | sudo dd of=/dev/sdX bs=1M conv=fsync status=progress
 ```
+
+**Replace /dev/sdX with the correct device (e.g., /dev/sdb). Use 'lsblk' to identify your SD card.**
 
 Use the correct dtb. Mount the image and on the boot partition, use the dtb called "imx93-11x11-evk-boe-wxga-lvds-panel.dtb"
 
@@ -303,7 +305,7 @@ ip a
 -   Then transfer the executable on the board:
 
     ```bash
-    scp lv_port_linux/bin/lvglsim root@<BOARD_IP>:/root
+    scp lv_port_linux/build/bin/lvglsim root@<BOARD_IP>:/root
     ```
 
 -   Start the application
