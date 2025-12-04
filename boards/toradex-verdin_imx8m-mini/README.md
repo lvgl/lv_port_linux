@@ -8,8 +8,6 @@ This guide provides steps to setup the Verdin imx8m Mini and run a cross-compile
 
 This guide is done with Verdin imx8m Mini Quad 2GB IT on Yavia carrier board.
 
-![](./toradex-imx8m.webp)
-
 ## Buy
 
 You can purchase the Verdin i.MX8 from [Toradex website](https://www.toradex.com/computer-on-modules/verdin-arm-family/nxp-imx-8m-mini-nano). 
@@ -31,6 +29,12 @@ This is a SoM (System on Module) that can be tested with a carrier board. Torade
 - [Verdin Development Board](https://developer.toradex.com/hardware/verdin-som-family/carrier-boards/verdin-development-board/)
 
 ## Benchmark
+
+Check out Verdin i.MX8M Mini in action, running LVGL's benchmark demo:
+
+<a href="https://www.youtube.com/watch?v=eFaluS79Qnc">
+    <img src="https://github.com/user-attachments/assets/3fb2940c-e97e-45f7-800e-ce24b82fa58a" width="50%" alt="image">
+</a>
 
 The default buffering is fbdev.
 
@@ -85,11 +89,6 @@ The other configurations that can be used are:
 
 Any of these buffering strategies can be used with multiple threads to render the frames.
 
-Check out Verdin i.MX8M Mini in action, running LVGL's benchmark demo:
-
-<a href="https://www.youtube.com/watch?v=eFaluS79Qnc">
-    <img src="https://github.com/user-attachments/assets/3fb2940c-e97e-45f7-800e-ce24b82fa58a" width="50%" alt="image">
-</a>
 
 ## Specification
 
