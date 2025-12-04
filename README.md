@@ -110,6 +110,19 @@ If multiple backends are enabled you can run with a specific backend via the `-b
 
 To get a list of supported backends use the `-B` option
 
+## Supported Boards
+
+The `boards/` directory contains hardware-specific documentation and configuration files for running LVGL on various embedded Linux development boards.
+Each board folder includes setup instructions, build configurations, and optimization guides tailored to that platform's specific hardware capabilities. Currently supported boards include:
+
+- **F&S PicoCoreMX93** - NXP i.MX93-based system-on-module
+- **NXP i.MX93** - NXP's i.MX93 evaluation platform
+- **Renesas RZ/G3E EVKit** - Renesas RZ/G3E evaluation kit
+- **Texas Instruments SK-AM62B-P1** - AM62B starter kit
+- **Texas Instruments SK-AM62L** - AM62L starter kit
+- **Texas Instruments SK-AM62P-LP** - AM62P low-power starter kit
+- **Toradex Verdin AM62** - Toradex Verdin module with TI AM62 processor
+- **Toradex Verdin iMX8M Mini** - Toradex Verdin module with NXP i.MX8M Mini processor
 
 ## Environment variables
 
