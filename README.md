@@ -27,19 +27,29 @@ git submodule update --init --recursive
 
 ## Configure drivers and libraries
 
+By default `lv_conf.defaults` is by used to generate the configuration header
+file `lv_conf.h` that is used during the build.
 Adjust `lv_conf.defaults` to select the drivers and libraries that will be compiled by
 modifying the following definitions, setting them to `1` or `0`
 
 You can also start with a default config based on the drivers you want to use,
-you can find a default config for each graphic driver inside the configs folder.
+you can find a default config for each graphic driver inside the `configs/` directory.
 
-You can either replace `lv_conf.defaults` manually or using CMake
+You can either replace `lv_conf.defaults` manually before configuring:
+
+```bash
+mv configs/<config_name>.defaults lv_conf.defaults
+cmake -B build
+```
+
+or have CMake directly use that file in-place during configuration:
 
 ```bash
 cmake -B build -DCONFIG=<config_name> 
 ```
 
-With `<config_name>` the name of the config without the `.defaults` extension, eg: `configs/wayland.defaults` becomes `wayland`.
+With `<config_name>` the name of the config without the `.defaults` extension,
+eg: `-DCONFIG=wayland` will use `configs/wayland.defaults`.
 
 ### Graphics drivers
 

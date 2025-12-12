@@ -22,38 +22,19 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(EXECUTABLE_OUTPUT_PATH ${CMAKE_BINARY_DIR}/bin)
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall -Wextra -Wpedantic")
 
-option(CONFIG "Config to use leave empty for `lv_conf.defaults`" "default")
+set(CONFIG "default" CACHE STRING "Config name to use. Leave empty for default `lv_conf.defaults`")
 
 set(LV_CONF_DEFAULTS_PATH "${CMAKE_SOURCE_DIR}/lv_conf.defaults")
-set(LV_CONF_DEFAULTS_OLD_PATH "${CMAKE_SOURCE_DIR}/lv_conf.defaults.old")
 
-# If CONFIG is not default, copy the selected config to lv_conf.defaults
+# If CONFIG is not default, update LV_CONF_DEFAULTS_PATH to the selected config
 if(NOT CONFIG STREQUAL "default")
-    set(CONFIG_FILE "${CMAKE_SOURCE_DIR}/configs/${CONFIG}.defaults")
-    
-    # Verify the config file exists
-    if(NOT EXISTS "${CONFIG_FILE}")
-        message(FATAL_ERROR "Config file not found: ${CONFIG_FILE}")
-    endif()
-    
-    # Backup the current lv_conf.defaults to lv_conf.defaults.old
-    if(EXISTS "${LV_CONF_DEFAULTS_PATH}")
-        file(RENAME "${LV_CONF_DEFAULTS_PATH}" "${LV_CONF_DEFAULTS_OLD_PATH}")
-        message(STATUS "Backed up lv_conf.defaults to lv_conf.defaults.old")
-    endif()
-    
-    # Copy the config file to lv_conf.defaults
-    configure_file("${CONFIG_FILE}" "${LV_CONF_DEFAULTS_PATH}" COPYONLY)
-    message(STATUS "Copied configs/${CONFIG}.defaults to ${LV_CONF_DEFAULTS_PATH}")
-    message(STATUS "Using config: configs/${CONFIG}.defaults")
-else()
-    if(NOT EXISTS "${LV_CONF_DEFAULTS_PATH}")
-        message(FATAL_ERROR "Config file not found: ${LV_CONF_DEFAULTS_PATH}")
-    endif()
-    message(STATUS "Using default lv_conf.defaults")
-    message(STATUS "Using config: ${LV_CONF_DEFAULTS_PATH}")
+    set(LV_CONF_DEFAULTS_PATH "${CMAKE_SOURCE_DIR}/configs/${CONFIG}.defaults")
 endif()
 
+if(NOT EXISTS "${LV_CONF_DEFAULTS_PATH}")
+    message(FATAL_ERROR "Config file not found: ${LV_CONF_DEFAULTS_PATH}")
+endif()
+message(STATUS "Using config: ${LV_CONF_DEFAULTS_PATH}")
 
 set(LV_BUILD_SET_CONFIG_OPTS ON CACHE BOOL
     "create CMAKE variables from lv_conf_internal.h" FORCE)
@@ -65,12 +46,9 @@ set(LV_BUILD_CONF_PATH
 set(LVGL_TEMPLATE_PATH "${CMAKE_SOURCE_DIR}/lvgl/lv_conf_template.h")
 set(GENERATE_SCRIPT_PATH "${CMAKE_SOURCE_DIR}/lvgl/scripts/generate_lv_conf.py")
 
-configure_file(${LVGL_TEMPLATE_PATH} ${CMAKE_BINARY_DIR}/lv_conf_template.h
-               COPYONLY)
-configure_file(${LV_CONF_DEFAULTS_PATH} ${CMAKE_BINARY_DIR}/lv_conf.defaults
-               COPYONLY)
-configure_file(${GENERATE_SCRIPT_PATH} ${CMAKE_BINARY_DIR}/generate_lv_conf.py
-               COPYONLY)
+set_property(DIRECTORY APPEND PROPERTY CMAKE_CONFIGURE_DEPENDS ${LVGL_TEMPLATE_PATH})
+set_property(DIRECTORY APPEND PROPERTY CMAKE_CONFIGURE_DEPENDS ${LV_CONF_DEFAULTS_PATH})
+set_property(DIRECTORY APPEND PROPERTY CMAKE_CONFIGURE_DEPENDS ${GENERATE_SCRIPT_PATH})
 
 execute_process(
   COMMAND
