@@ -1,7 +1,7 @@
 /**
  * @file backends.h
  *
- * Interface for abstration layer of a device backend
+ * Interface for abstraction layer of a device backend
  *
  * Copyright (c) 2025 EDGEMTech Ltd.
  *

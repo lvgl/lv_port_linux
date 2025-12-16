@@ -5,7 +5,7 @@
  *
  * Based on the original file from the repository
  *
- * - Move to a seperate file
+ * - Move to a separate file
  *   2025 EDGEMTech Ltd.
  *
  * Author: EDGEMTech Ltd, Erik Tagirov (erik.tagirov@edgemtech.ch)
@@ -116,7 +116,7 @@ static lv_display_t *init_wayland(void)
 /**
  * The run loop of the DRM driver
  *
- * @note Currently, the wayland driver calls lv_timer_handler internaly
+ * @note Currently, the wayland driver calls lv_timer_handler internally
  * The wayland driver needs to be re-written to match the other backends
  */
 static void run_loop_wayland(void)

@@ -67,7 +67,7 @@ static void print_usage(void)
 
 /**
  * @brief Configure simulator
- * @description process arguments recieved by the program to select
+ * @description process arguments received by the program to select
  * appropriate options
  * @param argc the count of arguments in argv
  * @param argv The arguments
