@@ -72,7 +72,7 @@ eg: `-DCONFIG=wayland` will use `configs/wayland.defaults`.
 ## Install dependencies
 
 Install the required dependencies for the selected drivers by checking 
-the documentation for each driver [here](https://docs.lvgl.io/master/details/integration/embedded_linux/drivers/index.html)
+the documentation for each driver [here](https://docs.lvgl.io/master/integration/embedded_linux/drivers/)
 
 You can also check the [Dockerfiles](docker/) to get the names
 of the packages for various distributions
