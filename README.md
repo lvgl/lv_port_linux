@@ -163,7 +163,7 @@ Check the documentation of the drivers for more details
 
 ## Permissions
 
-By default, unpriviledged users don't have access to the framebuffer device `/dev/fb0`. In such cases, you can either run the application
+By default, unprivileged users don't have access to the framebuffer device `/dev/fb0`. In such cases, you can either run the application
 with `sudo` privileges or you can grant access to the `video` group.
 
 ```bash

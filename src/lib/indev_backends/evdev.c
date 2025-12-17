@@ -146,7 +146,7 @@ static void set_mouse_cursor_icon(lv_indev_t *indev, lv_display_t *display)
  * Use 'evtest' to find the correct input device. /dev/input/by-id/ is recommended if possible
  * Use /dev/input/by-id/my-mouse-or-touchscreen or /dev/input/eventX
  *
- * If LV_LINUX_EVDEV_POINTER_DEVICE is not set, automatic evdev disovery will start
+ * If LV_LINUX_EVDEV_POINTER_DEVICE is not set, automatic evdev discovery will start
  *
  * @param display the LVGL display
  *

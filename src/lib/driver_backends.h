@@ -1,8 +1,8 @@
 /**
  * @file driver_backends.h
  *
- * provides an abstration to support multiple graphical
- * driver backends at the same time whitout recompiling everything
+ * provides an abstraction to support multiple graphical
+ * driver backends at the same time without recompiling everything
  * each time
  *
  * E.g: this means LVGL can be compiled with both SDL or X11
