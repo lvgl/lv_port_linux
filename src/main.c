@@ -60,9 +60,11 @@ static void print_lvgl_version(void)
  */
 static void print_usage(void)
 {
-    fprintf(stdout, "\nlvglsim [-V] [-B] [-b backend_name] [-W window_width] [-H window_height]\n\n");
+    fprintf(stdout, "\nlvglsim [-V] [-B] [-f] [-m] [-b backend_name] [-W window_width] [-H window_height]\n\n");
     fprintf(stdout, "-V print LVGL version\n");
     fprintf(stdout, "-B list supported backends\n");
+    fprintf(stdout, "-f fullscreen\n");
+    fprintf(stdout, "-m maximize\n");
 }
 
 /**
@@ -105,6 +107,12 @@ static void configure_simulator(int argc, char ** argv)
                     die("error no such backend: %s\n", optarg);
                 }
                 selected_backend = strdup(optarg);
+                break;
+            case 'f':
+                settings.fullscreen = true;
+                break;
+            case 'm':
+                settings.maximize = true;
                 break;
             case 'W':
                 settings.window_width = atoi(optarg);
