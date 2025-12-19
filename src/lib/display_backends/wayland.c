@@ -20,8 +20,6 @@
 #include <stdlib.h>
 
 #include "lvgl/lvgl.h"
-#include "lvgl/src/display/lv_display.h"
-#include "lvgl/src/tick/lv_tick.h"
 #if LV_USE_WAYLAND
 #include "../simulator_util.h"
 #include "../simulator_settings.h"
@@ -127,7 +125,6 @@ static void run_loop_wayland(void)
 
     uint32_t idle_time;
 
-    uint32_t tick = lv_tick_get();
     /* Handle LVGL tasks */
     while(true) {
 
@@ -136,13 +133,6 @@ static void run_loop_wayland(void)
         if(idle_time != 0) {
             usleep(idle_time * 1000);
         }
-        // if(lv_tick_elaps(tick) >= 2000) {
-        //     lv_display_t * display = lv_display_get_default();
-        //     lv_display_rotation_t rotation = lv_display_get_rotation(display);
-        //     lv_display_set_rotation(display, (rotation + 1) % (LV_DISPLAY_ROTATION_270 + 1));
-        //     tick = lv_tick_get();
-        // }
-        //
         /* Run until the last window closes */
         if(!lv_wayland_window_is_open(NULL)) {
             break;
