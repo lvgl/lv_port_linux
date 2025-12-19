@@ -42,14 +42,14 @@
  *   GLOBAL FUNCTIONS
  **********************/
 
-const char *getenv_default(const char *name, const char *default_val)
+const char * getenv_default(const char * name, const char * default_val)
 {
-    const char* value = getenv(name);
+    const char * value = getenv(name);
     return value ? value : default_val;
 }
 
 
-void die(const char *msg, ...)
+void die(const char * msg, ...)
 {
     va_list args;
 

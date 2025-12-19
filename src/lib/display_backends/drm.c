@@ -38,13 +38,13 @@
  *  STATIC PROTOTYPES
  **********************/
 static void run_loop_drm(void);
-static lv_display_t *init_drm(void);
+static lv_display_t * init_drm(void);
 
 
 /**********************
  *  STATIC VARIABLES
  **********************/
-static char *backend_name = "DRM";
+static char * backend_name = "DRM";
 
 /**********************
  *      MACROS
@@ -60,7 +60,7 @@ static char *backend_name = "DRM";
  * @param backend the backend descriptor
  * @description configure the descriptor
  */
-int backend_init_drm(backend_t *backend)
+int backend_init_drm(backend_t * backend)
 {
     LV_ASSERT_NULL(backend);
 
@@ -84,12 +84,12 @@ int backend_init_drm(backend_t *backend)
  *
  * @return the LVGL display
  */
-static lv_display_t *init_drm(void)
+static lv_display_t * init_drm(void)
 {
-    const char *device = getenv_default("LV_LINUX_DRM_CARD", lv_linux_drm_find_device_path());
+    const char * device = getenv_default("LV_LINUX_DRM_CARD", lv_linux_drm_find_device_path());
     lv_display_t * disp = lv_linux_drm_create();
 
-    if (disp == NULL) {
+    if(disp == NULL) {
         return NULL;
     }
 
@@ -107,7 +107,7 @@ static void run_loop_drm(void)
     uint32_t idle_time;
 
     /* Handle LVGL tasks */
-    while (true) {
+    while(true) {
         /* Returns the time to the next timer execution */
         idle_time = lv_timer_handler();
         usleep(idle_time * 1000);

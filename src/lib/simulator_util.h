@@ -32,7 +32,7 @@ extern "C" {
  * @param dflt The default value to set if the variable is not present.
  * @return default value or value of environment variable.
  */
-const char *getenv_default(const char *name, const char *default_val);
+const char * getenv_default(const char * name, const char * default_val);
 
 
 /**
@@ -40,7 +40,7 @@ const char *getenv_default(const char *name, const char *default_val);
  * @param msg The message to display on stderr before killing the program
  * @param ... Values for the format string.
  */
-void die(const char *msg, ...);
+void die(const char * msg, ...);
 
 /*********************
  *      DEFINES

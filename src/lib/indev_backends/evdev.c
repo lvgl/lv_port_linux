@@ -38,16 +38,16 @@
  *  STATIC PROTOTYPES
  **********************/
 
-static void indev_deleted_cb(lv_event_t *e);
-static void discovery_cb(lv_indev_t *indev, lv_evdev_type_t type, void *user_data);
-static void set_mouse_cursor_icon(lv_indev_t *indev, lv_display_t *display);
-static lv_indev_t *init_pointer_evdev(lv_display_t *display);
+static void indev_deleted_cb(lv_event_t * e);
+static void discovery_cb(lv_indev_t * indev, lv_evdev_type_t type, void * user_data);
+static void set_mouse_cursor_icon(lv_indev_t * indev, lv_display_t * display);
+static lv_indev_t * init_pointer_evdev(lv_display_t * display);
 
 /**********************
  *  STATIC VARIABLES
  **********************/
 
-static char *backend_name = "EVDEV";
+static char * backend_name = "EVDEV";
 
 /**********************
  *      MACROS
@@ -62,7 +62,7 @@ static char *backend_name = "EVDEV";
  *
  * @param backend the backend descriptor
  */
-int backend_init_evdev(backend_t *backend)
+int backend_init_evdev(backend_t * backend)
 {
     LV_ASSERT_NULL(backend);
     backend->handle->indev = malloc(sizeof(indev_backend_t));
@@ -87,10 +87,10 @@ int backend_init_evdev(backend_t *backend)
  * @note called by the LVGL evdev driver
  * @param e the deletion event
  */
-static void indev_deleted_cb(lv_event_t *e)
+static void indev_deleted_cb(lv_event_t * e)
 {
     if(LV_GLOBAL_DEFAULT()->deinit_in_progress) return;
-    lv_obj_t *cursor_obj = lv_event_get_user_data(e);
+    lv_obj_t * cursor_obj = lv_event_get_user_data(e);
     lv_obj_delete(cursor_obj);
 }
 
@@ -104,14 +104,14 @@ static void indev_deleted_cb(lv_event_t *e)
  * @param type the type of the input device
  * @param user_data the user data
  */
-static void discovery_cb(lv_indev_t *indev, lv_evdev_type_t type, void *user_data)
+static void discovery_cb(lv_indev_t * indev, lv_evdev_type_t type, void * user_data)
 {
     LV_LOG_USER("new '%s' device discovered", type == LV_EVDEV_TYPE_REL ? "REL" :
-                                              type == LV_EVDEV_TYPE_ABS ? "ABS" :
-                                              type == LV_EVDEV_TYPE_KEY ? "KEY" :
-                                              "unknown");
+                type == LV_EVDEV_TYPE_ABS ? "ABS" :
+                type == LV_EVDEV_TYPE_KEY ? "KEY" :
+                "unknown");
 
-    lv_display_t *disp = user_data;
+    lv_display_t * disp = user_data;
     lv_indev_set_display(indev, disp);
 
     if(type == LV_EVDEV_TYPE_REL) {
@@ -126,11 +126,11 @@ static void discovery_cb(lv_indev_t *indev, lv_evdev_type_t type, void *user_dat
  * @param display the display on which to create
  * @param indev the input device to set the cursor on
  */
-static void set_mouse_cursor_icon(lv_indev_t *indev, lv_display_t *display)
+static void set_mouse_cursor_icon(lv_indev_t * indev, lv_display_t * display)
 {
     /* Set the cursor icon */
     LV_IMAGE_DECLARE(mouse_cursor_icon);
-    lv_obj_t *cursor_obj = lv_image_create(lv_display_get_screen_active(display));
+    lv_obj_t * cursor_obj = lv_image_create(lv_display_get_screen_active(display));
     lv_image_set_src(cursor_obj, &mouse_cursor_icon);
     lv_indev_set_cursor(indev, cursor_obj);
 
@@ -152,19 +152,19 @@ static void set_mouse_cursor_icon(lv_indev_t *indev, lv_display_t *display)
  *
  * @return input device
  */
-static lv_indev_t *init_pointer_evdev(lv_display_t *display)
+static lv_indev_t * init_pointer_evdev(lv_display_t * display)
 {
-    const char *input_device = getenv("LV_LINUX_EVDEV_POINTER_DEVICE");
+    const char * input_device = getenv("LV_LINUX_EVDEV_POINTER_DEVICE");
 
-    if (input_device == NULL) {
+    if(input_device == NULL) {
         LV_LOG_USER("Using evdev automatic discovery.");
         lv_evdev_discovery_start(discovery_cb, display);
         return NULL;
     }
 
-    lv_indev_t *indev = lv_evdev_create(LV_INDEV_TYPE_POINTER, input_device);
+    lv_indev_t * indev = lv_evdev_create(LV_INDEV_TYPE_POINTER, input_device);
 
-    if (indev == NULL) {
+    if(indev == NULL) {
         return NULL;
     }
 

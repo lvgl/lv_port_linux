@@ -42,13 +42,13 @@ extern simulator_settings_t settings;
 /**********************
  *  STATIC PROTOTYPES
  **********************/
-static lv_display_t *init_x11(void);
+static lv_display_t * init_x11(void);
 static void run_loop_x11(void);
 
 /**********************
  *  STATIC VARIABLES
  **********************/
-static char *backend_name = "X11";
+static char * backend_name = "X11";
 
 /**********************
  *      MACROS
@@ -64,7 +64,7 @@ static char *backend_name = "X11";
  * @param backend the backend descriptor
  * @description configures the descriptor
  */
-int backend_init_x11(backend_t *backend)
+int backend_init_x11(backend_t * backend)
 {
     LV_ASSERT_NULL(backend);
     backend->handle->display = malloc(sizeof(display_backend_t));
@@ -87,17 +87,17 @@ int backend_init_x11(backend_t *backend)
  *
  * @return the LVGL display
  */
-static lv_display_t *init_x11(void)
+static lv_display_t * init_x11(void)
 {
-    lv_display_t *disp;
+    lv_display_t * disp;
     LV_IMG_DECLARE(mouse_cursor_icon);
 
     disp = lv_x11_window_create("LVGL simulator",
-           settings.window_width , settings.window_height);
+                                settings.window_width, settings.window_height);
 
     disp = lv_display_get_default();
 
-    if (disp == NULL) {
+    if(disp == NULL) {
         return NULL;
     }
 
@@ -114,7 +114,7 @@ void run_loop_x11(void)
     uint32_t idle_time;
 
     /* Handle LVGL tasks */
-    while (true) {
+    while(true) {
         /* Returns the time to the next timer execution */
         idle_time = lv_timer_handler();
         usleep(idle_time * 1000);

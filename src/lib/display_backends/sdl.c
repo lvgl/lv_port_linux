@@ -42,13 +42,13 @@ extern simulator_settings_t settings;
  *  STATIC PROTOTYPES
  **********************/
 static void run_loop_sdl(void);
-static lv_display_t *init_sdl(void);
+static lv_display_t * init_sdl(void);
 
 /**********************
  *  STATIC VARIABLES
  **********************/
 
-static char *backend_name = "SDL";
+static char * backend_name = "SDL";
 
 /**********************
  *      MACROS
@@ -63,7 +63,7 @@ static char *backend_name = "SDL";
  * @param backend the backend descriptor
  * @description configures the descriptor
  */
-int backend_init_sdl(backend_t *backend)
+int backend_init_sdl(backend_t * backend)
 {
     LV_ASSERT_NULL(backend);
 
@@ -87,12 +87,12 @@ int backend_init_sdl(backend_t *backend)
  *
  * @return the LVGL display
  */
-static lv_display_t *init_sdl(void)
+static lv_display_t * init_sdl(void)
 {
 
     lv_display_t * disp = lv_sdl_window_create(settings.window_width, settings.window_height);
 
-    if (disp == NULL) {
+    if(disp == NULL) {
         return NULL;
     }
 
@@ -125,7 +125,7 @@ static void run_loop_sdl(void)
     uint32_t idle_time;
 
     /* Handle LVGL tasks */
-    while (true) {
+    while(true) {
         /* Returns the time to the next timer execution */
         idle_time = lv_timer_handler();
         usleep(idle_time * 1000);

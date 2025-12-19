@@ -36,14 +36,14 @@
  *  STATIC PROTOTYPES
  **********************/
 
-static lv_display_t *init_fbdev(void);
+static lv_display_t * init_fbdev(void);
 static void run_loop_fbdev(void);
 
 /**********************
  *  STATIC VARIABLES
  **********************/
 
-static char *backend_name = "FBDEV";
+static char * backend_name = "FBDEV";
 
 /**********************
  *      MACROS
@@ -59,7 +59,7 @@ static char *backend_name = "FBDEV";
  * @param backend the backend descriptor
  * @description configures the descriptor
  */
-int backend_init_fbdev(backend_t *backend)
+int backend_init_fbdev(backend_t * backend)
 {
     LV_ASSERT_NULL(backend);
 
@@ -83,12 +83,12 @@ int backend_init_fbdev(backend_t *backend)
  *
  * @return the LVGL display
  */
-static lv_display_t *init_fbdev(void)
+static lv_display_t * init_fbdev(void)
 {
-    const char *device = getenv_default("LV_LINUX_FBDEV_DEVICE", "/dev/fb0");
-    lv_display_t *disp = lv_linux_fbdev_create();
+    const char * device = getenv_default("LV_LINUX_FBDEV_DEVICE", "/dev/fb0");
+    lv_display_t * disp = lv_linux_fbdev_create();
 
-    if (disp == NULL) {
+    if(disp == NULL) {
         return NULL;
     }
 
@@ -105,7 +105,7 @@ static void run_loop_fbdev(void)
     uint32_t idle_time;
 
     /* Handle LVGL tasks */
-    while (true) {
+    while(true) {
 
         /* Returns the time to the next timer execution */
         idle_time = lv_timer_handler();

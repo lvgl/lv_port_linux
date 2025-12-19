@@ -20,6 +20,8 @@
 #include <stdlib.h>
 
 #include "lvgl/lvgl.h"
+#include "lvgl/src/display/lv_display.h"
+#include "lvgl/src/tick/lv_tick.h"
 #if LV_USE_WAYLAND
 #include "../simulator_util.h"
 #include "../simulator_settings.h"
@@ -36,13 +38,13 @@
 /**********************
  *  STATIC PROTOTYPES
  **********************/
-static lv_display_t *init_wayland(void);
+static lv_display_t * init_wayland(void);
 static void run_loop_wayland(void);
 
 /**********************
  *  STATIC VARIABLES
  **********************/
-static char *backend_name = "WAYLAND";
+static char * backend_name = "WAYLAND";
 
 /**********************
  *  EXTERNAL VARIABLES
@@ -63,7 +65,7 @@ extern simulator_settings_t settings;
  * @param backend the backend descriptor
  * @description configures the descriptor
  */
-int backend_init_wayland(backend_t *backend)
+int backend_init_wayland(backend_t * backend)
 {
     LV_ASSERT_NULL(backend);
     backend->handle->display = malloc(sizeof(display_backend_t));
@@ -86,22 +88,23 @@ int backend_init_wayland(backend_t *backend)
  *
  * @return the LVGL display
  */
-static lv_display_t *init_wayland(void)
+static lv_display_t * init_wayland(void)
 {
-    lv_display_t *disp;
-    lv_group_t *g;
+    lv_display_t * disp;
+    lv_group_t * g;
 
     disp = lv_wayland_window_create(settings.window_width, settings.window_height,
-            "LVGL Simulator", NULL);
+                                    "LVGL Simulator", NULL);
 
-    if (disp == NULL) {
+    if(disp == NULL) {
         die("Failed to initialize Wayland backend\n");
     }
 
-    if (settings.fullscreen) {
-            lv_wayland_window_set_fullscreen(disp, true);
-    } else if (settings.maximize) {
-            lv_wayland_window_set_maximized(disp, true);
+    if(settings.fullscreen) {
+        lv_wayland_window_set_fullscreen(disp, true);
+    }
+    else if(settings.maximize) {
+        lv_wayland_window_set_maximized(disp, true);
     }
 
     g = lv_group_create();
@@ -124,17 +127,24 @@ static void run_loop_wayland(void)
 
     uint32_t idle_time;
 
+    uint32_t tick = lv_tick_get();
     /* Handle LVGL tasks */
-    while (true) {
+    while(true) {
 
         idle_time = lv_wayland_timer_handler();
 
         if(idle_time != 0) {
             usleep(idle_time * 1000);
         }
-
+        // if(lv_tick_elaps(tick) >= 2000) {
+        //     lv_display_t * display = lv_display_get_default();
+        //     lv_display_rotation_t rotation = lv_display_get_rotation(display);
+        //     lv_display_set_rotation(display, (rotation + 1) % (LV_DISPLAY_ROTATION_270 + 1));
+        //     tick = lv_tick_get();
+        // }
+        //
         /* Run until the last window closes */
-        if (!lv_wayland_window_is_open(NULL)) {
+        if(!lv_wayland_window_is_open(NULL)) {
             break;
         }
     }
