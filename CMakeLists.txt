@@ -206,6 +206,13 @@ if (CONFIG_LV_USE_WAYLAND)
         endif()
         list(APPEND WAYLAND_PROTOCOLS_SRC ${DMABUF_SOURCE})
     endif()
+
+    if(CONFIG_LV_WAYLAND_USE_EGL)
+        message("Including WAYLAND EGL support")
+        pkg_check_modules(WAYLAND_EGL wayland-egl)
+        list(APPEND PKG_CONFIG_LIB ${WAYLAND_EGL_LIBRARIES})
+        list(APPEND PKG_CONFIG_INC ${WAYLAND_EGL_INCLUDE_DIRS})
+    endif()
     
     list(APPEND PKG_CONFIG_INC ${PROTOCOLS_DIR})
     list(APPEND LV_LINUX_BACKEND_SRC src/lib/display_backends/wayland.c ${WAYLAND_PROTOCOLS_SRC})
