@@ -209,7 +209,7 @@ if (CONFIG_LV_USE_WAYLAND)
 
     if(CONFIG_LV_WAYLAND_USE_EGL)
         message("Including WAYLAND EGL support")
-        pkg_check_modules(WAYLAND_EGL wayland-egl)
+        pkg_check_modules(WAYLAND_EGL REQUIRED wayland-egl)
         list(APPEND PKG_CONFIG_LIB ${WAYLAND_EGL_LIBRARIES})
         list(APPEND PKG_CONFIG_INC ${WAYLAND_EGL_INCLUDE_DIRS})
     endif()
