@@ -1,11 +1,15 @@
-# LVGL ported to Glyn QSGL YN1 (QSRZ-G2L0)
+# LVGL ported to GLYN UI2 Starter Kit
 
 ## Overview
 
-This guide provides steps to set up the **Glyn QSGL YN1** board (based on the **Ka-Ro QSRZ-G2L0** module with **Renesas RZ/G2L**)
+This guide provides steps to set up the **GLYN UI2 Starter Kit** board (based on the **Ka-Ro QSRZ-G2L0** module with **Renesas RZ/G2L**)
 and to cross-compile an LVGL application to run on the target.
 
 The setup is based on **Yocto kirkstone**, which slightly differs from newer official Ka-Ro documentation.
+
+## Buy
+
+You can buy this Kit from Glyn directly: https://www.glyn.com/products/computer-on-module/qs-evaluationkits/
 
 ---
 
