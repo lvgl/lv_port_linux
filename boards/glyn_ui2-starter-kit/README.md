@@ -209,7 +209,7 @@ bitbake karo-image-weston -c populate_sdk
 Install the generated SDK on the host:
 
 ```bash
-./tmp/deploy/sdk/karo-wayland-glibc-x86_64-karo-image-weston-cortexa55-qsrz-g2l0-toolchain-5.10-kirkstone.sh```
+./tmp/deploy/sdk/karo-wayland-glibc-x86_64-karo-image-weston-cortexa55-qsrz-g2l0-toolchain-5.10-kirkstone.sh
 ```
 
 ---
