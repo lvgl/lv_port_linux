@@ -1,0 +1,29 @@
+{
+  "name": "GLYN UI2 Starter Kit",
+  "maintainer": "LVGL",
+  "hostOperatingsystem": ["Linux"],
+  "environment": ["Yocto", "CMake"],
+  "hardware": {
+    "chipVendor": "Renesas",
+    "manufacturer": "GLYN",
+    "specs": {
+      "MPU": "Dual Cortex-A55 @1.2 GHz",
+      "RAM": "1 GB DDR3L",
+      "Flash": "Micro SD Card + 4GB eMMC",
+      "GPU": "Mali-G31"
+    }
+  },
+  "description": "The GLYN UI2 is an evaluation kit for the RZ/G2L MPU. It ships with a display so that you can quickly get started with your UI development.",
+  "shortDescription": "GLYN UI2 evaluation kit for the RZ/G2L MPU",
+  "urlToClone": "https://github.com/lvgl/lv_port_linux.git",
+  "logos": [
+    "https://raw.githubusercontent.com/lvgl/lv_port_linux/master/boards/glyn_ui2-starter-kit/glyn_logo.webp"
+  ],
+  "buy_now_links": [
+    "https://www.glyn.com/products/computer-on-module/qs-evaluationkits/"
+  ],
+  "image": "https://raw.githubusercontent.com/lvgl/lv_port_linux/master/boards/glyn_ui2-starter-kit/glyn-ui2-starter-kit.jpg",
+  "branches": ["release/v9.4"],
+  "getStartedInstructions": "1. Open the project folder and update the submodules: `git submodule update --init --recursive` \n2. Follow the guide in the [README](https://raw.githubusercontent.com/lvgl/lv_port_linux/master/boards/glyn_ui2-starter-kit/README.md)",
+  "settings": []
+}
