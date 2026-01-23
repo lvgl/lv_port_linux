@@ -1,0 +1,39 @@
+diff --git a/meta/recipes-extended/cracklib/cracklib_2.9.7.bb b/meta/recipes-extended/cracklib/cracklib_2.9.7.bb
+index 629069e844..1beaebc8d1 100644
+--- a/meta/recipes-extended/cracklib/cracklib_2.9.7.bb
++++ b/meta/recipes-extended/cracklib/cracklib_2.9.7.bb
+@@ -9,7 +9,7 @@ DEPENDS = "cracklib-native zlib"
+ 
+ EXTRA_OECONF = "--without-python --libdir=${base_libdir}"
+ 
+-SRC_URI = "git://github.com/cracklib/cracklib;protocol=https;branch=master \
++SRC_URI = "git://github.com/cracklib/cracklib;protocol=https;branch=main \
+            file://0001-packlib.c-support-dictionary-byte-order-dependent.patch \
+            file://0002-craklib-fix-testnum-and-teststr-failed.patch"
+ 
+diff --git a/meta/recipes-graphics/glslang/glslang_1.3.204.1.bb b/meta/recipes-graphics/glslang/glslang_1.3.204.1.bb
+index 2af406212f..ff08f251cd 100644
+--- a/meta/recipes-graphics/glslang/glslang_1.3.204.1.bb
++++ b/meta/recipes-graphics/glslang/glslang_1.3.204.1.bb
+@@ -9,7 +9,7 @@ LICENSE = "BSD-3-Clause & BSD-2-Clause & MIT & Apache-2.0 & GPL-3-with-bison-exc
+ LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=2a2b5acd7bc4844964cfda45fe807dc3"
+ 
+ SRCREV = "2742e959347ae2fac58acd0d022c92a0ff1f24bf"
+-SRC_URI = "git://github.com/KhronosGroup/glslang.git;protocol=https;branch=master \
++SRC_URI = "git://github.com/KhronosGroup/glslang.git;protocol=https;branch=main \
+            file://0001-generate-glslang-pkg-config.patch"
+ PE = "1"
+ UPSTREAM_CHECK_GITTAGREGEX = "sdk-(?P<pver>\d+(\.\d+)+)"
+diff --git a/meta/recipes-graphics/spir/spirv-headers_1.3.204.1.bb b/meta/recipes-graphics/spir/spirv-headers_1.3.204.1.bb
+index 72416b441f..9e4a695325 100644
+--- a/meta/recipes-graphics/spir/spirv-headers_1.3.204.1.bb
++++ b/meta/recipes-graphics/spir/spirv-headers_1.3.204.1.bb
+@@ -8,7 +8,7 @@ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=c938b85bceb8fb26c1a807f28a52ae2d"
+ 
+ SRCREV = "b42ba6d92faf6b4938e6f22ddd186dbdacc98d78"
+-SRC_URI = "git://github.com/KhronosGroup/SPIRV-Headers;protocol=https;branch=master"
++SRC_URI = "git://github.com/KhronosGroup/SPIRV-Headers;protocol=https;branch=main"
+ PE = "1"
+ UPSTREAM_CHECK_GITTAGREGEX = "sdk-(?P<pver>\d+(\.\d+)+)"
+ S = "${WORKDIR}/git"
