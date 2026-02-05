@@ -126,6 +126,7 @@ The `boards/` directory contains hardware-specific documentation and configurati
 Each board folder includes setup instructions, build configurations, and optimization guides tailored to that platform's specific hardware capabilities. Currently supported boards include:
 
 - **F&S PicoCoreMX93** - NXP i.MX93-based system-on-module
+- **GLYN UI2 Starter Kit** - GLYN starter kit with the Renesas RZ/G2L
 - **NXP i.MX93** - NXP's i.MX93 evaluation platform
 - **Renesas RZ/G3E EVKit** - Renesas RZ/G3E evaluation kit
 - **Texas Instruments SK-AM62B-P1** - AM62B starter kit
