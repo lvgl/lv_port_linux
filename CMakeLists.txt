@@ -195,7 +195,7 @@ if (CONFIG_LV_USE_WAYLAND)
     list(APPEND WAYLAND_PROTOCOLS_SRC ${XDG_SHELL_SOURCE})
     
     # Generate dmabuf protocol (if config is set)
-    if(CONFIG_LV_WAYLAND_USE_DMABUF)
+    if(CONFIG_LV_WAYLAND_USE_G2D)
         set(DMABUF_XML "${PROTOCOL_ROOT}/stable/linux-dmabuf/linux-dmabuf-v1.xml")
         set(DMABUF_HEADER "${PROTOCOLS_DIR}/wayland_linux_dmabuf.h")
         set(DMABUF_SOURCE "${PROTOCOLS_DIR}/wayland_linux_dmabuf.c")
