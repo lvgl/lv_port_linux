@@ -329,6 +329,32 @@ if (CONFIG_LV_USE_GSTREAMER)
     list(APPEND PKG_CONFIG_INC ${GSTREAMER_VIDEO_INCLUDE_DIRS} ${GSTREAMER_APP_INCLUDE_DIRS})
 endif()
 
+if (CONFIG_LV_USE_FFMPEG)
+
+    message("Including FFMPEG support")
+    find_package(PkgConfig REQUIRED)
+
+    pkg_check_modules(AVFORMAT REQUIRED libavformat)
+    pkg_check_modules(AVCODEC  REQUIRED libavcodec)
+    pkg_check_modules(AVUTIL   REQUIRED libavutil)
+    pkg_check_modules(SWSCALE  REQUIRED libswscale)
+
+    list(APPEND PKG_CONFIG_LIB
+        ${AVFORMAT_LIBRARIES}
+        ${AVCODEC_LIBRARIES}
+        ${AVUTIL_LIBRARIES}
+        ${SWSCALE_LIBRARIES}
+    )
+
+    list(APPEND PKG_CONFIG_INC
+        ${AVFORMAT_INCLUDE_DIRS}
+        ${AVCODEC_INCLUDE_DIRS}
+        ${AVUTIL_INCLUDE_DIRS}
+        ${SWSCALE_INCLUDE_DIRS}
+    )
+
+endif()
+
 # Check for external demos
 if(CONFIG_LV_USE_DEMO_FLEX_LAYOUT
    OR CONFIG_LV_USE_DEMO_MULTILANG
