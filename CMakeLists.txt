@@ -152,7 +152,7 @@ if (CONFIG_LV_USE_WAYLAND)
     list(APPEND PKG_CONFIG_LIB ${XKBCOMMON_LIBRARIES})
 
     # Wayland protocols
-    pkg_check_modules(WAYLAND_PROTOCOLS REQUIRED wayland-protocols>=1.25)
+    pkg_check_modules(WAYLAND_PROTOCOLS REQUIRED wayland-protocols>=1.20)
     pkg_get_variable(WAYLAND_PROTOCOLS_BASE wayland-protocols pkgdatadir)
 
     if(DEFINED ENV{SDKTARGETSYSROOT} AND DEFINED ENV{SYSROOT})
