@@ -395,7 +395,7 @@ target_include_directories(lvgl_linux PUBLIC
     ${PROJECT_SOURCE_DIR}/src/lib ${LVGL_CONF_INC_DIR})
 
 # Link LVGL with external dependencies - Modern CMake/CMP0079 allows this
-target_link_libraries(lvgl PUBLIC ${PKG_CONFIG_LIB} m pthread)
+target_link_libraries(lvgl PUBLIC ${PKG_CONFIG_LIB} m pthread rt)
 
 add_executable(lvglsim src/main.c)
 
