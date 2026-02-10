@@ -95,6 +95,7 @@ LV_USE_LZ4_INTERNAL     1
 LV_USE_RLE              1
 
 # Misc
+LV_USE_OBJ_NAME 	1
 LV_USE_BARCODE          1
 LV_USE_QRCODE           1
 
