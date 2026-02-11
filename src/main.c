@@ -157,6 +157,13 @@ int main(int argc, char ** argv)
     }
 #endif
 
+    /* Enable for LIBINPUT support */
+    #if LV_USE_LIBINPUT
+        if(driver_backends_init_backend("LIBINPUT") == -1) {
+            die("Failed to initialize libinput");
+        }
+    #endif
+
     /*Create a Demo*/
     lv_demo_widgets();
     lv_demo_widgets_start_slideshow();
