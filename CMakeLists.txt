@@ -2,6 +2,7 @@ cmake_minimum_required(VERSION 3.11)
 project(lvgl)
 
 option(WERROR "Treat warnings as errors for LVGL targets" OFF)
+option(ASAN "Enable Sanitizer Options" OFF)
 
 # Set policy to allow to run the target_link_libraries cmd on targets that are build
 # in another directory.
@@ -21,6 +22,12 @@ set(CMAKE_CXX_STANDARD 17) #C17
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(EXECUTABLE_OUTPUT_PATH ${CMAKE_BINARY_DIR}/bin)
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall -Wextra -Wpedantic")
+
+if(ASAN)
+    message(STATUS "Enabling Sanitizer")
+    add_compile_options(-fsanitize=address,undefined,null)
+    add_link_options(-fsanitize=address,undefined,null,leak)
+endif()
 
 set(CONFIG "default" CACHE STRING "Config name to use. Leave empty for default `lv_conf.defaults`")
 
