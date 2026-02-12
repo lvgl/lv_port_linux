@@ -60,7 +60,8 @@ static void print_lvgl_version(void)
  */
 static void print_usage(void)
 {
-    fprintf(stdout, "\nlvglsim [-V] [-B] [-f] [-m] [-b backend_name] [-W window_width] [-H window_height]\n\n");
+    fprintf(stdout,
+            "\nlvglsim [-V] [-B] [-f] [-m] [-b backend_name] [-W window_width] [-H window_height] [-R rotation]\n\n");
     fprintf(stdout, "-V print LVGL version\n");
     fprintf(stdout, "-B list supported backends\n");
     fprintf(stdout, "-f fullscreen\n");
@@ -88,7 +89,7 @@ static void configure_simulator(int argc, char ** argv)
     settings.window_height = atoi(env_h ? env_h : "480");
 
     /* Parse the command-line options. */
-    while((opt = getopt(argc, argv, "b:fmW:H:BVh")) != -1) {
+    while((opt = getopt(argc, argv, "b:fmW:H:R:BVh")) != -1) {
         switch(opt) {
             case 'h':
                 print_usage();
@@ -120,6 +121,25 @@ static void configure_simulator(int argc, char ** argv)
             case 'H':
                 settings.window_height = atoi(optarg);
                 break;
+            case 'R':
+                switch(atoi(optarg)) {
+                    case 0:
+                        settings.rotation = LV_DISPLAY_ROTATION_0;
+                        break;
+                    case 90:
+                        settings.rotation = LV_DISPLAY_ROTATION_90;
+                        break;
+                    case 180:
+                        settings.rotation = LV_DISPLAY_ROTATION_180;
+                        break;
+                    case 270:
+                        settings.rotation = LV_DISPLAY_ROTATION_270;
+                        break;
+                    default:
+                        LV_LOG_WARN("Invalid rotation angle. Valid angles are {0, 90, 180, 270}");
+                        break;
+                }
+                break;
             case ':':
                 print_usage();
                 die("Option -%c requires an argument.\n", optopt);
@@ -148,6 +168,12 @@ int main(int argc, char ** argv)
     /* Initialize the configured backend */
     if(driver_backends_init_backend(selected_backend) == -1) {
         die("Failed to initialize display backend");
+    }
+    if(settings.rotation) {
+#if LV_DRAW_TRANSFORM_USE_MATRIX
+        lv_display_set_matrix_rotation(NULL, true);
+#endif
+        lv_display_set_rotation(NULL, settings.rotation);
     }
 
     /* Enable for EVDEV support */

@@ -22,6 +22,7 @@ extern "C" {
 /*********************
  *      INCLUDES
  *********************/
+#include "lvgl/lvgl.h"
 
 /*********************
  *      DEFINES
@@ -34,6 +35,7 @@ extern "C" {
 typedef struct {
     uint32_t window_width;
     uint32_t window_height;
+    lv_display_rotation_t rotation;
     bool maximize;
     bool fullscreen;
 } simulator_settings_t;
