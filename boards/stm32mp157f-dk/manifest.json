@@ -1,0 +1,29 @@
+{
+  "name": "STM32MP157F-DK2",
+  "maintainer": "LVGL",
+  "hostOperatingsystem": ["Linux"],
+  "environment": ["CMake"],
+  "hardware": {
+    "chipVendor": "STMicroelectronics",
+    "manufacturer": "STMicroelectronics",
+    "specs": {
+      "MPU": "Dual Cortex-A7 @800 MHz",
+      "RAM": "512 MB DDR3L",
+      "Flash": "Micro SD Card",
+      "GPU": "3D Vivante GPU"
+    }
+  },
+  "description": "A versatile dual ARM Cortex-A7 MPU from ST equipped to run Linux with impressive graphics capabilities and lots of IO.",
+  "shortDescription": "STMicroelectronics MP1 processor devkit with touchscreen",
+  "urlToClone": "https://github.com/lvgl/lv_port_linux.git",
+  "logos": [
+    "https://raw.githubusercontent.com/lvgl/project-creator/master/meta/images/st/logo.svg"
+  ],
+  "buy_now_links": [
+    "https://www.st.com/en/evaluation-tools/stm32mp157f-dk2.html"
+  ],
+  "image": "https://raw.githubusercontent.com/lvgl/lv_port_linux/master/boards/stm32mp157f-dk/stm32mp157f-dk.avif",
+  "branches": ["release/v9.4"],
+  "getStartedInstructions": "1. Open the project folder and update the submodules: `git submodule update --init --recursive` \n2. Follow the guide in the [README](https://raw.githubusercontent.com/lvgl/lv_port_linux/master/boards/stm32mp157f-dk/README.md)",
+  "settings": []
+}
