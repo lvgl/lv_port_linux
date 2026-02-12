@@ -170,7 +170,7 @@ int main(int argc, char ** argv)
         die("Failed to initialize display backend");
     }
     if(settings.rotation) {
-#if LV_DRAW_TRANSFORM_USE_MATRIX
+#if LV_USE_DRAW_NANOVG && LV_DRAW_TRANSFORM_USE_MATRIX
         lv_display_set_matrix_rotation(NULL, true);
 #endif
         lv_display_set_rotation(NULL, settings.rotation);
