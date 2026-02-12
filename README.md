@@ -134,6 +134,7 @@ Each board folder includes setup instructions, build configurations, and optimiz
 - **Texas Instruments SK-AM62P-LP** - AM62P low-power starter kit
 - **Toradex Verdin AM62** - Toradex Verdin module with TI AM62 processor
 - **Toradex Verdin iMX8M Mini** - Toradex Verdin module with NXP i.MX8M Mini processor
+- **STM32MP157F-DK2** - STMicroelectronics MP1 processor devkit with touchscreen
 
 ## Environment variables
 
