@@ -136,6 +136,25 @@ Use the `-m` flag when using the Wayland backend to fill the screen except
 for the taskbar. Use the `-f` flag when using the wayland backend to fill
 the whole screen.
 
+#### Driver backends
+
+This board supports a few different driver backends.
+
+The `cmake -B build -DCONFIG=wayland` command above uses Wayland, which is
+suitable while the Wayland desktop environment is active.
+
+The `sdl` defaults also work unmodified.
+
+The `drm-egl-2d` defaults can be used for the DRM driver backend. You must stop
+the Wayland compositor first. Run `systemctl stop weston-graphical-session`.
+You should also disable all OpenGL config options in the `drm-egl-2d` defaults
+since they depend on OpenGL ES 3 while only OpenGL ES 2 is available on this board.
+```shell
+cp configs/drm-egl-2d.defaults lv_conf.defaults
+# now disable LV_USE_OPENGLES and LV_LINUX_DRM_USE_EGL in lv_conf.defaults
+cmake -B build
+```
+
 ### Debugging
 `gdbserver` is installed in the image. Use `gdbserver` on the board with `gdb` on
 the development PC to interactively debug applications.
