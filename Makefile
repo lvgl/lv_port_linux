@@ -2,8 +2,11 @@
 # Makefile
 #
 
-CC              ?= gcc
-CXX             ?= g++
+CROSS_COMPILE   ?= arm-none-linux-gnueabihf-
+SYSROOT         ?= /home/parallels/lukkey_aarch64_sysroot
+
+CC              := $(CROSS_COMPILE)gcc
+CXX             := $(CROSS_COMPILE)g++
 LVGL_DIR_NAME   ?= lvgl
 LVGL_DIR        ?= .
 
@@ -13,9 +16,12 @@ WARNINGS        := -Wall -Wshadow -Wundef -Wmissing-prototypes -Wno-discarded-qu
                    -Wno-ignored-qualifiers -Wno-error=pedantic -Wno-sign-compare -Wno-error=missing-prototypes -Wdouble-promotion -Wclobbered -Wdeprecated -Wempty-body \
                    -Wshift-negative-value -Wstack-usage=2048 -Wno-unused-value -std=gnu99
 CFLAGS          ?= -O3 -g0 -I$(LVGL_DIR)/ $(WARNINGS)
+CFLAGS          += --sysroot=$(SYSROOT) -I$(SYSROOT)/usr/include -I$(SYSROOT)/usr/include/drm \
+                   -mcpu=cortex-a7 -mfpu=neon -mfloat-abi=hard -ffast-math
 LDFLAGS         ?= -lm
+LDFLAGS         += --sysroot=$(SYSROOT) -L$(SYSROOT)/usr/lib -ldrm -lpthread
 
-BIN             = main
+BIN             = lvgl_v95
 BUILD_DIR       = ./build
 BUILD_OBJ_DIR   = $(BUILD_DIR)/obj
 BUILD_BIN_DIR   = $(BUILD_DIR)/bin
