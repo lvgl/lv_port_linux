@@ -117,7 +117,7 @@ activating the SDK can look like, depending on where it's installed:
 ```
 Build the project:
 ```shell
-cmake -B build -DCONFIG=wayland
+cmake -B build -DCONFIG=wayland -DCMAKE_BUILD_TYPE=Release
 cmake --build build -j$(nproc)
 ```
 
@@ -152,7 +152,7 @@ since they depend on OpenGL ES 3 while only OpenGL ES 2 is available on this boa
 ```shell
 cp configs/drm-egl-2d.defaults lv_conf.defaults
 # now disable LV_USE_OPENGLES and LV_LINUX_DRM_USE_EGL in lv_conf.defaults
-cmake -B build
+cmake -B build -DCMAKE_BUILD_TYPE=Release
 ```
 
 ### Debugging
