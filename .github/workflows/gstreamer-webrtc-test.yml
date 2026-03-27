@@ -12,6 +12,7 @@ on:
     branches:
       - main
       - master
+      - webrtc_test
     paths:
       - "lvgl/**"
       - "tests/**"
