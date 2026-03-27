@@ -1,0 +1,54 @@
+ARG BASE_OS=ubuntu:24.04
+FROM ${BASE_OS}
+
+RUN DEBIAN_FRONTEND="noninteractive" apt-get update
+
+# Core build/test toolchain for LVGL tests
+RUN DEBIAN_FRONTEND="noninteractive" apt-get install -y \
+    build-essential \
+    cmake \
+    git \
+    pkg-config \
+    python3 \
+    ruby \
+    ruby-dev \
+    curl \
+    ca-certificates \
+    libpng-dev \
+    libjpeg-dev \
+    libfreetype-dev \
+    libdrm-dev \
+    libinput-dev \
+    libglfw3-dev \
+    libgl1-mesa-dev \
+    libglew-dev \
+    libxkbcommon-dev \
+    wayland-protocols \
+    libwayland-dev \
+    && rm -rf /var/lib/apt/lists/*
+
+# GStreamer runtime + headers + commonly required plugins
+RUN DEBIAN_FRONTEND="noninteractive" apt-get update && apt-get install -y \
+    gstreamer1.0-tools \
+    gstreamer1.0-plugins-base \
+    gstreamer1.0-plugins-good \
+    gstreamer1.0-plugins-bad \
+    gstreamer1.0-libav \
+    gstreamer1.0-nice \
+    libgstreamer1.0-dev \
+    libgstreamer-plugins-base1.0-dev \
+    libgstreamer-plugins-bad1.0-dev \
+    libssl-dev \
+    && rm -rf /var/lib/apt/lists/*
+
+# Rust toolchain for gst-plugins-rs (webrtcsrc / signaller binaries)
+RUN curl https://sh.rustup.rs -sSf | sh -s -- -y --profile minimal
+ENV PATH="/root/.cargo/bin:${PATH}"
+
+# Pre-build gst-plugins-rs WebRTC plugins into the image
+COPY tests/scripts/build_gst_plugins_rs.sh /build_gst_plugins_rs.sh
+RUN chmod +x /build_gst_plugins_rs.sh && /build_gst_plugins_rs.sh
+ENV GST_PLUGIN_PATH="/opt/gst-plugins-rs/target/release"
+
+RUN mkdir /workdir
+WORKDIR /workdir

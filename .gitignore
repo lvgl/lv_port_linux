@@ -60,3 +60,7 @@ dkms.conf
 # IDE Project files
 /.settings/
 .*project
+
+# GStreamer WebRTC test build outputs (wayland_protocols/ lives inside build-gstreamer-tests/)
+/build-gstreamer-tests/
+/artifacts/
