@@ -12,8 +12,6 @@ RUN DEBIAN_FRONTEND="noninteractive" apt-get install -y \
     python3 \
     ruby \
     ruby-dev \
-    curl \
-    ca-certificates \
     libpng-dev \
     libjpeg-dev \
     libfreetype-dev \
@@ -42,8 +40,9 @@ RUN DEBIAN_FRONTEND="noninteractive" apt-get update && apt-get install -y \
     && rm -rf /var/lib/apt/lists/*
 
 # Rust toolchain for gst-plugins-rs (webrtcsrc / signaller binaries)
-RUN curl https://sh.rustup.rs -sSf | sh -s -- -y --profile minimal
-ENV PATH="/root/.cargo/bin:${PATH}"
+RUN DEBIAN_FRONTEND="noninteractive" apt-get update \
+    && apt-get install -y cargo rustc \
+    && rm -rf /var/lib/apt/lists/*
 
 # Pre-build gst-plugins-rs WebRTC plugins into the image
 COPY tests/scripts/build_gst_plugins_rs.sh /build_gst_plugins_rs.sh

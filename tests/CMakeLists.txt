@@ -13,6 +13,8 @@ set(LVGL_TEST_DIR "${LVGL_DIR}/tests")
 # ---------------------------------------------------------------------------
 # lv_conf.h generation — reuse the parent repo's machinery
 # ---------------------------------------------------------------------------
+find_package(Python3 REQUIRED COMPONENTS Interpreter)
+
 set(LV_CONF_DEFAULTS_PATH "${CMAKE_SOURCE_DIR}/../lv_conf.defaults")
 set(LVGL_TEMPLATE_PATH    "${LVGL_DIR}/lv_conf_template.h")
 set(GENERATE_SCRIPT_PATH  "${LVGL_DIR}/scripts/generate_lv_conf.py")
@@ -301,7 +303,7 @@ target_link_libraries(${TEST_NAME} PRIVATE
     test_common
     lvgl_demos
     lvgl
-    lvgl_thorvg
+    $<$<TARGET_EXISTS:lvgl_thorvg>:lvgl_thorvg>
     ${PNG_LIBRARIES}
     ${FREETYPE_LIBRARIES}
     ${JPEG_LIBRARIES}

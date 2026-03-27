@@ -64,11 +64,17 @@ echo "[INFO] Starting local WebRTC signaller"
 "${SIGNALLER_BIN}" --port "${SIGNALLER_PORT}" > "${LOG_DIR}/signaller.log" 2>&1 &
 SIGNALLER_PID=$!
 sleep 2
+if ! kill -0 "${SIGNALLER_PID}" 2>/dev/null; then
+    fail_with_log "signaller startup" "${LOG_DIR}/signaller.log"
+fi
 
 echo "[INFO] Starting sender pipeline"
 gst-launch-1.0 -e ${SENDER_PIPELINE} > "${LOG_DIR}/sender.log" 2>&1 &
 SENDER_PID=$!
 sleep 2
+if ! kill -0 "${SENDER_PID}" 2>/dev/null; then
+    fail_with_log "sender pipeline startup" "${LOG_DIR}/sender.log"
+fi
 
 BUILD_DIR="${ROOT_DIR}/build-gstreamer-tests"
 rm -rf "${BUILD_DIR}"
