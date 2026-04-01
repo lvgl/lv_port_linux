@@ -60,3 +60,4 @@ dkms.conf
 # IDE Project files
 /.settings/
 .*project
+.deps
