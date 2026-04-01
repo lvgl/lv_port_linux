@@ -23,6 +23,8 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(EXECUTABLE_OUTPUT_PATH ${CMAKE_BINARY_DIR}/bin)
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall -Wextra -Wpedantic")
 
+find_package(Python3 REQUIRED COMPONENTS Interpreter)
+
 if(ASAN)
     message(STATUS "Enabling Sanitizer")
     add_compile_options(-fsanitize=address,undefined,null)
