@@ -6,9 +6,6 @@ a GNU/Linux systems and other Unix-like operating systems
 LVGL provides drivers for many graphics backends.
 Legacy framebuffer (fbdev), modern DRM/KMS, Wayland, X11, GLFW3 and SDL2.
 
-Check out this blog post for a step by step tutorial for fbdev
-https://blog.lvgl.io/2018-01-03/linux_fb
-
 ## Clone the project
 
 Clone the project
