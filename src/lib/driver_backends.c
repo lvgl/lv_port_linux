@@ -87,6 +87,10 @@ backend_init_t available_backends[] = {
 #if LV_USE_EVDEV
     backend_init_evdev,
 #endif
+
+#if LV_USE_LIBINPUT
+    backend_init_libinput,
+#endif
     NULL    /* Sentinel */
 };
 
