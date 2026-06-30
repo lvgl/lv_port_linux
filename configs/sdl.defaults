@@ -6,6 +6,9 @@ LV_SDL_ACCELERATED      1    /**< 1: Use hardware acceleration*/
 LV_SDL_FULLSCREEN       0    /**< 1: Make the window full screen by default */
 LV_SDL_DIRECT_EXIT      1    /**< 1: Exit the application when all SDL windows are closed */
 
+LV_SDL_AUTO_BACKEND 0
+LV_SDL_BACKEND LV_SDL_BACKEND_SW
+
 # Examples
 LV_BUILD_EXAMPLES 1
 
