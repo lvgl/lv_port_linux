@@ -83,6 +83,7 @@ int backend_init_x11(backend_t * backend);
 
 /* Input device driver backends */
 int backend_init_evdev(backend_t * backend);
+int backend_init_libinput(backend_t * backend);
 
 /**********************
  *      MACROS
