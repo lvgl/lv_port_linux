@@ -24,11 +24,11 @@
 #include <string.h>
 
 #include "lvgl/lvgl.h"
-#include "lvgl/demos/lv_demos.h"
+#include <lv_demos.h>
 
-#include "src/lib/driver_backends.h"
-#include "src/lib/simulator_util.h"
-#include "src/lib/simulator_settings.h"
+#include "lib/driver_backends.h"
+#include "lib/simulator_util.h"
+#include "lib/simulator_settings.h"
 
 /* Internal functions */
 static void configure_simulator(int argc, char ** argv);

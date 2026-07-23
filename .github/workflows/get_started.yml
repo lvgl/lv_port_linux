@@ -1,5 +1,4 @@
-name: Test building the project in different environments
-
+name: Build get-started defconfig
 on: [push, pull_request]
 jobs:
   build:
@@ -7,15 +6,6 @@ jobs:
       matrix:
         os:
           - { image: "ubuntu:24.04", dockerfile: "Dockerfile_DEBIAN" }
-        config:
-          - drm-egl-2d
-          - drm-egl-3d
-          - fbdev
-          - glfw
-          - glfw-3d
-          - sdl
-          - wayland
-          - wayland-egl
       fail-fast: false
 
     runs-on: ubuntu-24.04
@@ -36,12 +26,21 @@ jobs:
             -f docker/${{ matrix.os.dockerfile }} \
             -t test_${{ matrix.os.image }} .
 
-      - name: Build project with ${{ matrix.config }}
+      - name: Create virtual env
         run: |
-          sudo rm -rf build/ bin/
           docker run --rm -v "$(pwd)":/workdir -t test_${{ matrix.os.image }} \
           /bin/bash -ec "
-            cmake -DWERROR=ON -DCONFIG=${{ matrix.config }} -B build && \
+            python -m venv env
+            source env/bin/activate
+            pip install pcpp kconfiglib
+          "
+
+      - name: Build project with ${{ matrix.config }}
+        run: |
+          docker run --rm -v "$(pwd)":/workdir -t test_${{ matrix.os.image }} \
+          /bin/bash -ec "
+            source env/bin/activate
+            cmake -DWERROR=ON -B build -GNinja && \
             cmake --build build -j\$(nproc) && \
             ldd build/bin/lvglsim
           "
