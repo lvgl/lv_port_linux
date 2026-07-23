@@ -1,0 +1,17 @@
+ARG BASE_OS="ubuntu:24.04"
+FROM ${BASE_OS}
+
+ENV DEBIAN_FRONTEND="noninteractive"
+RUN apt-get update
+
+# Build tools
+RUN apt-get install -y build-essential git cmake python3 python3-venv ninja-build \
+  libsdl2-dev \
+  libwayland-dev libxkbcommon-dev wayland-protocols \
+  libx11-dev \
+  libdrm-dev libgbm-dev \
+  libevdev-dev \
+  libwebp-dev \
+  libegl-dev libgles-dev libgl-dev
+
+WORKDIR /workdir

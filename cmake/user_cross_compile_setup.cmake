@@ -1,6 +1,6 @@
 # Usage:
-# cmake -DCMAKE_TOOLCHAIN_FILE=./user_cross_compile_setup.cmake -B build -S .
-# make  -C build -j
+# cmake -DCMAKE_TOOLCHAIN_FILE=cmake/user_cross_compile_setup.cmake -B build -S .
+# cmake --build build -j$(nproc)
 
 set(CMAKE_SYSTEM_NAME Linux)
 set(CMAKE_SYSTEM_PROCESSOR arm)

@@ -1,0 +1,61 @@
+name: Build get-started defconfig
+on: [push, pull_request]
+jobs:
+  build:
+    strategy:
+      matrix:
+        os:
+          - { image: "ubuntu:24.04", dockerfile: "Dockerfile_debian" }
+          - { image: "archlinux:base-devel", dockerfile: "Dockerfile_arch" }
+          - { image: "fedora:44", dockerfile: "Dockerfile_fedora" }
+      fail-fast: false
+
+    runs-on: ubuntu-24.04
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+        with:
+          submodules: recursive
+        
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build the Docker image
+        run: |
+          docker build \
+            --build-arg BASE_OS=${{ matrix.os.image }} \
+            -f docker/${{ matrix.os.dockerfile }} \
+            -t test_${{ matrix.os.image }} .
+
+      - name: Create virtual env
+        run: |
+          docker run --rm -v "$(pwd)":/workdir -t test_${{ matrix.os.image }} \
+          /bin/bash -ec "
+            python3 -m venv env
+            source env/bin/activate
+            pip install pcpp kconfiglib
+          "
+
+      - name: Build with "Get Started" config
+        run: |
+          docker run --rm -v "$(pwd)":/workdir -t test_${{ matrix.os.image }} \
+          /bin/bash -ec "
+            source env/bin/activate
+            defconfig configs/get_started.defconfig
+            cmake -DWERROR=ON -B /tmp/build -GNinja && \
+            cmake --build /tmp/build && \
+            ldd /tmp/build/bin/lvglsim
+          "
+
+      - name: Build with "Get Started 3D" config
+        run: |
+          docker run --rm -v "$(pwd)":/workdir -t test_${{ matrix.os.image }} \
+          /bin/bash -ec "
+            source env/bin/activate
+            defconfig configs/get_started_3d.defconfig
+            cmake -DWERROR=ON -B /tmp/build -GNinja && \
+            cmake --build /tmp/build && \
+            ldd /tmp/build/bin/lvglsim
+          "
+

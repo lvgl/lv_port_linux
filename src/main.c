@@ -1,34 +1,21 @@
-/*******************************************************************
- *
- * main.c - LVGL simulator for GNU/Linux
- *
- * Based on the original file from the repository
- *
- * @note eventually this file won't contain a main function and will
- * become a library supporting all major operating systems
- *
- * To see how each driver is initialized check the
- * 'src/lib/display_backends' directory
- *
- * - Clean up
- * - Support for multiple backends at once
- *   2025 EDGEMTech Ltd.
- *
- * Author: EDGEMTech Ltd, Erik Tagirov (erik.tagirov@edgemtech.ch)
- *
- ******************************************************************/
 #include <unistd.h>
 #include <pthread.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
-#include "lvgl/lvgl.h"
-#include "lvgl/demos/lv_demos.h"
+#include <lvgl/lvgl.h>
 
-#include "src/lib/driver_backends.h"
-#include "src/lib/simulator_util.h"
-#include "src/lib/simulator_settings.h"
+#if LV_BUILD_DEMOS
+    #include <lv_demos.h>
+#endif /*LV_BUILD_DEMOS*/
+
+#if LV_BUILD_DEMOS && LV_USE_GLTF
+    #include <lv_demo_truck.h>
+#endif /*LV_BUILD_DEMOS && LV_USE_GLTF*/
+#include "lib/driver_backends.h"
+#include "lib/simulator_util.h"
+#include "lib/simulator_settings.h"
 
 /* Internal functions */
 static void configure_simulator(int argc, char ** argv);
@@ -183,9 +170,23 @@ int main(int argc, char ** argv)
     }
 #endif
 
+#if LV_BUILD_DEMOS
+#if LV_USE_GLTF
+    const char * assets_path = getenv("LV_LINUX_3D_PATH");
+    if(!assets_path) {
+        assets_path = "3d";
+    }
+    lv_demo_truck(assets_path);
+#else
     /*Create a Demo*/
     lv_demo_widgets();
     lv_demo_widgets_start_slideshow();
+#endif /*LV_USE_GLTF*/
+#else
+    lv_obj_t * label = lv_label_create(lv_screen_active());
+    lv_label_set_text_static(label, "Demos not enabled, create your own ui in `src/main.c`");
+    lv_obj_center(label);
+#endif /*LV_BUILD_DEMOS*/
 
     /* Enter the run loop of the selected backend */
     driver_backends_run_loop();

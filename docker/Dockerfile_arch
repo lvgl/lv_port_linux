@@ -1,0 +1,9 @@
+ARG BASE_OS="archlinux:base-devel"
+FROM ${BASE_OS}
+
+RUN pacman -Syu --noconfirm --needed \
+    cmake python ninja git \
+    sdl2 wayland wayland-protocols libxkbcommon libx11 libdrm libevdev libwebp mesa \
+  && pacman -Scc --noconfirm
+
+WORKDIR /workdir
