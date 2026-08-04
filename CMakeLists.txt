@@ -22,6 +22,7 @@ endif()
 set(LV_BUILD_USE_KCONFIG ON CACHE BOOL "use kconfig" FORCE)
 set(DOTCONFIG "${CMAKE_CURRENT_LIST_DIR}/.config")
 set(DEFCONFIG "${CMAKE_CURRENT_LIST_DIR}/configs/get_started.defconfig")
+set(LV_BUILD_KCONFIG_ROOT "${CMAKE_CURRENT_LIST_DIR}/Kconfig" CACHE PATH "path to root kconfig" FORCE)
 
 if(EXISTS "${DOTCONFIG}")
     message(STATUS "Using .config found to build LVGL")
@@ -35,7 +36,7 @@ endif()
 
 add_subdirectory(lvgl)
 
-if(CONFIG_LV_BUILD_DEMOS AND CONFIG_LV_USE_GLTF)
+if(CONFIG_LV_USE_DEMO_TRUCK)
     add_subdirectory(demos/lv_demo_truck)
     set(EXTRA_LIBS lv_demo_truck_ui)
 endif()

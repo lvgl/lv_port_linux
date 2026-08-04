@@ -170,18 +170,22 @@ int main(int argc, char ** argv)
     }
 #endif
 
-#if LV_BUILD_DEMOS
-#if LV_USE_GLTF
+#if CONFIG_LV_USE_DEMO_TRUCK
     const char * assets_path = getenv("LV_LINUX_3D_PATH");
     if(!assets_path) {
         assets_path = "3d";
     }
     lv_demo_truck(assets_path);
-#else
+#elif LV_USE_DEMO_GLTF
+    const char * model_path = getenv("LV_LINUX_3D_MODEL_PATH");
+    if(!model_path) {
+        model_path = "3d/lvgl_logo.glb";
+    }
+    lv_demo_gltf(model_path);
+#elif LV_BUILD_DEMOS
     /*Create a Demo*/
     lv_demo_widgets();
     lv_demo_widgets_start_slideshow();
-#endif /*LV_USE_GLTF*/
 #else
     lv_obj_t * label = lv_label_create(lv_screen_active());
     lv_label_set_text_static(label, "Demos not enabled, create your own ui in `src/main.c`");

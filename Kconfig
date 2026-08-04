@@ -1,1 +1,5 @@
 rsource "lvgl/Kconfig"
+
+config LV_USE_DEMO_TRUCK
+	bool "3D Truck Demo"
+	depends on LV_USE_GLTF
