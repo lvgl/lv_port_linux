@@ -23,7 +23,7 @@
 
 #include "lvgl/lvgl.h"
 #if LV_USE_EVDEV
-#include "lvgl/src/core/lv_global.h"
+#include <lvgl_private/lvgl_private.h>
 #include "../backends.h"
 
 /*********************
