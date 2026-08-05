@@ -1,0 +1,31 @@
+{
+  "name": "STM32MP257F-DK",
+  "maintainer": "LVGL",
+  "hostOperatingsystem": ["Linux"],
+  "environment": ["CMake"],
+  "hardware": {
+    "chipVendor": "STMicroelectronics",
+    "manufacturer": "STMicroelectronics",
+    "specs": {
+      "MPU": "Dual Cortex-A35 @1.5 GHz",
+      "MCU": "Cortex-M33 @400 MHz",
+      "RAM": "4 GB LPDDR4",
+      "Flash": "8 GB eMMC + Micro SD Card",
+      "GPU": "3D Vivante GC8000UL (OpenGL ES 3.2)",
+      "NPU": "1.35 TOPS"
+    }
+  },
+  "description": "ST's Discovery kit for the STM32MP25 series: a dual Cortex-A35 MPU with a Cortex-M33 real-time core, a Vivante GC8000UL 3D GPU and a 1.35 TOPS NPU. Runs LVGL's 2D and 3D/glTF rendering on Wayland or DRM.",
+  "shortDescription": "STMicroelectronics MP2 processor devkit with 3D GPU and NPU",
+  "urlToClone": "https://github.com/lvgl/lv_port_linux.git",
+  "logos": [
+    "https://raw.githubusercontent.com/lvgl/project-creator/master/meta/images/st/logo.svg"
+  ],
+  "buy_now_links": [
+    "https://www.st.com/en/evaluation-tools/stm32mp257f-dk.html"
+  ],
+  "image": "https://raw.githubusercontent.com/lvgl/lv_port_linux/master/boards/stm32mp257f-dk/stm32mp257f-dk.webp",
+  "branches": ["release/v9.4"],
+  "getStartedInstructions": "1. Open the project folder and update the submodules: `git submodule update --init --recursive` \n2. Follow the guide in the [README](https://github.com/lvgl/lv_port_linux/tree/master/boards/stm32mp257f-dk/README.md)",
+  "settings": []
+}
