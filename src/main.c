@@ -10,7 +10,7 @@
     #include <lv_demos.h>
 #endif /*LV_BUILD_DEMOS*/
 
-#if LV_BUILD_DEMOS && LV_USE_GLTF
+#ifdef CONFIG_LV_USE_DEMO_TRUCK
     #include <lv_demo_truck.h>
 #endif /*LV_BUILD_DEMOS && LV_USE_GLTF*/
 #include "lib/driver_backends.h"
@@ -170,7 +170,7 @@ int main(int argc, char ** argv)
     }
 #endif
 
-#if CONFIG_LV_USE_DEMO_TRUCK
+#ifdef CONFIG_LV_USE_DEMO_TRUCK
     const char * assets_path = getenv("LV_LINUX_3D_PATH");
     if(!assets_path) {
         assets_path = "3d";
