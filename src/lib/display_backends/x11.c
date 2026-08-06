@@ -43,7 +43,6 @@ extern simulator_settings_t settings;
  *  STATIC PROTOTYPES
  **********************/
 static lv_display_t * init_x11(void);
-static void run_loop_x11(void);
 
 /**********************
  *  STATIC VARIABLES
@@ -72,7 +71,6 @@ int backend_init_x11(backend_t * backend)
 
     backend->name = backend_name;
     backend->handle->display->init_display = init_x11;
-    backend->handle->display->run_loop = run_loop_x11;
     backend->type = BACKEND_DISPLAY;
 
     return 0;
@@ -104,21 +102,6 @@ static lv_display_t * init_x11(void)
     lv_x11_inputs_create(disp, &mouse_cursor_icon);
 
     return disp;
-}
-
-/**
- * The run loop of the X11 driver
- */
-void run_loop_x11(void)
-{
-    uint32_t idle_time;
-
-    /* Handle LVGL tasks */
-    while(true) {
-        /* Returns the time to the next timer execution */
-        idle_time = lv_timer_handler();
-        usleep(idle_time * 1000);
-    }
 }
 
 #endif /*#if LV_USE_X11*/

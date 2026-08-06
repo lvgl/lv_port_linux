@@ -29,13 +29,10 @@ extern "C" {
 /* Prototype of the display initialization functions */
 typedef lv_display_t * (*display_init_t)(void);
 
-/* Prototype of the run loop */
-typedef void (*run_loop_t)(void);
 
 /* Represents a display driver handle */
 typedef struct {
     display_init_t init_display; /* The display creation/initialization function */
-    run_loop_t run_loop;         /* The run loop of the driver handle */
     lv_display_t * display;      /* The LVGL display that was created */
 } display_backend_t;
 

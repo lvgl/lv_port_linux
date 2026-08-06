@@ -37,7 +37,6 @@
 /**********************
  *  STATIC PROTOTYPES
  **********************/
-static void run_loop_glfw3(void);
 static lv_display_t * init_glfw3(void);
 
 /**********************
@@ -73,7 +72,6 @@ int backend_init_glfw3(backend_t * backend)
     LV_ASSERT_NULL(backend->handle->display);
 
     backend->handle->display->init_display = init_glfw3;
-    backend->handle->display->run_loop = run_loop_glfw3;
     backend->name = backend_name;
     backend->type = BACKEND_DISPLAY;
 
@@ -123,22 +121,6 @@ static lv_display_t * init_glfw3(void)
     lv_indev_set_cursor(mouse, cursor_obj);
 
     return disp_texture;
-}
-
-/**
- * The run loop of the GLFW3 driver
- */
-void run_loop_glfw3(void)
-{
-    uint32_t idle_time;
-
-    /* Handle LVGL tasks */
-    while(true) {
-
-        /* Returns the time to the next timer execution */
-        idle_time = lv_timer_handler();
-        usleep(idle_time * 1000);
-    }
 }
 
 #endif /*#if LV_USE_GLFW*/

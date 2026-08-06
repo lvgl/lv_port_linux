@@ -37,7 +37,6 @@
  *  STATIC PROTOTYPES
  **********************/
 static lv_display_t * init_wayland(void);
-static void run_loop_wayland(void);
 
 /**********************
  *  STATIC VARIABLES
@@ -70,7 +69,6 @@ int backend_init_wayland(backend_t * backend)
     LV_ASSERT_NULL(backend->handle->display);
 
     backend->handle->display->init_display = init_wayland;
-    backend->handle->display->run_loop = run_loop_wayland;
     backend->name = backend_name;
     backend->type = BACKEND_DISPLAY;
 
@@ -112,32 +110,6 @@ static lv_display_t * init_wayland(void)
 
     return disp;
 
-}
-
-/**
- * The run loop of the DRM driver
- *
- * @note Currently, the wayland driver calls lv_timer_handler internally
- * The wayland driver needs to be re-written to match the other backends
- */
-static void run_loop_wayland(void)
-{
-
-    uint32_t idle_time;
-
-    /* Handle LVGL tasks */
-    while(true) {
-
-        idle_time = lv_wayland_timer_handler();
-
-        if(idle_time != 0) {
-            usleep(idle_time * 1000);
-        }
-        /* Run until the last window closes */
-        if(!lv_wayland_window_is_open(NULL)) {
-            break;
-        }
-    }
 }
 
 #endif /*#if LV_USE_WAYLAND*/

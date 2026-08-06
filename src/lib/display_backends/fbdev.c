@@ -37,7 +37,6 @@
  **********************/
 
 static lv_display_t * init_fbdev(void);
-static void run_loop_fbdev(void);
 
 /**********************
  *  STATIC VARIABLES
@@ -67,7 +66,6 @@ int backend_init_fbdev(backend_t * backend)
     LV_ASSERT_NULL(backend->handle->display);
 
     backend->handle->display->init_display = init_fbdev;
-    backend->handle->display->run_loop = run_loop_fbdev;
     backend->name = backend_name;
     backend->type = BACKEND_DISPLAY;
 
@@ -95,22 +93,6 @@ static lv_display_t * init_fbdev(void)
     lv_linux_fbdev_set_file(disp, device);
 
     return disp;
-}
-
-/**
- * The run loop of the fbdev driver
- */
-static void run_loop_fbdev(void)
-{
-    uint32_t idle_time;
-
-    /* Handle LVGL tasks */
-    while(true) {
-
-        /* Returns the time to the next timer execution */
-        idle_time = lv_timer_handler();
-        usleep(idle_time * 1000);
-    }
 }
 
 #endif /*LV_USE_LINUX_FBDEV*/

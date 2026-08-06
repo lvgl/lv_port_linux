@@ -72,11 +72,6 @@ int driver_backends_is_supported(char * backend_name);
  */
 int driver_backends_print_supported(void);
 
-/**
- * @brief Enter the run loop
- * @description enter the run loop of the selected backend
- */
-void driver_backends_run_loop(void);
 
 /**********************
  *      MACROS

@@ -41,7 +41,6 @@ extern simulator_settings_t settings;
 /**********************
  *  STATIC PROTOTYPES
  **********************/
-static void run_loop_sdl(void);
 static lv_display_t * init_sdl(void);
 
 /**********************
@@ -71,7 +70,6 @@ int backend_init_sdl(backend_t * backend)
     LV_ASSERT_NULL(backend->handle->display);
 
     backend->handle->display->init_display = init_sdl;
-    backend->handle->display->run_loop = run_loop_sdl;
     backend->name = backend_name;
     backend->type = BACKEND_DISPLAY;
 
@@ -117,18 +115,4 @@ static lv_display_t * init_sdl(void)
     return disp;
 }
 
-/**
- * The run loop of the SDL driver
- */
-static void run_loop_sdl(void)
-{
-    uint32_t idle_time;
-
-    /* Handle LVGL tasks */
-    while(true) {
-        /* Returns the time to the next timer execution */
-        idle_time = lv_timer_handler();
-        usleep(idle_time * 1000);
-    }
-}
 #endif /*#if LV_USE_SDL*/

@@ -37,7 +37,6 @@
 /**********************
  *  STATIC PROTOTYPES
  **********************/
-static void run_loop_drm(void);
 static lv_display_t * init_drm(void);
 
 
@@ -68,7 +67,6 @@ int backend_init_drm(backend_t * backend)
     LV_ASSERT_NULL(backend->handle->display);
 
     backend->handle->display->init_display = init_drm;
-    backend->handle->display->run_loop = run_loop_drm;
     backend->name = backend_name;
     backend->type = BACKEND_DISPLAY;
 
@@ -96,22 +94,6 @@ static lv_display_t * init_drm(void)
     lv_linux_drm_set_file(disp, device, -1);
 
     return disp;
-}
-
-
-/**
- * The run loop of the DRM driver
- */
-static void run_loop_drm(void)
-{
-    uint32_t idle_time;
-
-    /* Handle LVGL tasks */
-    while(true) {
-        /* Returns the time to the next timer execution */
-        idle_time = lv_timer_handler();
-        usleep(idle_time * 1000);
-    }
 }
 
 #endif /*#if LV_USE_LINUX_DRM*/

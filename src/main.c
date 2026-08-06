@@ -192,8 +192,13 @@ int main(int argc, char ** argv)
     lv_obj_center(label);
 #endif /*LV_BUILD_DEMOS*/
 
-    /* Enter the run loop of the selected backend */
-    driver_backends_run_loop();
+    while(1) {
+        uint32_t ms = lv_timer_handler();
+        if(ms == LV_NO_TIMER_READY) {
+            ms = LV_DEF_REFR_PERIOD;
+        }
+        usleep(ms * 1000);
+    }
 
     return 0;
 }
