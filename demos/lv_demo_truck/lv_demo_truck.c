@@ -530,7 +530,7 @@ lv_obj_t * lv_demo_truck(const char * assets_path)
     set_camera_num(camera_controller, LV_CAMERA_EXTERIOR);
     init_checkbox_states();
     select_paintset_A();
-    enable_antialiasing(true);
+    enable_antialiasing(false);
 
     return viewer;
 }
