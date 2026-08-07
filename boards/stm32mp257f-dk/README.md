@@ -13,7 +13,7 @@ Two ready-made configurations are provided in this folder:
 
 | Defconfig                                              | Rendering                                       | Demo                     |
 | ------------------------------------------------------ | ----------------------------------------------- | ------------------------ |
-| [`wayland.defconfig`](wayland.defconfig)               | Software rendering, Wayland SHM backend         | Benchmark                |
+| [`wayland.defconfig`](wayland.defconfig)               | Software rendering, Wayland SHM backend         | Widgets                  |
 | [`wayland_3d.defconfig`](wayland_3d.defconfig)         | GPU rendering (NanoVG/GLES) + glTF, Wayland EGL | 3D truck                 |
 
 ## Buy
