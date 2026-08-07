@@ -10,9 +10,14 @@
     #include <lv_demos.h>
 #endif /*LV_BUILD_DEMOS*/
 
+#if LV_BUILD_EXAMPLES
+    #include <lv_examples.h>
+#endif /*LV_BUILD_EXAMPLES*/
+
 #ifdef CONFIG_LV_USE_DEMO_TRUCK
     #include <lv_demo_truck.h>
-#endif /*LV_BUILD_DEMOS && LV_USE_GLTF*/
+#endif /*CONFIG_LV_USE_DEMO_TRUCK*/
+
 #include "lib/driver_backends.h"
 #include "lib/simulator_util.h"
 #include "lib/simulator_settings.h"
