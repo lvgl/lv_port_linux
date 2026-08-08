@@ -22,13 +22,8 @@ You can purchase a STM32MP257F-DK from https://www.st.com/en/evaluation-tools/st
 
 ## Benchmark
 
-<!-- TODO: record the benchmark demo on the board and fill in the numbers below.
-     Run the `wayland.defconfig` build fullscreen (`./lvglsim -f`) and use the
-     values printed by the benchmark demo's summary screen. -->
 
-Wayland SHM backend, software rendering, 2 draw units, 32 bit color depth, fullscreen.
-Benchmark Summary (9.6.0 dev)
-Name, Avg. CPU, Avg. FPS, Avg. time, render time, flush time
+Wayland DMABUF backend, software rendering, 2 draw units, 32 bit color depth, fullscreen.
 
 | Name                      | Avg. CPU | Avg. FPS | Avg. time | render time | flush time |
 | :------------------------ | -------: | -------: | --------: | ----------: | ---------: |
