@@ -24,7 +24,7 @@
   "buy_now_links": [
     "https://www.st.com/en/evaluation-tools/stm32mp257f-dk.html"
   ],
-  "image": "https://raw.githubusercontent.com/lvgl/lv_port_linux/master/boards/stm32mp257f-dk/stm32mp257f-dk.webp",
+  "image": "https://raw.githubusercontent.com/lvgl/lv_port_linux/master/boards/stm32mp257f-dk/stm32mp257f-dk.png",
   "branches": ["release/v9.4"],
   "getStartedInstructions": "1. Open the project folder and update the submodules: `git submodule update --init --recursive` \n2. Follow the guide in the [README](https://github.com/lvgl/lv_port_linux/tree/master/boards/stm32mp257f-dk/README.md)",
   "settings": []
