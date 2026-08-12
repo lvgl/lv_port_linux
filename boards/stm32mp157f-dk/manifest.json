@@ -4,8 +4,8 @@
   "hostOperatingsystem": ["Linux"],
   "environment": ["CMake"],
   "hardware": {
-    "chipVendor": "STMicroelectronics",
-    "manufacturer": "STMicroelectronics",
+    "chipVendor": "ST",
+    "manufacturer": "ST",
     "specs": {
       "MPU": "Dual Cortex-A7 @800 MHz",
       "RAM": "512 MB DDR3L",
