@@ -672,13 +672,13 @@ static lv_demo_truck_hatch_t * lv_demo_truck_hatch(lv_obj_t * viewer, const char
     lv_anim_init(&(hatch->anim_template));
     switch(hatch_type) {
         case LV_TRUCK_DOOR:
-            lv_anim_set_exec_cb(&(hatch->anim_template), (lv_anim_exec_xcb_t) hatch_open_close_on_x_anim_cb);
-            break;
-        case LV_TRUCK_WINDOW:
             lv_anim_set_exec_cb(&(hatch->anim_template), (lv_anim_exec_xcb_t) hatch_open_close_on_y_anim_cb);
             break;
-        case LV_TRUCK_TRUNKHOOD:
+        case LV_TRUCK_WINDOW:
             lv_anim_set_exec_cb(&(hatch->anim_template), (lv_anim_exec_xcb_t) hatch_open_close_on_z_anim_cb);
+            break;
+        case LV_TRUCK_TRUNKHOOD:
+            lv_anim_set_exec_cb(&(hatch->anim_template), (lv_anim_exec_xcb_t) hatch_open_close_on_x_anim_cb);
             break;
         case LV_TRUCK_SUNROOF:
             lv_anim_set_exec_cb(&(hatch->anim_template), (lv_anim_exec_xcb_t) hatch_open_close_slide_z_anim_cb);
@@ -943,9 +943,9 @@ static void tire_spin_on_z_anim_cb(lv_anim_t * obj, int32_t anim_value)
         current_spin -= TWO_PI;
     }
     tire->actual_spin_angle = current_spin;
-    if(tire->node_spin != NULL) lv_gltf_model_node_set_rotation_z(tire->node_spin, current_spin);
+    if(tire->node_spin != NULL) lv_gltf_model_node_set_rotation_x(tire->node_spin, current_spin);
     if((tireset_controller != NULL) && (tire->node_steering != NULL)) {
-        lv_gltf_model_node_set_rotation_x(tire->node_steering, tireset_controller->last_steer_angle);
+        lv_gltf_model_node_set_rotation_y(tire->node_steering, tireset_controller->last_steer_angle);
     }
 }
 
@@ -1098,17 +1098,17 @@ static void interior_update_anim_cb(lv_anim_t * obj, int32_t anim_value)
             }
         }
         tireset_controller->last_steer_angle = wheel_angle;
-        lv_gltf_model_node_set_rotation_y(interior->node_steering_wheel, (wheel_angle * -18.f));
+        lv_gltf_model_node_set_rotation_z(interior->node_steering_wheel, (wheel_angle * -18.f));
     }
 
     if(interior->node_speedometer_needle != NULL) {
         float needle_angle = ((tireset_controller->goal_speed_ratio * 270.f) - 135.f) * DEG_TO_RAD;
-        lv_gltf_model_node_set_rotation_y(interior->node_speedometer_needle, needle_angle);
+        lv_gltf_model_node_set_rotation_z(interior->node_speedometer_needle, needle_angle);
     }
     if(interior->node_tachometer_needle != NULL) {
         float needle_angle = ((tireset_controller->goal_speed_ratio * 125.f) - 105.f) * DEG_TO_RAD;
         needle_angle += (tireset_controller->tach_offset * 60.f) * DEG_TO_RAD;
-        lv_gltf_model_node_set_rotation_y(interior->node_tachometer_needle, needle_angle);
+        lv_gltf_model_node_set_rotation_z(interior->node_tachometer_needle, needle_angle);
     }
     tireset_controller->tach_offset *= 0.95f;
 }
@@ -1185,8 +1185,8 @@ static void wipers_anim_cb(lv_anim_t * obj, int32_t anim_value)
         }
     }
 
-    if(wipers->node_left_wiper != NULL) lv_gltf_model_node_set_rotation_x(wipers->node_left_wiper, wiper_angle);
-    if(wipers->node_right_wiper != NULL) lv_gltf_model_node_set_rotation_x(wipers->node_right_wiper,
+    if(wipers->node_left_wiper != NULL) lv_gltf_model_node_set_rotation_y(wipers->node_left_wiper, wiper_angle);
+    if(wipers->node_right_wiper != NULL) lv_gltf_model_node_set_rotation_y(wipers->node_right_wiper,
                                                                                wiper_angle * passenger_wiper_ratio);
 }
 
