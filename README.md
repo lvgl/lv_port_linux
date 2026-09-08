@@ -26,8 +26,12 @@ editing a header by hand.
 
 ### Prerequisites
 
-CMake, Python 3, and python3-venv are required regardless of configuration.
-Ninja is optional but recommended to speed-up building
+CMake, Python 3, and python3-venv are required to build LVGL from source.
+Ninja is optional but recommended to speed-up building.
+
+If you only want to build this port against an LVGL that is already
+installed on the system, none of the Python tooling is needed. See
+[Building against an installed LVGL](#building-against-an-installed-lvgl).
 
 Install all system dependencies in one go:
 
@@ -110,6 +114,38 @@ cmake -B build -GNinja
 cmake --build build
 ./build/bin/lvglsim
 ```
+
+## Building against an installed LVGL
+
+If LVGL is already installed on the system, you can build just
+this port against it and skip compiling LVGL from source:
+
+```bash
+git clone https://github.com/lvgl/lv_port_linux.git
+cd lv_port_linux
+cmake -B build -GNinja -DLVGL_USE_INSTALLED=ON
+cmake --build build
+./build/bin/lvglsim
+```
+
+No submodule and no Python tools are needed in this mode, since LVGL itself is
+not built. If the installed LVGL is not in a location CMake searches by default,
+point it there:
+
+```bash
+cmake -B build -GNinja -DLVGL_USE_INSTALLED=ON -DCMAKE_PREFIX_PATH=/opt/lvgl
+```
+
+Kconfig plays no part here: `.config` and the defconfigs are ignored, and the
+enabled feature set comes from the installed `lv_conf.h` instead.
+Because the `CONFIG_LV_*` options are not available, anything normally selected
+through Kconfig has to be passed on the command line. For the 3D truck demo:
+
+```bash
+cmake -B build -GNinja -DLVGL_USE_INSTALLED=ON -DCONFIG_LV_USE_DEMO_TRUCK=ON
+```
+
+Note that this requires an LVGL built with `LV_USE_GLTF` enabled
 
 ## Configuring LVGL
 
