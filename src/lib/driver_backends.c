@@ -163,15 +163,13 @@ int driver_backends_init_backend(char * backend_name)
             LV_LOG_ERROR("The default backend: %s is not a display driver backend", b->name);
             return -1;
         }
-
-        backend_name = backends[0]->name;
     }
 
     i = 0;
     while((b = backends[i]) != NULL) {
 
         /* Check if such a backend exists */
-        if(strcmp(b->name, backend_name) == 0) {
+        if(!backend_name || strcmp(b->name, backend_name) == 0) {
 
             if(b->type == BACKEND_DISPLAY) {
                 /* Initialize the display */
@@ -182,7 +180,12 @@ int driver_backends_init_backend(char * backend_name)
 
                 if(dispb->display == NULL) {
                     LV_LOG_ERROR("Failed to init display with %s backend", b->name);
-                    return -1;
+                    if(backend_name) {
+                        /* don't fallback to another backend if it's explicitly set*/
+                        return -1;
+                    }
+                    ++i;
+                    continue;
                 }
 
                 sel_display_backend = b;
