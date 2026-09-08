@@ -23,7 +23,6 @@
 
 #include "lvgl/lvgl.h"
 #if LV_USE_EVDEV
-#include <lvgl_private/lvgl_private.h>
 #include "../backends.h"
 
 /*********************
@@ -89,9 +88,13 @@ int backend_init_evdev(backend_t * backend)
  */
 static void indev_deleted_cb(lv_event_t * e)
 {
-    if(LV_GLOBAL_DEFAULT()->deinit_in_progress) return;
-    lv_obj_t * cursor_obj = lv_event_get_user_data(e);
-    lv_obj_delete(cursor_obj);
+    lv_obj_t ** cursor_ref = lv_event_get_user_data(e);
+
+    if(*cursor_ref != NULL) {
+        lv_obj_delete(*cursor_ref);
+    }
+
+    free(cursor_ref);
 }
 
 
@@ -134,8 +137,17 @@ static void set_mouse_cursor_icon(lv_indev_t * indev, lv_display_t * display)
     lv_image_set_src(cursor_obj, &mouse_cursor_icon);
     lv_indev_set_cursor(indev, cursor_obj);
 
+    lv_obj_t ** cursor_ref = malloc(sizeof(*cursor_ref));
+    LV_ASSERT_NULL(cursor_ref);
+    if(cursor_ref == NULL) {
+        return;
+    }
+
+    *cursor_ref = cursor_obj;
+    lv_obj_null_on_delete(cursor_ref);
+
     /* delete the mouse cursor icon if the device is removed */
-    lv_indev_add_event_cb(indev, indev_deleted_cb, LV_EVENT_DELETE, cursor_obj);
+    lv_indev_add_event_cb(indev, indev_deleted_cb, LV_EVENT_DELETE, cursor_ref);
 
 }
 
