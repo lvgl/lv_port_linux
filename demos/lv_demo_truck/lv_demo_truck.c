@@ -185,7 +185,6 @@ typedef struct lv_demo_truck_interior_controller_ {
 
 typedef struct lv_demo_truck_camera_controller_ {
     lv_anim_t   anim_template;
-    lv_anim_t * running_anim;
     lv_gltf_model_node_t * node_temp_placeholder;
 
     lv_obj_t * viewer;
@@ -211,7 +210,6 @@ static void hatch_open_close_slide_z_anim_cb(lv_anim_t * obj, int32_t anim_value
 static void tire_spin_on_z_anim_cb(lv_anim_t * obj, int32_t anim_value);
 static void blinker_lights_anim_cb(lv_anim_t * obj, int32_t anim_value);
 static void interior_update_anim_cb(lv_anim_t * obj, int32_t anim_value);
-static void camera_update_anim_cb(lv_anim_t * obj, int32_t anim_value);
 static void wipers_anim_cb(lv_anim_t * obj, int32_t anim_value);
 
 static void show_foldout(lv_demo_foldout_t * foldout);
@@ -334,10 +332,10 @@ static double revolution_rate(double tire_radius, double travel_rate_kmh);
  *  STATIC VARIABLES
  **********************/
 
-static lv_subject_t yaw_subject;
-static lv_subject_t pitch_subject;
-static lv_subject_t animation_subject;
-static lv_subject_t animation_speed_subject;
+static lv_subject_t * yaw_subject;
+static lv_subject_t * pitch_subject;
+static lv_subject_t * animation_subject;
+static lv_subject_t * animation_speed_subject;
 
 static lv_gltf_set_float_fn_union_t pitch_fn = { .cb = lv_gltf_set_pitch };
 static lv_gltf_set_float_fn_union_t yaw_fn = { .cb = lv_gltf_set_yaw };
@@ -492,7 +490,10 @@ lv_obj_t * lv_demo_truck(const char * assets_path)
     char truck_model_path[256];
     lv_snprintf(truck_model_path, sizeof(truck_model_path), "%s/%s", ui_assets_path, "lv_truck.glb");
     lv_gltf_model_t * model = lv_gltf_load_model_from_file(viewer, truck_model_path);
-    LV_ASSERT_NULL(model);
+    if(!model) {
+        lv_obj_delete(viewer);
+        return NULL;
+    }
 
     lv_gltf_set_focal_y(viewer, 1);
     init_subjects(viewer);
@@ -604,21 +605,6 @@ static lv_demo_truck_camera_controller_t * lv_demo_truck_camera_controller(lv_ob
     lv_demo_truck_camera_controller_t * cameras;
     cameras = (lv_demo_truck_camera_controller_t *)lv_malloc(sizeof(*cameras));
     lv_memzero(cameras, sizeof(*cameras));
-
-    lv_anim_init(&(cameras->anim_template));
-    lv_anim_set_exec_cb(&(cameras->anim_template), (lv_anim_exec_xcb_t) camera_update_anim_cb);
-
-    /* Set target of the Animation */
-    lv_anim_set_var(&(cameras->anim_template), cameras);
-    lv_anim_set_user_data(&(cameras->anim_template), cameras);
-
-    /* Length of the Animation [ms] (this will change as soon as a valid speed is set)*/
-    lv_anim_set_duration(&(cameras->anim_template), 1000);
-    /* Loop forever */
-    lv_anim_set_repeat_count(&(cameras->anim_template), LV_ANIM_REPEAT_INFINITE);
-    /* Set start and end values. E.g. 0, 150 */
-    lv_anim_set_values(&(cameras->anim_template), 0, 10000);
-    cameras->running_anim = lv_anim_start(&(cameras->anim_template));
 
     return cameras;
 }
@@ -1052,14 +1038,6 @@ static void blinker_lights_anim_cb(lv_anim_t * obj, int32_t anim_value)
 
 }
 
-static void camera_update_anim_cb(lv_anim_t * obj, int32_t anim_value)
-{
-    LV_UNUSED(anim_value);
-    LV_ASSERT_NULL(obj);
-    lv_demo_truck_camera_controller_t * cameras = (lv_demo_truck_camera_controller_t *)lv_anim_get_user_data(obj);
-    LV_ASSERT_NULL(cameras);
-}
-
 static void interior_update_anim_cb(lv_anim_t * obj, int32_t anim_value)
 {
     LV_UNUSED(anim_value);
@@ -1232,8 +1210,8 @@ static void on_mouse_event(lv_event_t * e)
                     new_pitch = 0;
 
 
-                lv_subject_set_float(&yaw_subject, new_yaw);
-                lv_subject_set_float(&pitch_subject, new_pitch);
+                lv_subject_set_float(yaw_subject, new_yaw);
+                lv_subject_set_float(pitch_subject, new_pitch);
             }
             mouse_state->last_pos = current_pos;
             break;
@@ -2013,14 +1991,21 @@ static void init_camera_controller(lv_obj_t * viewer)
 
 static void init_subjects(lv_obj_t * viewer)
 {
-    lv_subject_init_float(&yaw_subject, lv_gltf_get_yaw(viewer));
-    lv_subject_init_float(&pitch_subject, lv_gltf_get_pitch(viewer));
-    lv_subject_init_int(&animation_speed_subject, LV_GLTF_ANIM_SPEED_NORMAL);
-    lv_subject_init_int(&animation_subject, lv_gltf_model_get_animation(lv_gltf_get_primary_model(viewer)));
-    lv_subject_add_observer(&animation_subject, animation_observer_cb, viewer);
-    lv_subject_add_observer(&animation_speed_subject, animation_speed_observer_cb, viewer);
-    lv_subject_add_observer_obj(&pitch_subject, viewer_observer_float_cb, viewer, pitch_fn.ptr);
-    lv_subject_add_observer_obj(&yaw_subject, viewer_observer_float_cb, viewer, yaw_fn.ptr);
+    yaw_subject = lv_subject_create(LV_SUBJECT_TYPE_FLOAT);
+    lv_subject_set_float(yaw_subject, lv_gltf_get_yaw(viewer));
+    pitch_subject = lv_subject_create(LV_SUBJECT_TYPE_FLOAT);
+    lv_subject_set_float(pitch_subject, lv_gltf_get_pitch(viewer));
+
+    animation_speed_subject = lv_subject_create(LV_SUBJECT_TYPE_INT);
+    lv_subject_set_int(animation_speed_subject, LV_GLTF_ANIM_SPEED_NORMAL);
+
+    animation_subject = lv_subject_create(LV_SUBJECT_TYPE_INT);
+    lv_subject_set_int(animation_subject, lv_gltf_model_get_animation(lv_gltf_get_primary_model(viewer)));
+
+    lv_subject_add_observer(animation_subject, animation_observer_cb, viewer);
+    lv_subject_add_observer(animation_speed_subject, animation_speed_observer_cb, viewer);
+    lv_subject_add_observer_obj(pitch_subject, viewer_observer_float_cb, viewer, pitch_fn.ptr);
+    lv_subject_add_observer_obj(yaw_subject, viewer_observer_float_cb, viewer, yaw_fn.ptr);
 }
 
 static void init_checkbox_states(void)
