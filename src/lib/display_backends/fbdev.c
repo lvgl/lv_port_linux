@@ -90,7 +90,11 @@ static lv_display_t * init_fbdev(void)
         return NULL;
     }
 
-    lv_linux_fbdev_set_file(disp, device);
+    lv_result_t res = lv_linux_fbdev_set_file(disp, device);
+    if(res != LV_RESULT_OK) {
+        lv_display_delete(disp);
+        return NULL;
+    }
 
     return disp;
 }
