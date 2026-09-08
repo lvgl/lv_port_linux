@@ -91,7 +91,11 @@ static lv_display_t * init_drm(void)
         return NULL;
     }
 
-    lv_linux_drm_set_file(disp, device, -1);
+    lv_result_t res = lv_linux_drm_set_file(disp, device, -1);
+    if(res != LV_RESULT_OK) {
+        lv_display_delete(disp);
+        return NULL;
+    }
 
     return disp;
 }
