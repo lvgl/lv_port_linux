@@ -1,0 +1,30 @@
+{
+  "name": "Renesas RZ/G3L-EVKIT",
+  "maintainer": "LVGL",
+  "hostOperatingsystem": ["Linux"],
+  "environment": ["CMake"],
+  "hardware": {
+    "chipVendor": "Renesas",
+    "manufacturer": "Renesas",
+    "specs": {
+      "MPU": "Quad Cortex-A55",
+      "MCU": "Cortex-M33",
+      "RAM": "2 GB LPDDR4",
+      "Flash": "64 GB eMMC + 16 MB QSPI + Micro SD Card",
+      "GPU": "Arm Mali (OpenGL ES 3.2)"
+    }
+  },
+  "description": "The RZ/G3L-EVKIT is Renesas' evaluation kit for the RZ/G3L MPU: a quad-core Cortex-A55 with a Cortex-M33 real-time core, an Arm Mali GPU and a video codec engine, built as a SMARC 2.1.1 module on the Common Carrier Board II. Runs LVGL with multi-threaded software rendering or GPU rendering through NanoVG on OpenGL ES, over Wayland or DRM.",
+  "shortDescription": "Renesas RZ/G3L evaluation kit, a Cortex-A55 SMARC SoM for HMI.",
+  "urlToClone": "https://github.com/lvgl/lv_port_linux.git",
+  "logos": [
+    "https://raw.githubusercontent.com/lvgl/project-creator/master/meta/images/renesas/logo.svg"
+  ],
+  "buy_now_links": [
+    "https://www.renesas.com/en/design-resources/boards-kits/rz-g3l-evkit"
+  ],
+  "image": "https://raw.githubusercontent.com/lvgl/lv_port_linux/master/boards/renesas_rz-g3l-evkit/renesas_rz-g3l-evkit.webp",
+  "branches": ["release/v9.4"],
+  "getStartedInstructions": "1. Open the project folder and update the submodules: `git submodule update --init --recursive` \n2. Follow the guide in the [README](https://github.com/lvgl/lv_port_linux/tree/master/boards/renesas_rz-g3l-evkit/README.md)",
+  "settings": []
+}

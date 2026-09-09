@@ -247,6 +247,7 @@ boards. Currently supported boards:
 - **GLYN UI2 Starter Kit**: GLYN starter kit with the Renesas RZ/G2L
 - **NXP i.MX93**: NXP's i.MX93 evaluation platform
 - **Renesas RZ/G3E EVKit**: Renesas RZ/G3E evaluation kit
+- **Renesas RZ/G3L-EVKIT**: Renesas RZ/G3L evaluation kit
 - **Texas Instruments SK-AM62B-P1**: AM62B starter kit
 - **Texas Instruments SK-AM62L**: AM62L starter kit
 - **Texas Instruments SK-AM62P-LP**: AM62P low-power starter kit
