@@ -187,7 +187,10 @@ int main(int argc, char ** argv)
         model_path = "3d/lvgl_logo.glb";
     }
     lv_demo_gltf(model_path);
-#elif LV_BUILD_DEMOS
+#elif LV_USE_DEMO_BENCHMARK
+    /*Run benchmark*/
+    lv_demo_benchmark();
+#elif LV_USE_DEMO_WIDGETS
     /*Create a Demo*/
     lv_demo_widgets();
     lv_demo_widgets_start_slideshow();
